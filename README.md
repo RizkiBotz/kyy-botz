@@ -37,7 +37,7 @@ $ pkg install ffmpeg -y
 $ pkg install imagemagick -y
 $ cd /sdcard
 $ cd download 
-$ cd kyy-botz
+$ cd "nama file"
 $ bash sho.sh
 $ npm start 
 ```
