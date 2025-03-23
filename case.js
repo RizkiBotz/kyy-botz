@@ -8451,7 +8451,7 @@ ${menuforu(prefix, simbols)}
 					buttonParamsJson: JSON.stringify(
 					{
 						display_text: "GitHub 🌐",
-						url: `https://github.com/RizkiBotz/kyy_store`,
+						url: `https://github.com/RizkiBotz/kyy-botz`,
 					}),
 				},];
 				// Kirim pesan dengan gambar dan tombol
@@ -8565,7 +8565,7 @@ ${menuforu(prefix, simbols)}
 					buttonParamsJson: JSON.stringify(
 					{
 						display_text: "GitHub 🌐",
-						url: `https://github.com/RizkiBotz/kyy_store`,
+						url: `https://github.com/RizkiBotz/kyy-botz`,
 					}),
 				},];
 				// Kirim pesan dengan gambar dan tombol
@@ -8691,7 +8691,7 @@ case 'menudownloader':
 					buttonParamsJson: JSON.stringify(
 					{
 						display_text: "GitHub 🌐",
-						url: `https://github.com/RizkiBotz/kyy_store`,
+						url: `https://github.com/RizkiBotz/kyy-botz`,
 					}),
 				},];
 				// Kirim pesan dengan gambar dan tombol
@@ -9769,7 +9769,7 @@ break
 					buttonParamsJson: JSON.stringify(
 					{
 						display_text: "GitHub 🌐",
-						url: `https://github.com/RizkiBotz/kyy_store`,
+						url: `https://github.com/RizkiBotz/kyy-botz`,
 					}),
 				},];
 				// Kirim pesan dengan gambar dan tombol
@@ -9891,7 +9891,7 @@ const lod = ["█▒▒▒▒▒▒▒▒▒▒▒ 10%", "████▒▒▒�
 					buttonParamsJson: JSON.stringify(
 					{
 						display_text: "GitHub 📱",
-						url: `https://github.com/RizkiBotz/kyy_store`,
+						url: `https://github.com/RizkiBotz/kyy-botz`,
 					}),
 				},
 				{
@@ -10064,7 +10064,7 @@ const lod = ["█▒▒▒▒▒▒▒▒▒▒▒ 10%", "████▒▒▒�
 					buttonParamsJson: JSON.stringify(
 					{
 						display_text: "GitHub 🌐",
-						url: `https://github.com/RizkiBotz/kyy_store`,
+						url: `https://github.com/RizkiBotz/kyy-botz`,
 					}),
 				}, ];
 				// Kirim pesan dengan gambar dan tombol
@@ -10190,7 +10190,7 @@ const lod = ["█▒▒▒▒▒▒▒▒▒▒▒ 10%", "████▒▒▒�
 					buttonParamsJson: JSON.stringify(
 					{
 						display_text: "GitHub 🌐",
-						url: `https://github.com/RizkiBotz/kyy_store`,
+						url: `https://github.com/RizkiBotz/kyy-botz`,
 					}),
 				},];
 				// Kirim pesan dengan gambar dan tombol
@@ -10313,7 +10313,7 @@ const lod = ["█▒▒▒▒▒▒▒▒▒▒▒ 10%", "████▒▒▒�
 					buttonParamsJson: JSON.stringify(
 					{
 						display_text: "GitHub 🌐",
-						url: `https://github.com/RizkiBotz/kyy_store`,
+						url: `https://github.com/RizkiBotz/kyy-botz`,
 					}),
 				},];
 				// Kirim pesan dengan gambar dan tombol
@@ -10427,7 +10427,7 @@ const lod = ["█▒▒▒▒▒▒▒▒▒▒▒ 10%", "████▒▒▒�
 					buttonParamsJson: JSON.stringify(
 					{
 						display_text: "GitHub 🌐",
-						url: `https://github.com/RizkiBotz/kyy_store`,
+						url: `https://github.com/RizkiBotz/kyy-botz`,
 					}),
 				},];
 				// Kirim pesan dengan gambar dan tombol
@@ -10595,7 +10595,7 @@ const lod = ["█▒▒▒▒▒▒▒▒▒▒▒ 10%", "████▒▒▒�
 					buttonParamsJson: JSON.stringify(
 					{
 						display_text: "GitHub 🌐",
-						url: `https://github.com/RizkiBotz/kyy_store`,
+						url: `https://github.com/RizkiBotz/kyy-botz`,
 					}),
 				},];
 				// Kirim pesan dengan gambar dan tombol
@@ -10709,7 +10709,7 @@ const lod = ["█▒▒▒▒▒▒▒▒▒▒▒ 10%", "████▒▒▒�
 					buttonParamsJson: JSON.stringify(
 					{
 						display_text: "GitHub 🌐",
-						url: `https://github.com/RizkiBotz/kyy_store`,
+						url: `https://github.com/RizkiBotz/kyy-botz`,
 					}),
 				},];
 				// Kirim pesan dengan gambar dan tombol
@@ -10824,7 +10824,7 @@ const lod = ["█▒▒▒▒▒▒▒▒▒▒▒ 10%", "████▒▒▒�
 					buttonParamsJson: JSON.stringify(
 					{
 						display_text: "GitHub 🌐",
-						url: `https://github.com/RizkiBotz/kyy_store`,
+						url: `https://github.com/RizkiBotz/kyy-botz`,
 					}),
 				}, ];
 				// Kirim pesan dengan gambar dan tombol
@@ -10935,7 +10935,7 @@ const lod = ["█▒▒▒▒▒▒▒▒▒▒▒ 10%", "████▒▒▒�
 					buttonParamsJson: JSON.stringify(
 					{
 						display_text: "GitHub 🌐",
-						url: `https://github.com/RizkiBotz/kyy_store`,
+						url: `https://github.com/RizkiBotz/kyy-botz`,
 					}),
 				}, ];
 				// Kirim pesan dengan gambar dan tombol
