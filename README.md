@@ -1,5 +1,5 @@
 <div align="center">
-<a href="https://youtube.com/@sychyy00">
+<a href="https://linktr.ee/kyy_store5">
     <img
         src="https://readme-typing-svg.herokuapp.com?font=ShadowsIntoLightsize=50&duration=5500&color=87CEEB&background=FF673200&center=true&vCenter=true&lines=Hello,+I+am+Kyy°Store;I+am+is+a+developer+bot+whatsapp⚡"
             alt="Typing SVG"
@@ -9,7 +9,7 @@
 </div>
 
 <p align="center">
-  <img src="https://i.ibb.co.com/bWZKGhw/fk.jpg" alt="KYY-STORE" />
+  <img src="https://f.uguu.se/vFGERFdd.jpg" alt="KYY-STORE" />
   <br />
   <i>KYY-STORE🔰</i>
 </p>
