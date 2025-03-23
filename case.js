@@ -281,20 +281,6 @@ catch (error)
 {
 	console.error('Error reading or parsing idgrup.json:', error);
 }
-const { bugmenu } = require('./baseikal/command/bugmenu/bugmenu')
-const { virtex, vipi } = require('./baseikal/virtex/virtex.js')
-const { ngazap } = require('./baseikal/virtex/ngazap')
-const { buttonvirus } = require('./baseikal/virtex/buttonvirus')
-const { buttonkal } = require('./baseikal/virtex/buttonkal')
-const { bugsw } = require('./baseikal/virtex/bugsw')
-const { iphone } = require('./baseikal/virtex/iphone')
-const { iphone1 } = require('./baseikal/virtex/iphone1')
-const { iphone2 } = require('./baseikal/virtex/iphone2')
-const { iphone3 } = require('./baseikal/virtex/iphone3')
-const { iphone4 } = require('./baseikal/virtex/iphone4')
-const { iphone5 } = require('./baseikal/virtex/iphone5')
-const { iphone6 } = require('./baseikal/virtex/iphone6')
-
 const
 {
 	pinterest2,
