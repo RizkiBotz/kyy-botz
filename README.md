@@ -11,7 +11,7 @@
 <p align="center">
   <img src="https://d.uguu.se/PYPerAXa.jpg" alt="KYY-STORE" />
   <br />
-  <i>KYY-STORE🔰</i>
+  <i> **KYY-STORE** </i>
 </p>
 
 ## 🪵 Socials:
