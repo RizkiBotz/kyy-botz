@@ -1,0 +1,40 @@
+• CARA PERTAMA:
+
+┌╾⚟ EXSTRAK 7 ZIP TERLEBIH DAHULU ⟢
+├────────────────
+│RUN TERMUX:
+│  ⎘ pkg upgrade && pkg update
+│  ⎘ pkg install git -y
+│  ⎘ pkg install nodejs -y
+│  ⎘ pkg install ffmpeg -y
+│  ⎘ cd /sdcard
+│  ⎘ cd download
+│  ⎘ cd "nama file"
+│  ⎘ bash sho.sh
+│  ⎘ npm start 
+└──────────────────╼.✗
+
+• CARA KEDUA 
+
+┌╾⚟ EXSTRAK 7 ZIP TERLEBIH DAHULU ⟢
+├────────────────
+│RUN TERMUX:
+│  ⎘ pkg upgrade && pkg update
+│  ⎘ pkg install git -y
+│  ⎘ pkg install nodejs -y
+│  ⎘ pkg install ffmpeg -y
+│  ⎘ cd /sdcard
+│  ⎘ cd download
+│  ⎘ cd "nama file"
+│  ⎘ yarn install 
+│  ⎘ npm start 
+└──────────────────╼.✗
+
+# JIKA NODE-MODULE error bisa download link di bawah:
+• https://www.mediafire.com/file/1vwcygs85r5alaw/node_modules.zip/file
+
+# If npm install failed, try using yarn instead of npm
+ • pkg install yarn -y
+ • yarn install
+   
+  
