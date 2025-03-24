@@ -16,7 +16,7 @@
 
 ## 🪵 Socials:
 [![Instagram](https://img.shields.io/badge/Instagram-%23E4405F.svg?logo=Instagram&logoColor=white)](https://www.instagram.com/ikyy_joki08)
-[![BOT WHATSAPP](https://img.shields.io/badge/WhatsApp%20BOT-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://wa.me/6288742782469) 
+[![GROUP WHATSAPP](https://img.shields.io/badge/WhatsApp%20BOT-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://chat.whatsapp.com/BH9J3kPRvxxEhEzkI2rwob) 
 [![ONWER](https://img.shields.io/badge/Owner%20BOT-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://wa.me/6288742782469) 
 ---------
 
