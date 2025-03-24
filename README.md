@@ -42,6 +42,18 @@ $ cd "nama file"
 $ bash sho.sh
 $ npm start 
 ```
+
+### Preview bot
+
+- [x] Tampilan Menu <details><summary>Screenshot</summary><img src="https://f.uguu.se/VhHQQjiE.jpg"></details>
+- [x]  List Menu <details><summary>Screenshot</summary><img src="https://d.uguu.se/XvUAtwEL.jpg"></details>
+- [x] List Register <details><summary>Screenshot</summary><img src="https://d.uguu.se/OByPMxBm.jpg"></details>
+- [x] Tampilan Nsfw <details><summary>Screenshot</summary><img src="https://f.uguu.se/jhxJYQTP.jpg"></details>
+
+And Many More Features Are Available 😊
+
+
+<!---->
 If error try using yarn instead of npm, see [here](https://github.com/Jikarinka/Kannabotv2#if-npm-install-failed--try--using-yarn-instead-of-npm)
 ```bash
 $ node .
