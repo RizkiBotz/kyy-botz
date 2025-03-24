@@ -25,8 +25,8 @@
 
 ## ```Download Node_Modules```
 
-| Node_modules | LINK |
-|--------------|------|
+| Nama Folder | LINK |
+|-------------|------|
 | **node_modules** |[download](https://www.mediafire.com/file/1vwcygs85r5alaw/node_modules.zip/file) |
 
 ## TERMUX USER
