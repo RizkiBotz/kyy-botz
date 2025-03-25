@@ -5197,7 +5197,7 @@ case 'addqris': {
     }
     updatePopularCommand(command);
     const levelUpMessage = levelUpdate(command, m.sender);
-    if (!(await firely(m, mess.waits))) return;
+    
 
     try {
         if (!m.quoted || !/image/.test(m.quoted.mtype)) {
@@ -5477,7 +5477,7 @@ break;
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
 				const gamecek = await cekgame(m.chat)
 				if (gamecek) return
-				if (!(await firely(m, mess.waits))) return;
+				
 				try
 				{
 					let anu = await fetchJson('https://raw.githubusercontent.com/BochilTeam/database/master/games/tebakgambar.json')
@@ -5611,7 +5611,7 @@ break;
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
 				const gamecek = await cekgame(m.chat)
 				if (gamecek) return
-				if (!(await firely(m, mess.waits))) return;
+				
 				try
 				{
 					let anu = await fetchJson('https://raw.githubusercontent.com/qisyana/scrape/main/tebakgame.json')
@@ -5679,7 +5679,7 @@ break;
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
 				const gamecek = await cekgame(m.chat)
 				if (gamecek) return
-				if (!(await firely(m, mess.waits))) return;
+				
 				try
 				{
 					let anu = await fetchJson('https://api.shoNhe.my.id/api/tebakhero')
@@ -5747,7 +5747,7 @@ break;
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
 				const gamecek = await cekgame(m.chat);
 				if (gamecek) return;
-				if (!(await firely(m, mess.waits))) return;
+				
 				try
 				{
 					// Ambil data dari API
@@ -5826,7 +5826,7 @@ break;
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
 				const gamecek = await cekgame(m.chat);
 				if (gamecek) return;
-				if (!(await firely(m, mess.waits))) return;
+				
 				try
 				{
 					// Ambil data dari API
@@ -5878,7 +5878,7 @@ break;
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
 				const gamecek = await cekgame(m.chat)
 				if (gamecek) return
-				if (!(await firely(m, mess.waits))) return;
+				
 				try
 				{
 					let anu = await fetchJson('https://api.siputzx.my.id/api/games/tebakjkt')
@@ -5946,7 +5946,7 @@ break;
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
 				const gamecek = await cekgame(m.chat)
 				if (gamecek) return
-				if (!(await firely(m, mess.waits))) return;
+				
 				try
 				{
 					let anu = await fetchJson('https://api.siputzx.my.id/api/games/tebakhewan')
@@ -6015,7 +6015,7 @@ break;
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
 				const gamecek = await cekgame(m.chat)
 				if (gamecek) return
-				if (!(await firely(m, mess.waits))) return;
+				
 				try
 				{
 					let anu = await fetchJson('https://www.shoNhe.my.id/cdn/game/tebakhero2.json')
@@ -6093,7 +6093,7 @@ break;
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
 				const gamecek = await cekgame(m.chat);
 				if (gamecek) return;
-				if (!(await firely(m, mess.waits))) return;
+				
 				try
 				{
 					// Membaca data dari file chara.json
@@ -6176,7 +6176,7 @@ break;
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
 				const gamecek = await cekgame(m.chat)
 				if (gamecek) return
-				if (!(await firely(m, mess.waits))) return;
+				
 				try
 				{
 					let anu = await fetchJson('https://api.siputzx.my.id/api/games/tebaklogo')
@@ -6244,7 +6244,7 @@ break;
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
 				const gamecek = await cekgame(m.chat)
 				if (gamecek) return
-				if (!(await firely(m, mess.waits))) return;
+				
 				try
 				{
 					let anu = await fetchJson('https://www.shoNhe.my.id/cdn/game/tebakaplikasi.json')
@@ -6312,7 +6312,7 @@ break;
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
 				const gamecek = await cekgame(m.chat)
 				if (gamecek) return
-				if (!(await firely(m, mess.waits))) return;
+				
 				try
 				{
 					let anu = await fetchJson('https://raw.githubusercontent.com/BochilTeam/database/master/games/tebakkata.json')
@@ -6370,7 +6370,7 @@ break;
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
 				const gamecek = await cekgame(m.chat)
 				if (gamecek) return
-				if (!(await firely(m, mess.waits))) return;
+				
 				try
 				{
 					let anu = await fetchJson('https://api.siputzx.my.id/api/games/asahotak')
@@ -6428,7 +6428,7 @@ break;
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
 				const gamecek = await cekgame(m.chat)
 				if (gamecek) return
-				if (!(await firely(m, mess.waits))) return;
+				
 				try
 				{
 					let anu = await fetchJson('https://raw.githubusercontent.com/BochilTeam/database/refs/heads/master/games/tebakkalimat.json')
@@ -6650,7 +6650,7 @@ https://github.com/RizkiBotz/kyy-botz
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
 				const gamecek = await cekgame(m.chat)
 				if (gamecek) return
-				if (!(await firely(m, mess.waits))) return;
+				
 				try
 				{
 					let anu = await fetchJson('https://raw.githubusercontent.com/BochilTeam/database/master/games/tebakbendera2.json')
@@ -6718,7 +6718,7 @@ https://github.com/RizkiBotz/kyy-botz
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
 				const gamecek = await cekgame(m.chat)
 				if (gamecek) return
-				if (!(await firely(m, mess.waits))) return;
+				
 				try
 				{
 					let anu = await fetchJson('https://raw.githubusercontent.com/BochilTeam/database/master/games/tebakkalimat.json')
@@ -6778,7 +6778,7 @@ https://github.com/RizkiBotz/kyy-botz
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
 				const gamecek = await cekgame(m.chat)
 				if (gamecek) return
-				if (!(await firely(m, mess.waits))) return;
+				
 				try
 				{
 					let anu = await fetchJson('https://raw.githubusercontent.com/BochilTeam/database/master/games/siapakahaku.json')
@@ -6836,7 +6836,7 @@ https://github.com/RizkiBotz/kyy-botz
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
 				const gamecek = await cekgame(m.chat)
 				if (gamecek) return
-				if (!(await firely(m, mess.waits))) return;
+				
 				try
 				{
 					let anu = await fetchJson('https://raw.githubusercontent.com/BochilTeam/database/master/games/tebakkimia.json')
@@ -6894,7 +6894,7 @@ https://github.com/RizkiBotz/kyy-botz
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
 				const gamecek = await cekgame(m.chat)
 				if (gamecek) return
-				if (!(await firely(m, mess.waits))) return;
+				
 				try
 				{
 					let anu = await fetchJson('https://raw.githubusercontent.com/BochilTeam/database/master/games/tebaklirik.json')
@@ -6952,7 +6952,7 @@ https://github.com/RizkiBotz/kyy-botz
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
 				const gamecek = await cekgame(m.chat)
 				if (gamecek) return
-				if (!(await firely(m, mess.waits))) return;
+				
 				try
 				{
 					let anu = await fetchJson('https://raw.githubusercontent.com/BochilTeam/database/master/games/tebaktebakan.json')
@@ -7010,7 +7010,7 @@ https://github.com/RizkiBotz/kyy-botz
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
 				const gamecek = await cekgame(m.chat)
 				if (gamecek) return
-				if (!(await firely(m, mess.waits))) return;
+				
 				try
 				{
 					let anu = await fetchJson('https://raw.githubusercontent.com/BochilTeam/database/master/games/susunkata.json')
@@ -7068,7 +7068,7 @@ https://github.com/RizkiBotz/kyy-botz
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
 				const gamecek = await cekgame(m.chat)
 				if (gamecek) return
-				if (!(await firely(m, mess.waits))) return;
+				
 				try
 				{
 					let anu = await fetchJson('https://raw.githubusercontent.com/BochilTeam/database/master/games/caklontong.json')
@@ -7126,7 +7126,7 @@ https://github.com/RizkiBotz/kyy-botz
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
 				const gamecek = await cekgame(m.chat)
 				if (gamecek) return
-				if (!(await firely(m, mess.waits))) return;
+				
 				try
 				{
 					let anu = await fetchJson('https://raw.githubusercontent.com/BochilTeam/database/master/games/tekateki.json')
@@ -7716,7 +7716,7 @@ https://github.com/RizkiBotz/kyy-botz
 				updatePopularCommand(command);
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
 				if (!text) return shoNherly(`⚠️ Gunakan dengan cara: ${prefix + command} *username github*\n\n🤔 *Contohnya:*\n\n${prefix + command} kyy-store`);
-				if (!(await firely(m, mess.waits))) return;
+				
 				try
 				{
 					const userInfo = await githubstalk(text);
@@ -7763,7 +7763,7 @@ https://github.com/RizkiBotz/kyy-botz
 				updatePopularCommand(command);
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
 				if (!text) return shoNherly(`⚠️ Gunakan dengan cara: ${prefix + command} *nama package npm*\n\n🤔 *Contohnya:*\n\n${prefix + command} axios`);
-				if (!(await firely(m, mess.waits))) return;
+				
 				try
 				{
 					// First, check if the package exists
@@ -7826,7 +7826,7 @@ https://github.com/RizkiBotz/kyy-botz
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
 				if (!text) return shoNherly(`Gunakan dengan cara ${prefix + command} *url*`)
 				if (!text.includes('drive')) return shoNherly('Link nggak valid')
-				if (!(await firely(m, mess.waits))) return; // Jika limit habis, proses berhenti di sini
+				// Jika limit habis, proses berhenti di sini
 				try
 				{
 					const res = await GDrive(text);
@@ -13397,7 +13397,7 @@ ${menuforu(prefix, simbols)}
 				updatePopularCommand(command);
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
 				if (!text) return shoNherly('⚠️ Harap masukkan prompt yang ingin digunakan.\n\nContoh: setprompt Kamu adalah AI yang membantu pengguna.');
-				if (!(await firely(m, mess.waits))) return;
+				
 				aiPrompt = text;
 				shoNherly(`✅ Prompt berhasil diperbarui:\n\n${aiPrompt}`);
 				if (levelUpMessage) {
@@ -14132,7 +14132,7 @@ ${menuforu(prefix, simbols)}
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
 				// Nama case sesuai API
 				if (!text) return shoNherly('⚠️ Harap masukkan prompt untuk membuat gambar.\n\nContoh: dreamshaper buatkan gambar kucing');
-				if (!(await firely(m, mess.waits))) return;
+				
 				try
 				{
 					// Panggil API dengan input dari pengguna
@@ -14336,7 +14336,7 @@ Ready products like nokos, and many more! Designed with precision and care, I en
 					if (/webp|jpg|jpeg|png/.test(mime))
 					{
 						// Menambahkan pesan loading dan menyimpan key untuk edit nanti
-						if (!(await firely(m, mess.waits))) return; // Jika limit habis, proses berhenti di sini
+						// Jika limit habis, proses berhenti di sini
 						// Emoji yang akan digunakan
 						const reactEmojis = ["⏳", "🕛", "🕒", "🕕", "🕘", "🕛", "✅"];
 						// Mengirimkan reaksi secara berurutan
@@ -15460,7 +15460,7 @@ break
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
 				// Nama case sesuai API
 				if (!text) return shoNherly('⚠️ Harap masukkan prompt untuk Stability AI.\n\nContoh: stabilityai Buatkan gambar pohon');
-				if (!(await firely(m, mess.waits))) return;
+				
 				try
 				{
 					// Panggil API dengan input dari pengguna
@@ -15528,7 +15528,7 @@ break
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
 				// Nama case sesuai API
 				if (!text) return shoNherly('⚠️ Harap masukkan prompt untuk Stable.\n\nContoh: stable Buatkan gambar ikan');
-				if (!(await firely(m, mess.waits))) return;
+				
 				try
 				{
 					// Panggil API dengan input dari pengguna
@@ -15596,7 +15596,7 @@ break
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
 				// Nama case sesuai API
 				if (!text) return shoNherly('⚠️ Harap masukkan prompt untuk Flux AI.\n\nContoh: flux Buatkan gambar cyberpunk lizard');
-				if (!(await firely(m, mess.waits))) return;
+				
 				try
 				{
 					// Panggil API dengan input dari pengguna
@@ -15854,7 +15854,7 @@ break
 			
 				updatePopularCommand(command);
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
-				if (!(await firely(m, mess.waits))) return;
+				
 				let data
 				if (/akira/.test(command)) data = await fetchJson('https://raw.githubusercontent.com/aerovoid4/Media/master/akira.json')
 				if (/akiyama/.test(command)) data = await fetchJson('https://raw.githubusercontent.com/aerovoid4/Media/master/akiyama.json')
@@ -16057,7 +16057,7 @@ break
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
 				if (!quoted) return angryshoNhe (`Kirim atau balas gambar/video/gif dengan caption ${prefix + command}\nDurasi video 1-9 detik ya!`);
 				if (!mime) return angryshoNhe (`Kirim atau balas gambar/video/gif dengan caption ${prefix + command}\nDurasi video 1-9 detik ya!`);
-                if (!(await firely(m, mess.waits))) return;
+                
 				const swn = args.join(" ");
 				const pcknm = swn.split("|")[0];
 				const atnm = swn.split("|")[1];
@@ -16115,7 +16115,7 @@ break
 				
 				updatePopularCommand(command);
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
-				if (!(await firely(m, mess.waits))) return;
+				
 				try
 				{
 					// Panggil API untuk mendapatkan data quotes
@@ -16184,7 +16184,7 @@ break
 				
 				updatePopularCommand(command);
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
-				if (!(await firely(m, mess.waits))) return;
+				
 				try
 				{
 					let res = await axios.get('https://api.siputzx.my.id/api/r/cecan/indonesia',
@@ -16292,7 +16292,7 @@ break
 				
 				updatePopularCommand(command);
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
-				if (!(await firely(m, mess.waits))) return;
+				
 				try
 				{
 					let res = await axios.get('https://api.siputzx.my.id/api/r/blue-archive',
@@ -16353,7 +16353,7 @@ break
 				if (!isUrl(args[0]) || !args[0].includes('github.com')) 
 					return shoNherly(`❌ *Link tidak valid!* Pastikan link berasal dari GitHub ya, Kak.`);
 				try {
-					if (!(await firely(m, mess.waits))) return;
+					
 					let regex = /(?:https|git)(?::\/\/|@)github\.com[\/:]([^\/:]+)\/(.+)/i;
 					let [, user, repo] = args[0].match(regex) || [];
 					if (!user || !repo) return shoNherly(`❌ *Gagal membaca link repositori!* Pastikan link benar ya, Kak.`);
@@ -16405,7 +16405,7 @@ break
 			case 'cecanchina':
 			{								updatePopularCommand(command);
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
-				if (!(await firely(m, mess.waits))) return;
+				
 				try
 				{
 					let res = await axios.get('https://api.siputzx.my.id/api/r/cecan/china',
@@ -16458,7 +16458,7 @@ break
 			{
 	updatePopularCommand(command);
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
-				if (!(await firely(m, mess.waits))) return;
+				
 				try
 				{
 					let res = await axios.get('https://api.siputzx.my.id/api/r/cecan/japan',
@@ -16511,7 +16511,7 @@ break
 			{
 	updatePopularCommand(command);
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
-				if (!(await firely(m, mess.waits))) return;
+				
 				try
 				{
 					let res = await axios.get('https://api.siputzx.my.id/api/r/cecan/korea',
@@ -16564,7 +16564,7 @@ break
 			{
 updatePopularCommand(command);
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
-				if (!(await firely(m, mess.waits))) return;
+				
 				try
 				{
 					let res = await axios.get('https://api.siputzx.my.id/api/r/cecan/thailand',
@@ -16617,7 +16617,7 @@ updatePopularCommand(command);
 			{
 			updatePopularCommand(command);
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
-				if (!(await firely(m, mess.waits))) return;
+				
 				try
 				{
 					let res = await axios.get('https://api.siputzx.my.id/api/r/cecan/vietnam',
@@ -17336,7 +17336,7 @@ break
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
 				if (!m.quoted) return shoNherly(`Reply to view once message`)
 				if (m.quoted.mtype !== 'viewOnceMessageV2') return shoNherly(`This is not a view once message`)
-				if (!(await firely(m, mess.waits))) return;
+				
 				let msg = m.quoted.message
 				let type = Object.keys(msg)[0]
 				let media = await downloadContentFromMessage(msg[type], type == 'imageMessage' ? 'image' : 'video')
@@ -18053,7 +18053,7 @@ break
 				if (!text) return shoNherly(`🎬 *Judul film atau serialnya mana, Kak?*\n\nContoh:\n${prefix}${command} Inception`);
 				try
 				{
-					if (!(await firely(m, mess.waits))) return;
+					
 					let
 					{
 						data
@@ -18142,7 +18142,7 @@ break
 					// Panggil REST API untuk mendapatkan data Pinterest
 					const response = await fetch(`https://api.siputzx.my.id/api/d/pinterest?url=${encodeURIComponent(text)}`);
 					const data = await response.json();
-					if (!(await firely(m, mess.waits))) return; // Jika limit habis, proses berhenti di sini
+					// Jika limit habis, proses berhenti di sini
 					// Periksa apakah API berhasil mengembalikan data
 					if (data && data.status && data.data)
 					{
@@ -18231,7 +18231,7 @@ case 'cekadzan': {
 				updatePopularCommand(command);
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
 				if (!text) return shoNherly('Masukkan URL anime secara manual, contoh: .aurataildetail https://auratail.vip/the-war-of-cards');
-				if (!(await firely(m, mess.waits))) return;
+				
 				// URL API dengan input manual
 				let apiUrl = `https://api.siputzx.my.id/api/anime/auratail-detail?url=${text}`;
 				try
@@ -18308,7 +18308,7 @@ case 'cekadzan': {
 				
 				updatePopularCommand(command);
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
-				if (!(await firely(m, mess.waits))) return;
+				
 				const apiUrl = 'https://api.siputzx.my.id/api/anime/latest';
 				const page = parseInt(args[0]) || 1; // Halaman saat ini, default halaman 1
 				try
@@ -18413,7 +18413,7 @@ break;
 			{
 		updatePopularCommand(command);
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
-				if (!(await firely(m, mess.waits))) return;
+				
 				const apiUrl = 'https://api.siputzx.my.id/api/anime/anichin-popular';
 				const page = parseInt(args[0]) || 1; // Halaman saat ini, default halaman 1
 				try
@@ -18478,7 +18478,7 @@ break;
 				{
 					reply('Silakan masukkan URL komik. Contoh: `.komikindodetail https://komikindo.pw/komik/550578-solo-leveling`');
 				}
-				if (!(await firely(m, mess.waits))) return;
+				
 				const apiUrl = `https://api.siputzx.my.id/api/anime/komikindo-detail?url=${encodeURIComponent(text)}`;
 				try
 				{
@@ -18546,7 +18546,7 @@ break;
 				{
 					reply('Silakan masukkan URL chapter komik. Contoh: `.komikindodownload https://komikindo.pw/solo-leveling-chapter-1`');
 				}
-				if (!(await firely(m, mess.waits))) return;
+				
 				const apiUrl = `https://api.siputzx.my.id/api/anime/komikindo-download?url=${encodeURIComponent(text)}`;
 				try
 				{
@@ -18651,7 +18651,7 @@ break;
 				{
 					reply('Gunakan perintah dengan format: `.samehadakurelease <hari> <index>`.\nContoh: `.samehadakurelease sunday 0`');
 				}
-				if (!(await firely(m, mess.waits))) return;
+				
 				const [day, indexText] = text.split(' ');
 				const index = parseInt(indexText) || 0; // Default index 0 jika tidak ada input
 				const apiUrl = `https://api.siputzx.my.id/api/anime/samehadaku/release`;
@@ -18731,7 +18731,7 @@ break;
 					reply('Silakan masukkan judul komik yang ingin dicari. Contoh: `.komikindosearch solo leveling`');
 					return;
 				}
-				if (!(await firely(m, mess.waits))) return;
+				
 				const apiUrl = `https://api.siputzx.my.id/api/anime/komikindo-serach?query=${encodeURIComponent(text)}`;
 				try
 				{
@@ -18776,7 +18776,7 @@ break;
 				{
 					reply('Gunakan perintah dengan format: `.otakudesuongoing <halaman>`.\nContoh: `.otakudesuongoing 1`');
 				}
-				if (!(await firely(m, mess.waits))) return;
+				
 				const page = parseInt(text) || 1; // Halaman awal
 				const itemsPerPage = 5; // Jumlah anime per halaman
 				const apiUrl = `https://api.siputzx.my.id/api/anime/otakudesu/ongoing`;
@@ -18882,7 +18882,7 @@ break;
 				{
 					reply('Silakan masukkan kata kunci pencarian. Contoh: `.otakudesusearch naruto`');
 				}
-				if (!(await firely(m, mess.waits))) return;
+				
 				const apiUrl = `https://api.siputzx.my.id/api/anime/otakudesu/search?s=${encodeURIComponent(text)}`;
 				try
 				{
@@ -18940,7 +18940,7 @@ break;
 				{
 					reply('Silakan masukkan URL anime. Contoh: `.otakudesudetail https://otakudesu.cloud/anime/borto-sub-indo`');
 				}
-				if (!(await firely(m, mess.waits))) return;
+				
 				const apiUrl = `https://api.siputzx.my.id/api/anime/otakudesu/detail?url=${encodeURIComponent(text)}`;
 				try
 				{
@@ -19013,7 +19013,7 @@ break;
 					reply(`Contoh penggunaan:\n${prefix}samehadakudetail https://samehadaku.email/anime/blue-lock-season-2`);
 					return;
 				}
-				if (!(await firely(m, mess.waits))) return;
+				
 				try
 				{
 					const apiUrl = `https://api.siputzx.my.id/api/animesamehadaku/detail?link=${text}`;
@@ -19053,7 +19053,7 @@ break;
 				{
 					reply('Silakan masukkan URL anime. Contoh: `.oploverzdownload https://oploverz.org/anime/captain-tsubasa-season-2-junior-youth-hen-1-episode-30-subtitle-indonesia`');
 				}
-				if (!(await firely(m, mess.waits))) return;
+				
 				const apiUrl = `https://api.siputzx.my.id/api/anime/oploverz-download?url=${encodeURIComponent(text)}`;
 				try
 				{
@@ -20205,7 +20205,7 @@ break;
 				if (isQuotedSticker)
 				{
 					if (!q) return shoNherly(`Penggunaan : ${command} cmdnya dan tag stickernya`);
-					if (!(await firely(m, mess.waits))) return;
+					
 					var kodenya = m.message.extendedTextMessage.contextInfo.quotedMessage.stickerMessage.fileSha256.toString("base64");
 					addCmd(kodenya, q);
 					shoNherly(mess.dones);
@@ -20644,7 +20644,7 @@ break;
 					if (/squirrel/.test(command)) set = '-filter:a "atempo=0.5,asetrate=65100"'
 					if (/audio/.test(mime))
 					{
-						if (!(await firely(m, mess.waits))) return;
+						
 						let media = await shoNhe.downloadAndSaveMediaMessage(quoted)
 						let ran = getRandom('.mp3')
 						exec(`ffmpeg -i ${media} ${set} ${ran}`, (err, stderr, stdout) =>
@@ -20895,7 +20895,7 @@ break;
 			break;
 			case "delcmd":
 				if (!isQuotedSticker) return shoNherly(`Penggunaan : ${command} tagsticker`);
-				if (!(await firely(m, mess.waits))) return;
+				
 				var kodenya = m.message.extendedTextMessage.contextInfo.quotedMessage.stickerMessage.fileSha256.toString("base64");
 				_scommand.splice(getCommandPosition(kodenya), 1);
 				fs.writeFileSync("./database/scommand.json", JSON.stringify(_scommand));
@@ -21425,7 +21425,7 @@ break;
 			updatePopularCommand(command);
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
 				if (!text) return shoNherly(`⚠️ Mana liriknya?\nContoh: *${prefix + command} Someone Like You*`);
-				if (!(await firely(m, mess.waits))) return;
+				
 				try
 				{
 					const searchResults = await lyrics.search(text);
@@ -21655,7 +21655,7 @@ break;
 					// Cari hasil di YouTube menggunakan API
 					let search = await yts(text);
 					if (!search.all.length) return shoNherly("Tidak ada hasil pencarian ditemukan!");
-					if (!(await firely(m, mess.waits))) return;
+					
 					// Batasi hasil pencarian ke 10 item teratas dan siapkan carousel card
 					const carouselCards = await Promise.all(search.all.slice(0, 10).map(async (video, index) => (
 					{
@@ -21724,7 +21724,7 @@ break;
 									},
 									footer:
 									{
-										text: `YouTube Bot by ShoNhe`
+										text: `YouTube Bot by kyy.main1`
 									},
 									header:
 									{
@@ -21785,7 +21785,6 @@ break;
            }
 			}
 			break;
-			case 'yt':
 			case 'plays':
 			case 'ytplay':
 			{
@@ -21795,7 +21794,7 @@ break;
 				if (!text) return shoNherly(`Contoh: ${prefix + command} Lagu favorit`);
 				try
 				{
-					if (!(await firely(m, mess.waits))) return;
+					
 					const search = await yts(`${text}`);
 					if (!search || search.all.length === 0) return shoNherly(`*Lagu tidak ditemukan!* ☹️`);
 					const
@@ -21913,7 +21912,7 @@ break;
 				if (!text.includes('youtu')) return shoNherly(`Link yang kakak masukkan bukan link YouTube! 😅`);
 				try
 				{
-					if (!(await firely(m, mess.waits))) return;
+					
 					let search = await yts(args[0]);
 					if (!search || search.all.length === 0) return shoNherly(`*Video tidak ditemukan!* ☹️`);
 					let
@@ -25874,7 +25873,7 @@ thumbnail: getRandomThumb2(),
 updatePopularCommand(command);
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
 				if (!text) return shoNherly(`⚠️ kurang lengkap su, gini loh: *${prefix + command} jj epep* biar kybootz bisa bantu cari yang lu mau! 🔍💬`);
-				if (!(await firely(m, mess.waits))) return;
+				
 				try
 				{
 					let search = await tiktokSearchVideo(text);
@@ -26244,7 +26243,7 @@ shoNhe.sendMessage(m.chat,
 				{
 					const hasil = await tiktokDl(text);
 					console.log('Hasil dari tiktokDl:', JSON.stringify(hasil, null, 2));
-					if (!(await firely(m, mess.waits))) return; // Jika limit habis, proses berhenti di sini
+					// Jika limit habis, proses berhenti di sini
 					if (hasil && hasil.data && hasil.data.length > 0)
 					{
 						if (hasil.size_nowm)
@@ -27820,7 +27819,7 @@ shoNhe.sendMessage(m.chat,
 				updatePopularCommand(command);
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
 				if (!/video|audio/.test(mime)) return shoNherly(`Kirim/Reply Video/Audio Yang Ingin Dijadikan Audio Dengan Caption ${prefix + command}`)
-				if (!(await firely(m, mess.waits))) return;
+				
 				// Emoji yang akan digunakan
 				const reactEmojis = ["⏳", "🕛", "🕒", "🕕", "🕘", "🕛", "✅"];
 				// Mengirimkan reaksi secara berurutan
@@ -28014,7 +28013,7 @@ await shoNhe.sendMessage(m.chat, { caption: 'Done✅', video: { url: hasil.url }
 				updatePopularCommand(command);
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
 				if (!/video|audio/.test(mime)) return shoNherly(`Kirim/Reply Video/Audio Yang Ingin Dijadikan Audio Dengan Caption ${prefix + command}`)
-				if (!(await firely(m, mess.waits))) return;
+				
 				// Emoji yang akan digunakan
 				const reactEmojis = ["⏳", "🕛", "🕒", "🕕", "🕘", "🕛", "✅"];
 				// Mengirimkan reaksi secara berurutan
@@ -28187,7 +28186,7 @@ updatePopularCommand(command);
 					if (/webp|video|sticker|audio|jpg|jpeg|png/.test(mime))
 					{
 						// Menambahkan pesan loading dan menyimpan key untuk edit nanti
-						if (!(await firely(m, mess.waits))) return;
+						
 						// Emoji yang akan digunakan
 						const reactEmojis = ["⏳", "🕛", "🕒", "🕕", "🕘", "🕛", "✅"];
 						// Mengirimkan reaksi secara berurutan
@@ -28251,7 +28250,7 @@ updatePopularCommand(command);
 				
 				updatePopularCommand(command);
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
-				if (!(await firely(m, mess.waits))) return;
+				
 				try
 				{
 					if (/webp|jpg|jpeg|png/.test(mime))
@@ -28340,7 +28339,7 @@ updatePopularCommand(command);
 				{
 					const hasil = await tiktokDl(text);
 					console.log('Hasil dari tiktokDl (audio):', JSON.stringify(hasil, null, 2));
-					if (!(await firely(m, mess.waits))) return; // Jika limit habis, proses berhenti di sini
+					// Jika limit habis, proses berhenti di sini
 					if (hasil && hasil.music_info && hasil.music_info.url)
 					{
 						await shoNhe.sendMessage(m.chat,
@@ -28499,7 +28498,7 @@ updatePopularCommand(command);
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
 				if (!text) return shoNherly('Kirim perintah dengan link YouTube!\nContoh: .ytmp3 https://youtu.be/xxxx');
 				if (!isUrl(text)) return shoNherly('Link yang Anda kirim tidak valid!');
-				if (!(await firely(m, mess.waits))) return;
+				
 				await downloadMp3(text); // Panggil fungsi downloadMp3
 				if (levelUpMessage) {
         await shoNhe.sendMessage(m.chat,
@@ -28537,7 +28536,7 @@ updatePopularCommand(command);
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
 				if (!text) return shoNherly('Kirim perintah dengan link YouTube!\nContoh: .ytmp4 https://youtu.be/xxxx');
 				if (!isUrl(text)) return shoNherly('Link yang Anda kirim tidak valid!');
-				if (!(await firely(m, mess.waits))) return;
+				
 				await downloadMp4(text); // Panggil fungsi downloadMp4
 				if (levelUpMessage) {
         await shoNhe.sendMessage(m.chat,
@@ -29487,7 +29486,7 @@ Dan perjalanan shoNhe masih jauh dari kata selesai. Mereka terus bergerak, menyi
 				updatePopularCommand(command);
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
 				if (!text) return shoNherly(`Example: ${prefix + command} alan walker alone`)
-				if (!(await firely(m, mess.waits))) return;
+				
 				try
 				{
 					let hasil = await fetchJson('https://www.bhandarimilan.info.np/spotisearch?query=' + encodeURIComponent(text));
@@ -29642,7 +29641,7 @@ updatePopularCommand(command);
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
 				if (!text) return shoNherly(`Example: ${prefix + command} https://open.spotify.com/track/0JiVRyTJcJnmlwCZ854K4p`);
 				if (!isUrl(args[0]) || !args[0].includes('open.spotify.com/track')) return shoNherly('Url Invalid!');
-				if (!(await firely(m, mess.waits))) return;
+				
 				try
 				{
 					// Fetching data from the API
@@ -29755,7 +29754,7 @@ updatePopularCommand(command);
 				updatePopularCommand(command);
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
 				if (!text) return angryshoNhe('Input teksnya!')
-				if (!(await firely(m, mess.waits))) return;
+				
 				const sender = m.sender
 				const username = await shoNhe.getName(m.quoted ? m.quoted.sender : sender)
 				const avatar = await shoNhe.profilePictureUrl(m.quoted ? m.quoted.sender : sender, "image").catch(() => 'https://files.catbox.moe/a6zaap.jpg')
@@ -29869,7 +29868,7 @@ updatePopularCommand(command);
 			break;
 			case 'smeme': case 'stickermeme': case 'stickmeme': {
 			 // Update level pengguna
-				if (!(await firely(m, mess.waits))) return;
+				
 				if (!/webp/.test(mime) && /image/.test(mime)) {
 					if (!text) return angryshoNhe(`Penggunaan: ${prefix + command} teks_atas|teks_bawah`);
 		
@@ -30008,7 +30007,7 @@ updatePopularCommand(command);
 					// Cari hasil di YouTube menggunakan API
 					let search = await yts(text);
 					if (!search.all.length) return shoNherly("❌ Tidak ada hasil pencarian ditemukan!");
-					if (!(await firely(m, mess.waits))) return;
+					
 					// Ambil hanya hasil pertama
 					let video = search.all[0];
 					let message = `🎥 *Judul:* ${video.title}\n👁 *Views:* ${video.views}\n⏱ *Durasi:* ${video.timestamp}\n📆 *Diupload:* ${video.ago}\n🔗 *URL:* ${video.url}`;
@@ -30218,7 +30217,7 @@ updatePopularCommand(command);
 					console.log('URL tidak valid, tidak mengandung hasil dari TikTok.');
 					return shoNherly('URL Tidak Mengandung Result Dari TikTok!');
 				}
-				if (!(await firely(m, mess.waits))) return;
+				
 				try
 				{
 					console.log('Memulai proses pengunduhan dari URL TikTok:', text);
