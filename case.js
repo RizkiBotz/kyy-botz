@@ -8,266 +8,939 @@ require("./config")
 require("./tampilanmenu")
 const
 {
-	downloadContentFromMessage,
-	BufferJSON,
-	WA_DEFAULT_EPHEMERAL,
-	generateWAMessageFromContent,
-	proto,
-	generateWAMessageContent,
-	generateWAMessage,
-	prepareWAMessageMedia,
-	areJidsSameUser,
-	InteractiveMessage,
-	getContentType
+  downloadContentFromMessage,
+  BufferJSON,
+  WA_DEFAULT_EPHEMERAL,
+  generateWAMessageFromContent,
+  proto,
+  generateWAMessageContent,
+  generateWAMessage,
+  prepareWAMessageMedia,
+  areJidsSameUser,
+  InteractiveMessage,
+  getContentType
 } = require("@adiwajshing/baileys")
 const fs = require('fs');
 const path = require('path');
 global.c = '`'
 const pickRandom = (arr) =>
 {
-	return arr[Math.floor(Math.random() * arr.length)];
+  return arr[Math.floor(Math.random() * arr.length)];
 };
-const simbol = ["⭔", "⌬", "〆", "»", "✧", "✪", "✹", "✦", "♢", "✯", "❖", "◆", "★", "⊗", "⊕", "⊙", "⌖", "⌕", "⌘", "⌙", "⌝", "⌞", "⎈", "⎯", "⎱", "⟊", "⟐", "⟫", "⟁", "⬣", "⬸", "⬙", "⤫", "⤷", "⧫", "⧖", "⧙", "⧚", "⧤", "⧩", "⨀", "⨁", "⨂", "⨆", "⨇", "⨈", "⨓", "⨔", "⨕", "⨖", "⨗", "⨤", "⩺", "⩻", "⩼", "⩽", "⩾", "⪴", "⪶", "⪸", "⪹", "⫷", "⫸", "⫽", "⪯", "⩿", "⪺", "⪻", "⫮", "⪮", "⨵", "⨶", "⩸", "⩹", "⩺", "⪪", "⪫", "⪬", "⪭", "⪮", "⬸", "⬶", "⩷", "⩸", "⩹", "⩺", "⪪", "⪫", "⪬", "⪭", "⪮", "⪯", "⬸", "⬶", "⨂", "⨃", "⨄", "⨅", "⨆", "⨇", "⨈", "⨉", "⨊", "⨋", "⨌", "⨍", "⨎", "⨏", "⨐", "⨑", "⨒", "⨓", "⨔", "⨕", "⨖", "⨗", "⨘", "⨙", "⨚", "⨛", "⨜", "⨝", "⨞", "⨟", "⨠", "⨡", "⨢", "⨣", "⨤", "⨥", "⨦", "⨧", "⨨", "⨩", "⨪", "⨫", "⨬", "⨭", "⨮", "⨯", "⨰", "⨱", "⨲", "⨳", "⨴", "⨵", "⨶", "⨷", "⨸", "⨹", "⨺", "⨻", "⨼", "⨽", "⨾", "⨿", "⩀", "⩁", "⩂", "⩃", "⩄", "⩅", "⩆", "⩇", "⩈", "⩉", "⩊", "⩋", "⩌", "⩍", "⩎", "⩏", "⩐", "⩑", "⩒", "⩓", "⩔", "⩕", "⩖", "⩗"];
+const simbol = ["⤷"];
 let simbols = `${pickRandom(["⤷"])}`;
+
+global.rankLevels = [
+    { rank: "Recruit", minLevel: 0, expTarget: 10 },
+    { rank: "Private", minLevel: 1, expTarget: 20 },
+    { rank: "Private First Class", minLevel: 2, expTarget: 30 },
+    { rank: "Corporal", minLevel: 3, expTarget: 40 },
+    { rank: "Sergeant", minLevel: 4, expTarget: 50 },
+    { rank: "Staff Sergeant", minLevel: 5, expTarget: 60 },
+    { rank: "Sergeant First Class", minLevel: 6, expTarget: 70 },
+    { rank: "Master Sergeant", minLevel: 7, expTarget: 80 },
+    { rank: "Second Lieutenant", minLevel: 8, expTarget: 90 },
+    { rank: "First Lieutenant", minLevel: 9, expTarget: 100 },
+    { rank: "Captain", minLevel: 10, expTarget: 110 },
+    { rank: "Major", minLevel: 15, expTarget: 120 },
+    { rank: "Lieutenant Colonel", minLevel: 20, expTarget: 130 },
+    { rank: "Colonel", minLevel: 25, expTarget: 140 },
+    { rank: "Brigadier General", minLevel: 30, expTarget: 150 },
+    { rank: "Major General", minLevel: 35, expTarget: 160 },
+    { rank: "Lieutenant General", minLevel: 40, expTarget: 180 },
+    { rank: "General", minLevel: 45, expTarget: 195 },
+    { rank: "Field Marshal", minLevel: 50, expTarget: 220 },
+    { rank: "Supreme Commander", minLevel: 55, expTarget: 240 },
+    { rank: "Warlord", minLevel: 60, expTarget: 265 },
+    { rank: "Elite Soldier", minLevel: 65, expTarget: 285 },
+    { rank: "Shadow Commander", minLevel: 70, expTarget: 305 },
+    { rank: "Divine Warrior", minLevel: 75, expTarget: 325 },
+    { rank: "Celestial Guardian", minLevel: 80, expTarget: 350 },
+    { rank: "Supreme Warlord", minLevel: 85, expTarget: 375 },
+    { rank: "Infinity Sentinel", minLevel: 90, expTarget: 400 },
+    { rank: "Void Ruler", minLevel: 95, expTarget: 430 },
+    { rank: "God of War", minLevel: 100, expTarget: 460 },
+    { rank: "Immortal Overlord", minLevel: 110, expTarget: 490 },
+    { rank: "Celestial Emperor", minLevel: 120, expTarget: 520 },
+    { rank: "Universal Guardian", minLevel: 130, expTarget: 550 },
+    { rank: "Supreme Deity", minLevel: 140, expTarget: 580 },
+    { rank: "God of Dimensions", minLevel: 150, expTarget: 620 }
+];
+
+function getRank(level) {
+    return rankLevels.find(rank => level >= rank.minLevel)?.rank || "Recruit";
+}
+// 📌 Database Global untuk Paket Bot
+global.paketBot = {
+  basic:
+  {
+    nama: "SC V5 Basic",
+    harga: "Rp 25K",
+    deskripsi: `🛒 *25K*  
+🧾 *FREE UPDATE V5-V7*  
+🛠 _Perbedaan keuntungan:_  
+- Setiap update terkena biaya tambahan *10K/update* dari V5-V7`
+  },
+  premium:
+  {
+    nama: "V5-V8 PREMIUM",
+    harga: "Rp 45K",
+    deskripsi: `🛒 *45K*  
+🧾 *FREE UPDATE V5-V8*  
+🛠 _Perbedaan keuntungan:_  
+- *Free update fitur/versi V5-V8 tanpa biaya tambahan*  
+- Jika membeli paket Basic (25K), akan dikenakan biaya *10K/update*  
+- *Full Support Service untuk perbaikan dan request fitur*`
+  },
+  custom:
+  {
+    nama: "V5-V12 CUSTOM",
+    harga: "Rp 65K",
+    deskripsi: `🛒 *65K*  
+🧾 *FREE UPDATE dari V5 Hingga V12 Tanpa biaya tambahan*  
+🛠 _Keuntungan Premium:_  
+✅ *MASUK GROUP PENGAJARAN/LES*  
+   - 1️⃣ *UPDATE FITUR*  
+   - 2️⃣ *CREATE BASE AWAL*  
+   - 3️⃣ *BIKIN SC SENDIRI*  
+   - 4️⃣ *FIX ERROR/BUG*  
+   - 5️⃣ *Prioritas Utama Custom Service*
+   *❕FREE UPDATE V3 SAMPAI V10* 
+✅ *BISA DIJUAL LAGI* dengan harga sesuka hati  
+✅ *Free APIKEY Premium setiap bulan*
+✅ *Cukup Bayar Sekali seharga 65K Tanpa Biaya tambahan*`
+  }
+};
 global.asmaulhusna2 = [
-    { index: 1, latin: "Ar-Rahman", arabic: "الرَّحْمَنُ", translation_id: "Yang Maha Pengasih", translation_en: "The Most Gracious" },
-    { index: 2, latin: "Ar-Rahim", arabic: "الرَّحِيمُ", translation_id: "Yang Maha Penyayang", translation_en: "The Most Merciful" },
-    { index: 3, latin: "Al-Malik", arabic: "الْمَلِكُ", translation_id: "Yang Maha Merajai", translation_en: "The King and Owner of Dominion" },
-    { index: 4, latin: "Al-Quddus", arabic: "الْقُدُّوسُ", translation_id: "Yang Maha Suci", translation_en: "The Absolutely Pure" },
-    { index: 5, latin: "As-Salam", arabic: "السَّلَامُ", translation_id: "Yang Maha Memberi Keselamatan", translation_en: "The Source of Peace and Safety" },
-    { index: 6, latin: "Al-Mu'min", arabic: "الْمُؤْمِنُ", translation_id: "Yang Maha Memberi Keamanan", translation_en: "The Giver of Faith and Security" },
-    { index: 7, latin: "Al-Muhaymin", arabic: "الْمُهَيْمِنُ", translation_id: "Yang Maha Memelihara", translation_en: "The Guardian, The Witness, The Overseer" },
-    { index: 8, latin: "Al-Aziz", arabic: "الْعَزِيزُ", translation_id: "Yang Maha Perkasa", translation_en: "The Almighty" },
-    { index: 9, latin: "Al-Jabbar", arabic: "الْجَبَّارُ", translation_id: "Yang Maha Memaksa", translation_en: "The Compeller, The Restorer" },
-    { index: 10, latin: "Al-Mutakabbir", arabic: "الْمُتَكَبِّرُ", translation_id: "Yang Maha Megah", translation_en: "The Supreme, The Majestic" },
-    { index: 11, latin: "Al-Khaliq", arabic: "الْخَالِقُ", translation_id: "Yang Maha Pencipta", translation_en: "The Creator, the Maker" },
-    { index: 12, latin: "Al-Bari'", arabic: "الْبَارِئُ", translation_id: "Yang Maha Merencanakan", translation_en: "The Evolver" },
-    { index: 13, latin: "Al-Musawwir", arabic: "الْمُصَوِّرُ", translation_id: "Yang Maha Membentuk Rupa", translation_en: "The Fashioner" },
-    { index: 14, latin: "Al-Ghaffar", arabic: "الْغَفَّارُ", translation_id: "Yang Maha Pengampun", translation_en: "The Constant Forgiver" },
-    { index: 15, latin: "Al-Qahhar", arabic: "الْقَهَّارُ", translation_id: "Yang Maha Menundukkan", translation_en: "The All-Subduer" },
-    { index: 16, latin: "Al-Wahhab", arabic: "الْوَهَّابُ", translation_id: "Yang Maha Pemberi Karunia", translation_en: "The Supreme Bestower" },
-    { index: 17, latin: "Ar-Razzaq", arabic: "الرَّزَّاقُ", translation_id: "Yang Maha Pemberi Rezeki", translation_en: "The Provider" },
-    { index: 18, latin: "Al-Fattah", arabic: "الْفَتَّاحُ", translation_id: "Yang Maha Pembuka Rahmat", translation_en: "The Supreme Solver" },
-    { index: 19, latin: "Al-Alim", arabic: "الْعَلِيمُ", translation_id: "Yang Maha Mengetahui", translation_en: "The All-Knowing" },
-    { index: 20, latin: "Al-Qabid", arabic: "الْقَابِضُ", translation_id: "Yang Maha Menyempitkan", translation_en: "The Withholder" },
-    { index: 21, latin: "Al-Basit", arabic: "الْبَاسِطُ", translation_id: "Yang Maha Melapangkan", translation_en: "The Extender" },
-    { index: 22, latin: "Al-Khafid", arabic: "الْخَافِضُ", translation_id: "Yang Maha Merendahkan", translation_en: "The Reducer" },
-    { index: 23, latin: "Ar-Rafi", arabic: "الرَّافِعُ", translation_id: "Yang Maha Meninggikan", translation_en: "The Exalter" },
-    { index: 24, latin: "Al-Mu'izz", arabic: "المعز", translation_id: "Yang Maha Memuliakan", translation_en: "The Honourer, the Bestower" },
-    { index: 25, latin: "Al-Muzil", arabic: "المذل", translation_id: "Yang Maha Menghinakan", translation_en: "The Dishonourer" },
-    { index: 26, latin: "As-Sami'", arabic: "السميع", translation_id: "Yang Maha Mendengar", translation_en: "The All-Hearing" },
-    { index: 27, latin: "Al-Basir", arabic: "البصير", translation_id: "Yang Maha Melihat", translation_en: "The All-Seeing" },
-    { index: 28, latin: "Al-Hakam", arabic: "الحكم", translation_id: "Yang Maha Menetapkan", translation_en: "The Impartial Judge" },
-    { index: 29, latin: "Al-Adl", arabic: "العدل", translation_id: "Yang Maha Adil", translation_en: "The Utterly Just" },
-    { index: 30, latin: "Al-Latif", arabic: "اللَّطِيفُ", translation_id: "Yang Maha Lembut", translation_en: "The Subtle One, the Most Gentle" },
-    { index: 31, latin: "Al-Khabir", arabic: "الْخَبِيرُ", translation_id: "Yang Maha Waspada", translation_en: "The All-Aware" },
-    { index: 32, latin: "Al-Halim", arabic: "الْحَلِيمُ", translation_id: "Yang Maha Penyantun", translation_en: "The Most Forbearing" },
-    { index: 33, latin: "Al-Azim", arabic: "الْعَظِيمُ", translation_id: "Yang Maha Agung", translation_en: "The Magnificent, the Infinite" },
-    { index: 34, latin: "Al-Ghaffur", arabic: "الْغَفُورُ", translation_id: "Yang Maha Pengampun", translation_en: "The Great Forgiver" },
-    { index: 35, latin: "Ash-Shakur", arabic: "الشَّكُورُ", translation_id: "Yang Maha Pembalas Budi", translation_en: "The Most Appreciative" },
-    { index: 36, latin: "Al-Aliyy", arabic: "الْعَلِيُّ", translation_id: "Yang Maha Tinggi", translation_en: "The Most High, the Exalted" },
-    { index: 37, latin: "Al-Kabir", arabic: "الْكَبِيرُ", translation_id: "Yang Maha Besar", translation_en: "The Most Great" },
-    { index: 38, latin: "Al-Hafiz", arabic: "الْحَفِيظُ", translation_id: "Yang Maha Memelihara", translation_en: "The Preserver" },
-    { index: 39, latin: "Al-Muqit", arabic: "المقيت", translation_id: "Yang Maha Pemberi Kecukupan", translation_en: "The Sustainer" },
-    { index: 40, latin: "Al-Hasib", arabic: "الْحَسِيبُ", translation_id: "Yang Maha Membuat Perhitungan", translation_en: "The Reckoner" },
-    { index: 41, latin: "Al-Jalil", arabic: "الْجَلِيلُ", translation_id: "Yang Maha Luhur", translation_en: "The Majestic" },
-    { index: 42, latin: "Al-Karim", arabic: "الْكَرِيمُ", translation_id: "Yang Maha Pemurah", translation_en: "The Most Generous, the Most Esteemed" },
-    { index: 43, latin: "Ar-Raqib", arabic: "الرَّقِيبُ", translation_id: "Yang Maha Mengawasi", translation_en: "The Watchful" },
-    { index: 44, latin: "Al-Mujib", arabic: "الْمُجِيبُ", translation_id: "Yang Maha Mengabulkan", translation_en: "The Responsive One" },
-    { index: 45, latin: "Al-Wasi'", arabic: "الْوَاسِعُ", translation_id: "Yang Maha Luas", translation_en: "The All-Encompassing, the Boundless" },
-    { index: 46, latin: "Al-Hakim", arabic: "الْحَكِيمُ", translation_id: "Yang Maha Bijaksana", translation_en: "The All-Wise" },
-    { index: 47, latin: "Al-Wadud", arabic: "الْوَدُودُ", translation_id: "Yang Maha Mengasihi", translation_en: "The Most Loving" },
-    { index: 48, latin: "Al-Majid", arabic: "الْمَجِيدُ", translation_id: "Yang Maha Mulia", translation_en: "The Glorious, the Most Honorable" },
-    { index: 49, latin: "Al-Ba'ith", arabic: "الْبَاعِثُ", translation_id: "Yang Maha Membangkitkan", translation_en: "The Infuser of New Life" },
-    { index: 50, latin: "Ash-Shahid", arabic: "الشَّهِيدُ", translation_id: "Yang Maha Menyaksikan", translation_en: "The All-and-Ever Witnessing" },
-    { index: 51, latin: "Al-Haqq", arabic: "الْحَقُّ", translation_id: "Yang Maha Benar", translation_en: "The Absolute Truth" },
-    { index: 52, latin: "Al-Wakil", arabic: "الْوَكِيلُ", translation_id: "Yang Maha Memelihara", translation_en: "The Trustee, the Disposer of Affairs" },
-    { index: 53, latin: "Al-Qawiyy", arabic: "الْقَوِيُّ", translation_id: "Yang Maha Kuat", translation_en: "The All-Strong" },
-    { index: 54, latin: "Al-Matin", arabic: "الْمَتِينُ", translation_id: "Yang Maha Kokoh", translation_en: "The Firm One" },
-    { index: 55, latin: "Al-Waliyy", arabic: "الْوَلِيُّ", translation_id: "Yang Maha Melindungi", translation_en: "The Sole-Authority" },
-    { index: 56, latin: "Al-Hamid", arabic: "الْحَمِيدُ", translation_id: "Yang Maha Terpuji", translation_en: "The Praiseworthy" },
-    { index: 57, latin: "Al-Muhsi", arabic: "الْمُحْصِي", translation_id: "Yang Maha Mengalkulasi", translation_en: "The All-Enumerating, the Counter" },
-    { index: 58, latin: "Al-Mubdi", arabic: "الْمُبْدِئُ", translation_id: "Yang Maha Memulai", translation_en: "The Originator, the Initiator" },
-    { index: 59, latin: "Al-Mu'id", arabic: "الْمُعِيدُ", translation_id: "Yang Maha Mengembalikan Kehidupan", translation_en: "The Restorer, the Reinstater" },
-    { index: 60, latin: "Al-Muhyi", arabic: "الْمُحْيِي", translation_id: "Yang Maha Menghidupkan", translation_en: "The Giver of Life" },
-    { index: 61, latin: "Al-Mumit", arabic: "المميت", translation_id: "Yang Maha Mematikan", translation_en: "The Creator of Death" },
-    { index: 62, latin: "Al-Hayy", arabic: "الْحَيُّ", translation_id: "Yang Maha Hidup", translation_en: "The Ever-Living" },
-    { index: 63, latin: "Al-Qayyum", arabic: "الْقَيُّومُ", translation_id: "Yang Maha Mandiri", translation_en: "The Sustainer, the Self-Subsisting" },
-    { index: 64, latin: "Al-Wajid", arabic: "الْوَاجِدُ", translation_id: "Yang Maha Menemukan", translation_en: "The Perceiver" },
-    { index: 65, latin: "Al-Majid", arabic: "الْمَاجِدُ", translation_id: "Yang Maha Mulia", translation_en: "The Glorious, the Most Honorable" },
-    { index: 66, latin: "Al-Wahid", arabic: "الْوَاحِدُ", translation_id: "Yang Maha Esa", translation_en: "The Only One" },
-    { index: 67, latin: "Al-Ahad", arabic: "أَلاَحَدُ", translation_id: "Yang Maha Tunggal", translation_en: "The Sole One" },
-    { index: 68, latin: "As-Samad", arabic: "الصَّمَدُ", translation_id: "Yang Maha Dibutuhkan", translation_en: "The Self-Sufficient, the Impregnable" },
-    { index: 69, latin: "Al-Qadir", arabic: "الْقَادِرُ", translation_id: "Yang Maha Menentukan", translation_en: "The Omnipotent" },
-    { index: 70, latin: "Al-Muqtadir", arabic: "المقتدر", translation_id: "Yang Maha Berkuasa", translation_en: "The Creator of All Power" },
-    { index: 71, latin: "Al-Muqaddim", arabic: "الْمُقَدِّمُ", translation_id: "Yang Maha Mendahulukan", translation_en: "The Expediter, the Promoter" },
-    { index: 72, latin: "Al-Mu'akhkhir", arabic: "الْمُؤَخِّرُ", translation_id: "Yang Maha Mengakhirkan", translation_en: "The Delayer" },
-    { index: 73, latin: "Al-Awwal", arabic: "الأوّل", translation_id: "Yang Maha Awal", translation_en: "The First" },
-    { index: 74, latin: "Al-Akhir", arabic: "الآخِرُ", translation_id: "Yang Maha Akhir", translation_en: "The Last" },
-    { index: 75, latin: "Az-Zahir", arabic: "الظاهر", translation_id: "Yang Maha Nyata", translation_en: "The Manifest" },
-    { index: 76, latin: "Al-Batin", arabic: "الباطن", translation_id: "Yang Maha Ghaib", translation_en: "The Hidden One, Knower of the Hidden" },
-    { index: 77, latin: "Al-Wali", arabic: "الْوَالِي", translation_id: "Yang Maha Memerintah", translation_en: "The Sole Governor" },
-    { index: 78, latin: "Al-Muta'ali", arabic: "المتعالي", translation_id: "Yang Maha Tinggi", translation_en: "The Self Exalted" },
-    { index: 79, latin: "Al-Barr", arabic: "البر", translation_id: "Yang Maha Penderma", translation_en: "The Source of All Goodness" },
-    { index: 80, latin: "At-Tawwab", arabic: "التواب", translation_id: "Yang Maha Penerima Tobat", translation_en: "The Ever-Accepter of Repentance" },
-    { index: 81, latin: "Al-Muntaqim", arabic: "المنتقم", translation_id: "Yang Maha Pemberi Balasan", translation_en: "The Avenger" },
-    { index: 82, latin: "Al-Afuww", arabic: "العفو", translation_id: "Yang Maha Pemaaf", translation_en: "The Pardoner" },
-    { index: 83, latin: "Ar-Ra'uf", arabic: "الرؤوف", translation_id: "Yang Maha Pengasuh", translation_en: "The Most Kind" },
-    { index: 84, latin: "Malik-ul-Mulk", arabic: "مالك الملك", translation_id: "Yang Maha Penguasa Kerajaan", translation_en: "Master of the Kingdom, Owner of the Dominion" },
-    { index: 85, latin: "Dzul-Jalali Wal-Ikram", arabic: "ذو الجلال والإكرام", translation_id: "Yang Maha Pemilik Kebesaran dan Kemuliaan", translation_en: "Possessor of Glory and Honour, Lord of Glory and Generosity" },
-    { index: 86, latin: "Al-Muqsit", arabic: "المقسط", translation_id: "Yang Maha Adil", translation_en: "The Just One" },
-    { index: 87, latin: "Al-Jami", arabic: "الْجَامِعُ", translation_id: "Yang Maha Mengumpulkan", translation_en: "The Gatherer, the Uniter" },
-    { index: 88, latin: "Al-Ghaniyy", arabic: "الْغَنِيُّ", translation_id: "Yang Maha Kaya", translation_en: "The Self-Sufficient, the Wealthy" },
-    { index: 89, latin: "Al-Mughni", arabic: "المغني", translation_id: "Yang Maha Pemberi Kekayaan", translation_en: "The Enricher" },
-    { index: 90, latin: "Al-Mani'", arabic: "المانع", translation_id: "Yang Maha Mencegah", translation_en: "The Withholder" },
-    { index: 91, latin: "Ad-Darr", arabic: "الضار", translation_id: "Yang Maha Penimpa Kemudharatan", translation_en: "The Distresser" },
-    { index: 92, latin: "An-Nafi'", arabic: "النافع", translation_id: "Yang Maha Memberi Manfaat", translation_en: "The Propitious, the Benefactor" },
-    { index: 93, latin: "An-Nur", arabic: "النور", translation_id: "Yang Maha Bercahaya", translation_en: "The Light" },
-    { index: 94, latin: "Al-Hadi", arabic: "الهادي", translation_id: "Yang Maha Pemberi Petunjuk", translation_en: "The Guide" },
-    { index: 95, latin: "Al-Badi", arabic: "البديع", translation_id: "Yang Maha Pencipta Tiada Bandingannya", translation_en: "The Incomparable Originator" },
-    { index: 96, latin: "Al-Baqi", arabic: "الباقي", translation_id: "Yang Maha Kekal", translation_en: "The Ever-Surviving" },
-    { index: 97, latin: "Al-Warith", arabic: "الوارث", translation_id: "Yang Maha Pewaris", translation_en: "The Inheritor, the Heir" },
-    { index: 98, latin: "Ar-Rashid", arabic: "الرشيد", translation_id: "Yang Maha Pandai", translation_en: "The Guide, Infallible Teacher and Knower" },
-    { index: 99, latin: "As-Sabur", arabic: "الصبور", translation_id: "Yang Maha Sabar", translation_en: "The Extensively Enduring" }
-]
+{
+  index: 1,
+  latin: "Ar-Rahman",
+  arabic: "الرَّحْمَنُ",
+  translation_id: "Yang Maha Pengasih",
+  translation_en: "The Most Gracious"
+},
+{
+  index: 2,
+  latin: "Ar-Rahim",
+  arabic: "الرَّحِيمُ",
+  translation_id: "Yang Maha Penyayang",
+  translation_en: "The Most Merciful"
+},
+{
+  index: 3,
+  latin: "Al-Malik",
+  arabic: "الْمَلِكُ",
+  translation_id: "Yang Maha Merajai",
+  translation_en: "The King and Owner of Dominion"
+},
+{
+  index: 4,
+  latin: "Al-Quddus",
+  arabic: "الْقُدُّوسُ",
+  translation_id: "Yang Maha Suci",
+  translation_en: "The Absolutely Pure"
+},
+{
+  index: 5,
+  latin: "As-Salam",
+  arabic: "السَّلَامُ",
+  translation_id: "Yang Maha Memberi Keselamatan",
+  translation_en: "The Source of Peace and Safety"
+},
+{
+  index: 6,
+  latin: "Al-Mu'min",
+  arabic: "الْمُؤْمِنُ",
+  translation_id: "Yang Maha Memberi Keamanan",
+  translation_en: "The Giver of Faith and Security"
+},
+{
+  index: 7,
+  latin: "Al-Muhaymin",
+  arabic: "الْمُهَيْمِنُ",
+  translation_id: "Yang Maha Memelihara",
+  translation_en: "The Guardian, The Witness, The Overseer"
+},
+{
+  index: 8,
+  latin: "Al-Aziz",
+  arabic: "الْعَزِيزُ",
+  translation_id: "Yang Maha Perkasa",
+  translation_en: "The Almighty"
+},
+{
+  index: 9,
+  latin: "Al-Jabbar",
+  arabic: "الْجَبَّارُ",
+  translation_id: "Yang Maha Memaksa",
+  translation_en: "The Compeller, The Restorer"
+},
+{
+  index: 10,
+  latin: "Al-Mutakabbir",
+  arabic: "الْمُتَكَبِّرُ",
+  translation_id: "Yang Maha Megah",
+  translation_en: "The Supreme, The Majestic"
+},
+{
+  index: 11,
+  latin: "Al-Khaliq",
+  arabic: "الْخَالِقُ",
+  translation_id: "Yang Maha Pencipta",
+  translation_en: "The Creator, the Maker"
+},
+{
+  index: 12,
+  latin: "Al-Bari'",
+  arabic: "الْبَارِئُ",
+  translation_id: "Yang Maha Merencanakan",
+  translation_en: "The Evolver"
+},
+{
+  index: 13,
+  latin: "Al-Musawwir",
+  arabic: "الْمُصَوِّرُ",
+  translation_id: "Yang Maha Membentuk Rupa",
+  translation_en: "The Fashioner"
+},
+{
+  index: 14,
+  latin: "Al-Ghaffar",
+  arabic: "الْغَفَّارُ",
+  translation_id: "Yang Maha Pengampun",
+  translation_en: "The Constant Forgiver"
+},
+{
+  index: 15,
+  latin: "Al-Qahhar",
+  arabic: "الْقَهَّارُ",
+  translation_id: "Yang Maha Menundukkan",
+  translation_en: "The All-Subduer"
+},
+{
+  index: 16,
+  latin: "Al-Wahhab",
+  arabic: "الْوَهَّابُ",
+  translation_id: "Yang Maha Pemberi Karunia",
+  translation_en: "The Supreme Bestower"
+},
+{
+  index: 17,
+  latin: "Ar-Razzaq",
+  arabic: "الرَّزَّاقُ",
+  translation_id: "Yang Maha Pemberi Rezeki",
+  translation_en: "The Provider"
+},
+{
+  index: 18,
+  latin: "Al-Fattah",
+  arabic: "الْفَتَّاحُ",
+  translation_id: "Yang Maha Pembuka Rahmat",
+  translation_en: "The Supreme Solver"
+},
+{
+  index: 19,
+  latin: "Al-Alim",
+  arabic: "الْعَلِيمُ",
+  translation_id: "Yang Maha Mengetahui",
+  translation_en: "The All-Knowing"
+},
+{
+  index: 20,
+  latin: "Al-Qabid",
+  arabic: "الْقَابِضُ",
+  translation_id: "Yang Maha Menyempitkan",
+  translation_en: "The Withholder"
+},
+{
+  index: 21,
+  latin: "Al-Basit",
+  arabic: "الْبَاسِطُ",
+  translation_id: "Yang Maha Melapangkan",
+  translation_en: "The Extender"
+},
+{
+  index: 22,
+  latin: "Al-Khafid",
+  arabic: "الْخَافِضُ",
+  translation_id: "Yang Maha Merendahkan",
+  translation_en: "The Reducer"
+},
+{
+  index: 23,
+  latin: "Ar-Rafi",
+  arabic: "الرَّافِعُ",
+  translation_id: "Yang Maha Meninggikan",
+  translation_en: "The Exalter"
+},
+{
+  index: 24,
+  latin: "Al-Mu'izz",
+  arabic: "المعز",
+  translation_id: "Yang Maha Memuliakan",
+  translation_en: "The Honourer, the Bestower"
+},
+{
+  index: 25,
+  latin: "Al-Muzil",
+  arabic: "المذل",
+  translation_id: "Yang Maha Menghinakan",
+  translation_en: "The Dishonourer"
+},
+{
+  index: 26,
+  latin: "As-Sami'",
+  arabic: "السميع",
+  translation_id: "Yang Maha Mendengar",
+  translation_en: "The All-Hearing"
+},
+{
+  index: 27,
+  latin: "Al-Basir",
+  arabic: "البصير",
+  translation_id: "Yang Maha Melihat",
+  translation_en: "The All-Seeing"
+},
+{
+  index: 28,
+  latin: "Al-Hakam",
+  arabic: "الحكم",
+  translation_id: "Yang Maha Menetapkan",
+  translation_en: "The Impartial Judge"
+},
+{
+  index: 29,
+  latin: "Al-Adl",
+  arabic: "العدل",
+  translation_id: "Yang Maha Adil",
+  translation_en: "The Utterly Just"
+},
+{
+  index: 30,
+  latin: "Al-Latif",
+  arabic: "اللَّطِيفُ",
+  translation_id: "Yang Maha Lembut",
+  translation_en: "The Subtle One, the Most Gentle"
+},
+{
+  index: 31,
+  latin: "Al-Khabir",
+  arabic: "الْخَبِيرُ",
+  translation_id: "Yang Maha Waspada",
+  translation_en: "The All-Aware"
+},
+{
+  index: 32,
+  latin: "Al-Halim",
+  arabic: "الْحَلِيمُ",
+  translation_id: "Yang Maha Penyantun",
+  translation_en: "The Most Forbearing"
+},
+{
+  index: 33,
+  latin: "Al-Azim",
+  arabic: "الْعَظِيمُ",
+  translation_id: "Yang Maha Agung",
+  translation_en: "The Magnificent, the Infinite"
+},
+{
+  index: 34,
+  latin: "Al-Ghaffur",
+  arabic: "الْغَفُورُ",
+  translation_id: "Yang Maha Pengampun",
+  translation_en: "The Great Forgiver"
+},
+{
+  index: 35,
+  latin: "Ash-Shakur",
+  arabic: "الشَّكُورُ",
+  translation_id: "Yang Maha Pembalas Budi",
+  translation_en: "The Most Appreciative"
+},
+{
+  index: 36,
+  latin: "Al-Aliyy",
+  arabic: "الْعَلِيُّ",
+  translation_id: "Yang Maha Tinggi",
+  translation_en: "The Most High, the Exalted"
+},
+{
+  index: 37,
+  latin: "Al-Kabir",
+  arabic: "الْكَبِيرُ",
+  translation_id: "Yang Maha Besar",
+  translation_en: "The Most Great"
+},
+{
+  index: 38,
+  latin: "Al-Hafiz",
+  arabic: "الْحَفِيظُ",
+  translation_id: "Yang Maha Memelihara",
+  translation_en: "The Preserver"
+},
+{
+  index: 39,
+  latin: "Al-Muqit",
+  arabic: "المقيت",
+  translation_id: "Yang Maha Pemberi Kecukupan",
+  translation_en: "The Sustainer"
+},
+{
+  index: 40,
+  latin: "Al-Hasib",
+  arabic: "الْحَسِيبُ",
+  translation_id: "Yang Maha Membuat Perhitungan",
+  translation_en: "The Reckoner"
+},
+{
+  index: 41,
+  latin: "Al-Jalil",
+  arabic: "الْجَلِيلُ",
+  translation_id: "Yang Maha Luhur",
+  translation_en: "The Majestic"
+},
+{
+  index: 42,
+  latin: "Al-Karim",
+  arabic: "الْكَرِيمُ",
+  translation_id: "Yang Maha Pemurah",
+  translation_en: "The Most Generous, the Most Esteemed"
+},
+{
+  index: 43,
+  latin: "Ar-Raqib",
+  arabic: "الرَّقِيبُ",
+  translation_id: "Yang Maha Mengawasi",
+  translation_en: "The Watchful"
+},
+{
+  index: 44,
+  latin: "Al-Mujib",
+  arabic: "الْمُجِيبُ",
+  translation_id: "Yang Maha Mengabulkan",
+  translation_en: "The Responsive One"
+},
+{
+  index: 45,
+  latin: "Al-Wasi'",
+  arabic: "الْوَاسِعُ",
+  translation_id: "Yang Maha Luas",
+  translation_en: "The All-Encompassing, the Boundless"
+},
+{
+  index: 46,
+  latin: "Al-Hakim",
+  arabic: "الْحَكِيمُ",
+  translation_id: "Yang Maha Bijaksana",
+  translation_en: "The All-Wise"
+},
+{
+  index: 47,
+  latin: "Al-Wadud",
+  arabic: "الْوَدُودُ",
+  translation_id: "Yang Maha Mengasihi",
+  translation_en: "The Most Loving"
+},
+{
+  index: 48,
+  latin: "Al-Majid",
+  arabic: "الْمَجِيدُ",
+  translation_id: "Yang Maha Mulia",
+  translation_en: "The Glorious, the Most Honorable"
+},
+{
+  index: 49,
+  latin: "Al-Ba'ith",
+  arabic: "الْبَاعِثُ",
+  translation_id: "Yang Maha Membangkitkan",
+  translation_en: "The Infuser of New Life"
+},
+{
+  index: 50,
+  latin: "Ash-Shahid",
+  arabic: "الشَّهِيدُ",
+  translation_id: "Yang Maha Menyaksikan",
+  translation_en: "The All-and-Ever Witnessing"
+},
+{
+  index: 51,
+  latin: "Al-Haqq",
+  arabic: "الْحَقُّ",
+  translation_id: "Yang Maha Benar",
+  translation_en: "The Absolute Truth"
+},
+{
+  index: 52,
+  latin: "Al-Wakil",
+  arabic: "الْوَكِيلُ",
+  translation_id: "Yang Maha Memelihara",
+  translation_en: "The Trustee, the Disposer of Affairs"
+},
+{
+  index: 53,
+  latin: "Al-Qawiyy",
+  arabic: "الْقَوِيُّ",
+  translation_id: "Yang Maha Kuat",
+  translation_en: "The All-Strong"
+},
+{
+  index: 54,
+  latin: "Al-Matin",
+  arabic: "الْمَتِينُ",
+  translation_id: "Yang Maha Kokoh",
+  translation_en: "The Firm One"
+},
+{
+  index: 55,
+  latin: "Al-Waliyy",
+  arabic: "الْوَلِيُّ",
+  translation_id: "Yang Maha Melindungi",
+  translation_en: "The Sole-Authority"
+},
+{
+  index: 56,
+  latin: "Al-Hamid",
+  arabic: "الْحَمِيدُ",
+  translation_id: "Yang Maha Terpuji",
+  translation_en: "The Praiseworthy"
+},
+{
+  index: 57,
+  latin: "Al-Muhsi",
+  arabic: "الْمُحْصِي",
+  translation_id: "Yang Maha Mengalkulasi",
+  translation_en: "The All-Enumerating, the Counter"
+},
+{
+  index: 58,
+  latin: "Al-Mubdi",
+  arabic: "الْمُبْدِئُ",
+  translation_id: "Yang Maha Memulai",
+  translation_en: "The Originator, the Initiator"
+},
+{
+  index: 59,
+  latin: "Al-Mu'id",
+  arabic: "الْمُعِيدُ",
+  translation_id: "Yang Maha Mengembalikan Kehidupan",
+  translation_en: "The Restorer, the Reinstater"
+},
+{
+  index: 60,
+  latin: "Al-Muhyi",
+  arabic: "الْمُحْيِي",
+  translation_id: "Yang Maha Menghidupkan",
+  translation_en: "The Giver of Life"
+},
+{
+  index: 61,
+  latin: "Al-Mumit",
+  arabic: "المميت",
+  translation_id: "Yang Maha Mematikan",
+  translation_en: "The Creator of Death"
+},
+{
+  index: 62,
+  latin: "Al-Hayy",
+  arabic: "الْحَيُّ",
+  translation_id: "Yang Maha Hidup",
+  translation_en: "The Ever-Living"
+},
+{
+  index: 63,
+  latin: "Al-Qayyum",
+  arabic: "الْقَيُّومُ",
+  translation_id: "Yang Maha Mandiri",
+  translation_en: "The Sustainer, the Self-Subsisting"
+},
+{
+  index: 64,
+  latin: "Al-Wajid",
+  arabic: "الْوَاجِدُ",
+  translation_id: "Yang Maha Menemukan",
+  translation_en: "The Perceiver"
+},
+{
+  index: 65,
+  latin: "Al-Majid",
+  arabic: "الْمَاجِدُ",
+  translation_id: "Yang Maha Mulia",
+  translation_en: "The Glorious, the Most Honorable"
+},
+{
+  index: 66,
+  latin: "Al-Wahid",
+  arabic: "الْوَاحِدُ",
+  translation_id: "Yang Maha Esa",
+  translation_en: "The Only One"
+},
+{
+  index: 67,
+  latin: "Al-Ahad",
+  arabic: "أَلاَحَدُ",
+  translation_id: "Yang Maha Tunggal",
+  translation_en: "The Sole One"
+},
+{
+  index: 68,
+  latin: "As-Samad",
+  arabic: "الصَّمَدُ",
+  translation_id: "Yang Maha Dibutuhkan",
+  translation_en: "The Self-Sufficient, the Impregnable"
+},
+{
+  index: 69,
+  latin: "Al-Qadir",
+  arabic: "الْقَادِرُ",
+  translation_id: "Yang Maha Menentukan",
+  translation_en: "The Omnipotent"
+},
+{
+  index: 70,
+  latin: "Al-Muqtadir",
+  arabic: "المقتدر",
+  translation_id: "Yang Maha Berkuasa",
+  translation_en: "The Creator of All Power"
+},
+{
+  index: 71,
+  latin: "Al-Muqaddim",
+  arabic: "الْمُقَدِّمُ",
+  translation_id: "Yang Maha Mendahulukan",
+  translation_en: "The Expediter, the Promoter"
+},
+{
+  index: 72,
+  latin: "Al-Mu'akhkhir",
+  arabic: "الْمُؤَخِّرُ",
+  translation_id: "Yang Maha Mengakhirkan",
+  translation_en: "The Delayer"
+},
+{
+  index: 73,
+  latin: "Al-Awwal",
+  arabic: "الأوّل",
+  translation_id: "Yang Maha Awal",
+  translation_en: "The First"
+},
+{
+  index: 74,
+  latin: "Al-Akhir",
+  arabic: "الآخِرُ",
+  translation_id: "Yang Maha Akhir",
+  translation_en: "The Last"
+},
+{
+  index: 75,
+  latin: "Az-Zahir",
+  arabic: "الظاهر",
+  translation_id: "Yang Maha Nyata",
+  translation_en: "The Manifest"
+},
+{
+  index: 76,
+  latin: "Al-Batin",
+  arabic: "الباطن",
+  translation_id: "Yang Maha Ghaib",
+  translation_en: "The Hidden One, Knower of the Hidden"
+},
+{
+  index: 77,
+  latin: "Al-Wali",
+  arabic: "الْوَالِي",
+  translation_id: "Yang Maha Memerintah",
+  translation_en: "The Sole Governor"
+},
+{
+  index: 78,
+  latin: "Al-Muta'ali",
+  arabic: "المتعالي",
+  translation_id: "Yang Maha Tinggi",
+  translation_en: "The Self Exalted"
+},
+{
+  index: 79,
+  latin: "Al-Barr",
+  arabic: "البر",
+  translation_id: "Yang Maha Penderma",
+  translation_en: "The Source of All Goodness"
+},
+{
+  index: 80,
+  latin: "At-Tawwab",
+  arabic: "التواب",
+  translation_id: "Yang Maha Penerima Tobat",
+  translation_en: "The Ever-Accepter of Repentance"
+},
+{
+  index: 81,
+  latin: "Al-Muntaqim",
+  arabic: "المنتقم",
+  translation_id: "Yang Maha Pemberi Balasan",
+  translation_en: "The Avenger"
+},
+{
+  index: 82,
+  latin: "Al-Afuww",
+  arabic: "العفو",
+  translation_id: "Yang Maha Pemaaf",
+  translation_en: "The Pardoner"
+},
+{
+  index: 83,
+  latin: "Ar-Ra'uf",
+  arabic: "الرؤوف",
+  translation_id: "Yang Maha Pengasuh",
+  translation_en: "The Most Kind"
+},
+{
+  index: 84,
+  latin: "Malik-ul-Mulk",
+  arabic: "مالك الملك",
+  translation_id: "Yang Maha Penguasa Kerajaan",
+  translation_en: "Master of the Kingdom, Owner of the Dominion"
+},
+{
+  index: 85,
+  latin: "Dzul-Jalali Wal-Ikram",
+  arabic: "ذو الجلال والإكرام",
+  translation_id: "Yang Maha Pemilik Kebesaran dan Kemuliaan",
+  translation_en: "Possessor of Glory and Honour, Lord of Glory and Generosity"
+},
+{
+  index: 86,
+  latin: "Al-Muqsit",
+  arabic: "المقسط",
+  translation_id: "Yang Maha Adil",
+  translation_en: "The Just One"
+},
+{
+  index: 87,
+  latin: "Al-Jami",
+  arabic: "الْجَامِعُ",
+  translation_id: "Yang Maha Mengumpulkan",
+  translation_en: "The Gatherer, the Uniter"
+},
+{
+  index: 88,
+  latin: "Al-Ghaniyy",
+  arabic: "الْغَنِيُّ",
+  translation_id: "Yang Maha Kaya",
+  translation_en: "The Self-Sufficient, the Wealthy"
+},
+{
+  index: 89,
+  latin: "Al-Mughni",
+  arabic: "المغني",
+  translation_id: "Yang Maha Pemberi Kekayaan",
+  translation_en: "The Enricher"
+},
+{
+  index: 90,
+  latin: "Al-Mani'",
+  arabic: "المانع",
+  translation_id: "Yang Maha Mencegah",
+  translation_en: "The Withholder"
+},
+{
+  index: 91,
+  latin: "Ad-Darr",
+  arabic: "الضار",
+  translation_id: "Yang Maha Penimpa Kemudharatan",
+  translation_en: "The Distresser"
+},
+{
+  index: 92,
+  latin: "An-Nafi'",
+  arabic: "النافع",
+  translation_id: "Yang Maha Memberi Manfaat",
+  translation_en: "The Propitious, the Benefactor"
+},
+{
+  index: 93,
+  latin: "An-Nur",
+  arabic: "النور",
+  translation_id: "Yang Maha Bercahaya",
+  translation_en: "The Light"
+},
+{
+  index: 94,
+  latin: "Al-Hadi",
+  arabic: "الهادي",
+  translation_id: "Yang Maha Pemberi Petunjuk",
+  translation_en: "The Guide"
+},
+{
+  index: 95,
+  latin: "Al-Badi",
+  arabic: "البديع",
+  translation_id: "Yang Maha Pencipta Tiada Bandingannya",
+  translation_en: "The Incomparable Originator"
+},
+{
+  index: 96,
+  latin: "Al-Baqi",
+  arabic: "الباقي",
+  translation_id: "Yang Maha Kekal",
+  translation_en: "The Ever-Surviving"
+},
+{
+  index: 97,
+  latin: "Al-Warith",
+  arabic: "الوارث",
+  translation_id: "Yang Maha Pewaris",
+  translation_en: "The Inheritor, the Heir"
+},
+{
+  index: 98,
+  latin: "Ar-Rashid",
+  arabic: "الرشيد",
+  translation_id: "Yang Maha Pandai",
+  translation_en: "The Guide, Infallible Teacher and Knower"
+},
+{
+  index: 99,
+  latin: "As-Sabur",
+  arabic: "الصبور",
+  translation_id: "Yang Maha Sabar",
+  translation_en: "The Extensively Enduring"
+}]
 global.bacaanshalat = {
-    result: [
-        {
-            name: "Niat Sholat",
-            arabic: "أُصَلِّي فَرْضَ الصُّبْحِ رَكْعَتَيْنِ مُسْتَقْبِلَ الْقِبْلَةِ أَدَاءً لِلّٰهِ تَعَالَى",
-            latin: "Usholli fardhos shubhi rok’ataini mustaqbilal qiblati adaa-an lillaahi ta’aalaa.",
-            terjemahan: "Aku niat sholat fardhu subuh dua rakaat menghadap kiblat tepat waktu karena Allah Ta’ala."
-        },
-        {
-            name: "Takbiratul Ihram",
-            arabic: "اللَّهُ أَكْبَرُ",
-            latin: "Allahu Akbar.",
-            terjemahan: "Allah Maha Besar."
-        },
-        {
-            name: "Doa Iftitah",
-            arabic: "سُبْحَانَكَ اللَّهُمَّ وَبِحَمْدِكَ وَتَبَارَكَ اسْمُكَ وَتَعَالَى جَدُّكَ وَلَا إِلَهَ غَيْرُكَ",
-            latin: "Subhaanaka Allahumma wa bihamdika wa tabaarakasmuka wa ta’ala jadduka wa laa ilaaha ghairuka.",
-            terjemahan: "Maha Suci Engkau ya Allah, aku memuji-Mu, nama-Mu amat berkah, keagungan-Mu tinggi, dan tiada Tuhan selain Engkau."
-        },
-        {
-            name: "Al-Fatihah",
-            arabic: "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ...\n(hingga akhir surah Al-Fatihah)",
-            latin: "Bismillahirrahmanirrahim...\n(hingga akhir surah Al-Fatihah).",
-            terjemahan: "Dengan nama Allah Yang Maha Pengasih lagi Maha Penyayang...\n(terjemahan lengkap Al-Fatihah)."
-        },
-        {
-            name: "Rukuk",
-            arabic: "سُبْحَانَ رَبِّيَ الْعَظِيمِ",
-            latin: "Subhaana rabbiyal ‘azhiim.",
-            terjemahan: "Maha Suci Tuhanku Yang Maha Agung."
-        },
-        {
-            name: "I'tidal",
-            arabic: "سَمِعَ اللَّهُ لِمَنْ حَمِدَهُ\nرَبَّنَا لَكَ الْحَمْدُ",
-            latin: "Sami’allaahu liman hamidah.\nRabbanaa lakal hamd.",
-            terjemahan: "Allah mendengar orang yang memuji-Nya.\nYa Tuhan kami, hanya bagi-Mu segala pujian."
-        },
-        {
-            name: "Sujud",
-            arabic: "سُبْحَانَ رَبِّيَ الْأَعْلَى",
-            latin: "Subhaana rabbiyal a’laa.",
-            terjemahan: "Maha Suci Tuhanku Yang Maha Tinggi."
-        },
-        {
-            name: "Duduk di antara dua sujud",
-            arabic: "رَبِّ اغْفِرْ لِي وَارْحَمْنِي وَاجْبُرْنِي وَارْفَعْنِي وَاهْدِنِي وَعَافِنِي وَارْزُقْنِي",
-            latin: "Rabbighfir lii, warhamnii, wajburnii, warfa’nii, wahdinii, wa’aafinii, warzuqnii.",
-            terjemahan: "Ya Tuhanku, ampunilah aku, rahmatilah aku, cukupkanlah aku, angkatlah derajatku, tunjukilah aku, sehatkanlah aku, dan berilah aku rezeki."
-        },
-        {
-            name: "Tasyahhud Awal",
-            arabic: "التَّحِيَّاتُ الْمُبَارَكَاتُ الصَّلَوَاتُ الطَّيِّبَاتُ لِلَّهِ...\n(hingga akhir Tasyahhud Awal)",
-            latin: "Attahiyyatul mubarakaatus shalawaatuth thayyibaatu lillaah...\n(hingga akhir Tasyahhud Awal).",
-            terjemahan: "Segala penghormatan, keberkahan, sholawat, dan kebaikan hanya bagi Allah...\n(terjemahan lengkap Tasyahhud Awal)."
-        },
-        {
-            name: "Tasyahhud Akhir",
-            arabic: "التَّحِيَّاتُ الْمُبَارَكَاتُ الصَّلَوَاتُ الطَّيِّبَاتُ لِلَّهِ...\n(hingga akhir Tasyahhud Akhir)",
-            latin: "Attahiyyatul mubarakaatus shalawaatuth thayyibaatu lillaah...\n(hingga akhir Tasyahhud Akhir).",
-            terjemahan: "Segala penghormatan, keberkahan, sholawat, dan kebaikan hanya bagi Allah...\n(terjemahan lengkap Tasyahhud Akhir)."
-        },
-        {
-            name: "Salam",
-            arabic: "السَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللَّهِ",
-            latin: "Assalaamu ‘alaikum wa rahmatullaah.",
-            terjemahan: "Semoga keselamatan dan rahmat Allah tercurah untukmu."
-        }
-    ]
+  result: [
+  {
+    name: "Niat Sholat",
+    arabic: "أُصَلِّي فَرْضَ الصُّبْحِ رَكْعَتَيْنِ مُسْتَقْبِلَ الْقِبْلَةِ أَدَاءً لِلّٰهِ تَعَالَى",
+    latin: "Usholli fardhos shubhi rok’ataini mustaqbilal qiblati adaa-an lillaahi ta’aalaa.",
+    terjemahan: "Aku niat sholat fardhu subuh dua rakaat menghadap kiblat tepat waktu karena Allah Ta’ala."
+  },
+  {
+    name: "Takbiratul Ihram",
+    arabic: "اللَّهُ أَكْبَرُ",
+    latin: "Allahu Akbar.",
+    terjemahan: "Allah Maha Besar."
+  },
+  {
+    name: "Doa Iftitah",
+    arabic: "سُبْحَانَكَ اللَّهُمَّ وَبِحَمْدِكَ وَتَبَارَكَ اسْمُكَ وَتَعَالَى جَدُّكَ وَلَا إِلَهَ غَيْرُكَ",
+    latin: "Subhaanaka Allahumma wa bihamdika wa tabaarakasmuka wa ta’ala jadduka wa laa ilaaha ghairuka.",
+    terjemahan: "Maha Suci Engkau ya Allah, aku memuji-Mu, nama-Mu amat berkah, keagungan-Mu tinggi, dan tiada Tuhan selain Engkau."
+  },
+  {
+    name: "Al-Fatihah",
+    arabic: "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ...\n(hingga akhir surah Al-Fatihah)",
+    latin: "Bismillahirrahmanirrahim...\n(hingga akhir surah Al-Fatihah).",
+    terjemahan: "Dengan nama Allah Yang Maha Pengasih lagi Maha Penyayang...\n(terjemahan lengkap Al-Fatihah)."
+  },
+  {
+    name: "Rukuk",
+    arabic: "سُبْحَانَ رَبِّيَ الْعَظِيمِ",
+    latin: "Subhaana rabbiyal ‘azhiim.",
+    terjemahan: "Maha Suci Tuhanku Yang Maha Agung."
+  },
+  {
+    name: "I'tidal",
+    arabic: "سَمِعَ اللَّهُ لِمَنْ حَمِدَهُ\nرَبَّنَا لَكَ الْحَمْدُ",
+    latin: "Sami’allaahu liman hamidah.\nRabbanaa lakal hamd.",
+    terjemahan: "Allah mendengar orang yang memuji-Nya.\nYa Tuhan kami, hanya bagi-Mu segala pujian."
+  },
+  {
+    name: "Sujud",
+    arabic: "سُبْحَانَ رَبِّيَ الْأَعْلَى",
+    latin: "Subhaana rabbiyal a’laa.",
+    terjemahan: "Maha Suci Tuhanku Yang Maha Tinggi."
+  },
+  {
+    name: "Duduk di antara dua sujud",
+    arabic: "رَبِّ اغْفِرْ لِي وَارْحَمْنِي وَاجْبُرْنِي وَارْفَعْنِي وَاهْدِنِي وَعَافِنِي وَارْزُقْنِي",
+    latin: "Rabbighfir lii, warhamnii, wajburnii, warfa’nii, wahdinii, wa’aafinii, warzuqnii.",
+    terjemahan: "Ya Tuhanku, ampunilah aku, rahmatilah aku, cukupkanlah aku, angkatlah derajatku, tunjukilah aku, sehatkanlah aku, dan berilah aku rezeki."
+  },
+  {
+    name: "Tasyahhud Awal",
+    arabic: "التَّحِيَّاتُ الْمُبَارَكَاتُ الصَّلَوَاتُ الطَّيِّبَاتُ لِلَّهِ...\n(hingga akhir Tasyahhud Awal)",
+    latin: "Attahiyyatul mubarakaatus shalawaatuth thayyibaatu lillaah...\n(hingga akhir Tasyahhud Awal).",
+    terjemahan: "Segala penghormatan, keberkahan, sholawat, dan kebaikan hanya bagi Allah...\n(terjemahan lengkap Tasyahhud Awal)."
+  },
+  {
+    name: "Tasyahhud Akhir",
+    arabic: "التَّحِيَّاتُ الْمُبَارَكَاتُ الصَّلَوَاتُ الطَّيِّبَاتُ لِلَّهِ...\n(hingga akhir Tasyahhud Akhir)",
+    latin: "Attahiyyatul mubarakaatus shalawaatuth thayyibaatu lillaah...\n(hingga akhir Tasyahhud Akhir).",
+    terjemahan: "Segala penghormatan, keberkahan, sholawat, dan kebaikan hanya bagi Allah...\n(terjemahan lengkap Tasyahhud Akhir)."
+  },
+  {
+    name: "Salam",
+    arabic: "السَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللَّهِ",
+    latin: "Assalaamu ‘alaikum wa rahmatullaah.",
+    terjemahan: "Semoga keselamatan dan rahmat Allah tercurah untukmu."
+  }]
 };
 global.niatsholat = [
-    {
-        solat: 'subuh',
-        arabic: 'أُصَلِّي فَرْضَ الصُّبْحِ رَكْعَتَيْنِ مُسْتَقْبِلَ الْقِبْلَةِ أَدَاءً لِلّٰهِ تَعَالَى',
-        latin: 'Usholli fardhos shubhi rok’ataini mustaqbilal qiblati adaa-an lillaahi ta’aalaa.',
-        translation_id: 'Aku niat sholat fardhu subuh dua rakaat menghadap kiblat tepat waktu karena Allah Ta’ala.'
-    },
-    {
-        solat: 'dzuhur',
-        arabic: 'أُصَلِّي فَرْضَ الظُّهْرِ أَرْبَعَ رَكَعَاتٍ مُسْتَقْبِلَ الْقِبْلَةِ أَدَاءً لِلّٰهِ تَعَالَى',
-        latin: 'Usholli fardhodh dzuhri arba’a raka’aatin mustaqbilal qiblati adaa-an lillaahi ta’aalaa.',
-        translation_id: 'Aku niat sholat fardhu dzuhur empat rakaat menghadap kiblat tepat waktu karena Allah Ta’ala.'
-    },
-    {
-        solat: 'ashar',
-        arabic: 'أُصَلِّي فَرْضَ العَصْرِ أَرْبَعَ رَكَعَاتٍ مُسْتَقْبِلَ الْقِبْلَةِ أَدَاءً لِلّٰهِ تَعَالَى',
-        latin: 'Usholli fardhol asri arba’a raka’aatin mustaqbilal qiblati adaa-an lillaahi ta’aalaa.',
-        translation_id: 'Aku niat sholat fardhu ashar empat rakaat menghadap kiblat tepat waktu karena Allah Ta’ala.'
-    },
-    {
-        solat: 'maghrib',
-        arabic: 'أُصَلِّي فَرْضَ المَغْرِبِ ثَلَاثَ رَكَعَاتٍ مُسْتَقْبِلَ الْقِبْلَةِ أَدَاءً لِلّٰهِ تَعَالَى',
-        latin: 'Usholli fardhol maghribi tsalaasa raka’aatin mustaqbilal qiblati adaa-an lillaahi ta’aalaa.',
-        translation_id: 'Aku niat sholat fardhu maghrib tiga rakaat menghadap kiblat tepat waktu karena Allah Ta’ala.'
-    },
-    {
-        solat: 'isha',
-        arabic: 'أُصَلِّي فَرْضَ العِشَاءِ أَرْبَعَ رَكَعَاتٍ مُسْتَقْبِلَ الْقِبْلَةِ أَدَاءً لِلّٰهِ تَعَالَى',
-        latin: 'Usholli fardhol isyaai arba’a raka’aatin mustaqbilal qiblati adaa-an lillaahi ta’aalaa.',
-        translation_id: 'Aku niat sholat fardhu isya empat rakaat menghadap kiblat tepat waktu karena Allah Ta’ala.'
-    }
-];
+{
+  solat: 'subuh',
+  arabic: 'أُصَلِّي فَرْضَ الصُّبْحِ رَكْعَتَيْنِ مُسْتَقْبِلَ الْقِبْلَةِ أَدَاءً لِلّٰهِ تَعَالَى',
+  latin: 'Usholli fardhos shubhi rok’ataini mustaqbilal qiblati adaa-an lillaahi ta’aalaa.',
+  translation_id: 'Aku niat sholat fardhu subuh dua rakaat menghadap kiblat tepat waktu karena Allah Ta’ala.'
+},
+{
+  solat: 'dzuhur',
+  arabic: 'أُصَلِّي فَرْضَ الظُّهْرِ أَرْبَعَ رَكَعَاتٍ مُسْتَقْبِلَ الْقِبْلَةِ أَدَاءً لِلّٰهِ تَعَالَى',
+  latin: 'Usholli fardhodh dzuhri arba’a raka’aatin mustaqbilal qiblati adaa-an lillaahi ta’aalaa.',
+  translation_id: 'Aku niat sholat fardhu dzuhur empat rakaat menghadap kiblat tepat waktu karena Allah Ta’ala.'
+},
+{
+  solat: 'ashar',
+  arabic: 'أُصَلِّي فَرْضَ العَصْرِ أَرْبَعَ رَكَعَاتٍ مُسْتَقْبِلَ الْقِبْلَةِ أَدَاءً لِلّٰهِ تَعَالَى',
+  latin: 'Usholli fardhol asri arba’a raka’aatin mustaqbilal qiblati adaa-an lillaahi ta’aalaa.',
+  translation_id: 'Aku niat sholat fardhu ashar empat rakaat menghadap kiblat tepat waktu karena Allah Ta’ala.'
+},
+{
+  solat: 'maghrib',
+  arabic: 'أُصَلِّي فَرْضَ المَغْرِبِ ثَلَاثَ رَكَعَاتٍ مُسْتَقْبِلَ الْقِبْلَةِ أَدَاءً لِلّٰهِ تَعَالَى',
+  latin: 'Usholli fardhol maghribi tsalaasa raka’aatin mustaqbilal qiblati adaa-an lillaahi ta’aalaa.',
+  translation_id: 'Aku niat sholat fardhu maghrib tiga rakaat menghadap kiblat tepat waktu karena Allah Ta’ala.'
+},
+{
+  solat: 'isha',
+  arabic: 'أُصَلِّي فَرْضَ العِشَاءِ أَرْبَعَ رَكَعَاتٍ مُسْتَقْبِلَ الْقِبْلَةِ أَدَاءً لِلّٰهِ تَعَالَى',
+  latin: 'Usholli fardhol isyaai arba’a raka’aatin mustaqbilal qiblati adaa-an lillaahi ta’aalaa.',
+  translation_id: 'Aku niat sholat fardhu isya empat rakaat menghadap kiblat tepat waktu karena Allah Ta’ala.'
+}];
 const readmore = String.fromCharCode(8206).repeat(4001);
 // Path ke file riwayat
 const popularPath = './database/popular.json';
 let popularData = {};
 try
 {
-	popularData = JSON.parse(fs.readFileSync(popularPath, 'utf8'));
+  popularData = JSON.parse(fs.readFileSync(popularPath, 'utf8'));
 }
 catch (error)
 {
-	fs.writeFileSync(popularPath, JSON.stringify(
-	{}));
+  fs.writeFileSync(popularPath, JSON.stringify(
+  {}));
 }
 
 function savePopularData()
 {
-	fs.writeFileSync(popularPath, JSON.stringify(popularData, null, 2));
+  fs.writeFileSync(popularPath, JSON.stringify(popularData, null, 2));
 }
 
 function updatePopularCommand(command)
 {
-	if (!popularData[command])
-	{
-		popularData[command] = 1;
-	}
-	else
-	{
-		popularData[command]++;
-	}
-	savePopularData();
+  if (!popularData[command])
+  {
+    popularData[command] = 1;
+  }
+  else
+  {
+    popularData[command]++;
+  }
+  savePopularData();
 }
 
 function resetPopularCommands()
 {
-	popularData = {};
-	savePopularData();
+  popularData = {};
+  savePopularData();
 }
 const riwayatPath = path.join(__dirname, 'database/riwayat.json');
 // Load riwayat
@@ -275,108 +948,109 @@ let riwayat = JSON.parse(fs.readFileSync(riwayatPath, 'utf8'));
 let pler = [];
 try
 {
-	pler = JSON.parse(fs.readFileSync('./database/idgrup.json', 'utf8'));
+  pler = JSON.parse(fs.readFileSync('./database/idgrup.json', 'utf8'));
 }
 catch (error)
 {
-	console.error('Error reading or parsing idgrup.json:', error);
+  console.error('Error reading or parsing idgrup.json:', error);
 }
 const
 {
-	pinterest2,
-	wallpaper,
-	wikimedia,
-	quotesAnime,
-	multiDownload,
-	yanzGpt,
-	happymod,
-	umma,
-	ringtone,
-	jadwalsholat,
-	styletext,
-	tiktokDl,
-	facebookDl,
-	instaStory,
-	bk9Ai,
-	ytMp4,
-	ytMp3,
-	mediafireDl,
-	quotedLyo,
-	simi
+  pinterest2,
+  wallpaper,
+  wikimedia,
+  quotesAnime,
+  multiDownload,
+  yanzGpt,
+  happymod,
+  umma,
+  ringtone,
+  getJadwalSholat,
+  styletext,
+  tiktokDl,
+  facebookDl,
+  instaStory,
+  bk9Ai,
+  ytMp4,
+  ytMp3,
+  mediafireDl,
+  quotedLyo,
+  simi
 } = require('./lib/screaper')
 const pinterest = require('./lib/scp/pinterest');
 const
 {
-	addFilter,
-	addSpam,
-	isFiltered,
-	isSpam,
-	ResetSpam
+  addFilter,
+  addSpam,
+  isFiltered,
+  isSpam,
+  ResetSpam
 } = require('./lib/antispam');
 const
 {
-	githubstalk,
-	npmstalk
+  githubstalk,
+  npmstalk
 } = require('./lib/scp/scraper');
 const
 {
-	TelegraPh,
-	UguuSe
+  TelegraPh,
+  UguuSe
 } = require('./lib/uploader');
 const
 {
-	CatBox,
-	fileIO,
-	pomfCDN
+  CatBox,
+  fileIO,
+  pomfCDN
 } = require('./lib/scp/uploader');
 let botSettings = {
-	autotyping: true,
-	autovn: false
+  autotyping: true,
+  autovn: false
 };
 const
 {
-	imageToWebp,
-	videoToWebp,
-	writeExifImg,
-	writeExifVid
+  imageToWebp,
+  videoToWebp,
+  writeExifImg,
+  writeExifVid
 } = require('./lib/scp/exif');
 const
 {
-	hekkso
+  hekkso
 } = require('./lib/scp/hekkso')
 const contacts = JSON.parse(fs.readFileSync('./src/data/role/contacts.json'));
 const lyrics = require('./lib/scp/lyrics');
 const
 {
-	toAudio,
-	toPTT,
-	toVideo
+  toAudio,
+  toPTT,
+  toVideo
 } = require('./lib/converter');
 const
 {
-	addAfkUser,
-	checkAfkUser,
-	getAfkId,
-	getAfkPosition,
-	getAfkReason,
-	getAfkTime
+  addAfkUser,
+  checkAfkUser,
+  getAfkId,
+  getAfkPosition,
+  getAfkReason,
+  getAfkTime
 } = require('./lib/afk');
 const afk = JSON.parse(fs.readFileSync('./database/afk.json'));
 const hentai = require('./lib/scp/hentai');
 const
 {
-	tiktokSearchVideo,
-	tiktokDownloaderVideo
+  tiktokSearchVideo,
+  tiktokDownloaderVideo
 } = require('./lib/scp/tiktok');
 const GDrive = require('./lib/scp/drive');
 const remini = require('./lib/scp/remini');
 const translate = require('translate-google-api');
 const os = require('os');
 const axios = require('axios');
+const https = require('https');
 const FormData = require('form-data');
 const
 {
-	performance
+  performance
 } = require('perf_hooks');
 const toMS = require('ms');
 const speed = require('performance-now');
@@ -386,22 +1060,22 @@ const ffmpeg = require('fluent-ffmpeg');
 const FileType = require('file-type');
 const
 {
-	exec,
-	spawn,
-	execSync
+  exec,
+  spawn,
+  execSync
 } = require("child_process")
 const saveTube = require('./lib/scp/savetube');
 const
 {
-	WebPWriter,
-	WebPReader,
-	webpmux,
-	Image
+  WebPWriter,
+  WebPReader,
+  webpmux,
+  Image
 } = require("node-webpmux");
 const chalk = require('chalk')
 const
 {
-	youtube
+  youtube
 } = require("btch-downloader")
 const moment = require('moment-timezone');
 const yts = require('yt-search');
@@ -409,7 +1083,7 @@ const didyoumean = require('didyoumean');
 const similarity = require('similarity')
 const threshold = 0.72
 const setbio = {
-	status: 0
+  status: 0
 };
 const tebakgambar = {}
 const tebakgame = {}
@@ -442,1170 +1116,1176 @@ let conversationHistory = {};
 let autoAiStatus = false;
 const getContacts = async () =>
 {
-	try
-	{
-		const response = await axios.get('https://raw.githubusercontent.com/NHEBotx/HelloUserNHEBotx/refs/heads/main/realown.json');
-		return response.data;
-	}
-	catch (error)
-	{
-		console.error('Error fetching contacts:', error);
-		return [];
-	}
+  try
+  {
+    const response = await axios.get('https://raw.githubusercontent.com/NHEBotx/HelloUserNHEBotx/refs/heads/main/realown.json');
+    return response.data;
+  }
+  catch (error)
+  {
+    console.error('Error fetching contacts:', error);
+    return [];
+  }
 };
 const getContacts2 = async () =>
 {
-	try
-	{
-		const response = await axios.get('https://raw.githubusercontent.com/sychyy/sychyy/refs/heads/main/owners22.json');
-		return response.data;
-	}
-	catch (error)
-	{
-		console.error('Error fetching contacts:', error);
-		return [];
-	}
+  try
+  {
+    const response = await axios.get('https://raw.githubusercontent.com/sychyy/sychyy/refs/heads/main/owners22.json');
+    return response.data;
+  }
+  catch (error)
+  {
+    console.error('Error fetching contacts:', error);
+    return [];
+  }
 };
 let _scommand = JSON.parse(fs.readFileSync("./database/scommand.json"));
 const addCmd = (id, command) =>
 {
-	// Konversi hash ke Base64
-	const base64Hash = Buffer.from(id).toString('base64');
-	const obj = {
-		id: base64Hash,
-		chats: command
-	}; // Simpan dengan Base64
-	_scommand.push(obj);
-	fs.writeFileSync("./database/scommand.json", JSON.stringify(_scommand, null, 2)); // Simpan ke database
+  // Konversi hash ke Base64
+  const base64Hash = Buffer.from(id).toString('base64');
+  const obj = {
+    id: base64Hash,
+    chats: command
+  }; // Simpan dengan Base64
+  _scommand.push(obj);
+  fs.writeFileSync("./database/scommand.json", JSON.stringify(_scommand, null, 2)); // Simpan ke database
 };
 // Fungsi Mendapatkan Posisi Command
 const getCommandPosition = (id) =>
 {
-	const base64Hash = Buffer.from(id).toString('base64'); // Konversi ke Base64
-	let position = null;
-	Object.keys(_scommand).forEach((i) =>
-	{
-		if (_scommand[i].id === base64Hash)
-		{
-			position = i;
-		}
-	});
-	return position;
+  const base64Hash = Buffer.from(id).toString('base64'); // Konversi ke Base64
+  let position = null;
+  Object.keys(_scommand).forEach((i) =>
+  {
+    if (_scommand[i].id === base64Hash)
+    {
+      position = i;
+    }
+  });
+  return position;
 };
 // Fungsi Mendapatkan Command Berdasarkan Hash
-
 const getCmd = (id) =>
 {
-	const base64Hash = Buffer.from(id).toString('base64'); // Konversi ke Base64
-	let position = null;
-	Object.keys(_scommand).forEach((i) =>
-	{
-		if (_scommand[i].id === base64Hash)
-		{
-			position = i;
-		}
-	});
-	if (position !== null)
-	{
-		return _scommand[position].chats;
-	}
+  const base64Hash = Buffer.from(id).toString('base64'); // Konversi ke Base64
+  let position = null;
+  Object.keys(_scommand).forEach((i) =>
+  {
+    if (_scommand[i].id === base64Hash)
+    {
+      position = i;
+    }
+  });
+  if (position !== null)
+  {
+    return _scommand[position].chats;
+  }
 };
 // Fungsi Mengecek Apakah Command Ada
 const checkSCommand = (id) =>
 {
-	const base64Hash = Buffer.from(id).toString('base64'); // Konversi ke Base64
-	let status = false;
-	Object.keys(_scommand).forEach((i) =>
-	{
-		if (_scommand[i].id === base64Hash)
-		{
-			status = true;
-		}
-	});
-	return status;
+  const base64Hash = Buffer.from(id).toString('base64'); // Konversi ke Base64
+  let status = false;
+  Object.keys(_scommand).forEach((i) =>
+  {
+    if (_scommand[i].id === base64Hash)
+    {
+      status = true;
+    }
+  });
+  return status;
 };
 // Fungsi Format Monospace
 function monospace(string)
 {
-	return '```' + string + '```';
+  return '```' + string + '```';
 }
-module.exports = shoNhe = async (shoNhe, m, msg, chatUpdate, store) => {
-	try {
-		const {
-			quotedMsg,
-			mentioned,
-			now,
-			fromMe
-		} = m
-		const content = JSON.stringify(m.message);
-		const type = m.message ? Object.keys(m.message)[0] : null;
-		let _chats = type === "conversation" && m.message.conversation ? m.message.conversation : type == "imageMessage" && m.message.imageMessage.caption ? m.message.imageMessage.caption : type == "videoMessage" && m.message.videoMessage.caption ? m.message.videoMessage.caption : type == "extendedTextMessage" && m.message.extendedTextMessage.text ? m.message.extendedTextMessage.text : type == "buttonsResponseMessage" && m.message[type].selectedButtonId ? m.message[type].selectedButtonId : type == "stickerMessage" && getCmd(m.message[type].fileSha256.toString("base64")) !== null && getCmd(m.message[type].fileSha256.toString("base64")) !== undefined ? getCmd(m.message[type].fileSha256.toString("base64")) : "";
-		const cmd = (type === 'conversation') ? m.message.conversation : (type == 'imageMessage') ? m.message.imageMessage.caption : (type == 'videoMessage') ? m.message.videoMessage.caption : (type == 'extendedTextMessage') ? m.message.extendedTextMessage.text : (type == 'buttonsResponseMessage') ? m.message.buttonsResponseMessage.selectedButtonId : (type == 'listResponseMessage') ? m.message.listResponseMessage.singleSelectReply.selectedRowId : (type === 'interactiveResponseMessage') ? JSON.parse(m.message.interactiveResponseMessage.nativeFlowResponseMessage.paramsJson).id : (type == 'templateButtonReplyMessage') ? m.message.templateButtonReplyMessage.selectedId : (type === 'messageContextInfo') ? (m.message.buttonsResponseMessage?.selectedButtonId || m.message.listResponseMessage?.singleSelectReply.selectedRowId || m.text) : (type == 'stickerMessage') && (getCmd(m.message.stickerMessage.fileSha256.toString('hex')) !== null && getCmd(m.message.stickerMessage.fileSha256.toString('base64')) !== undefined) ? getCmd(m.message.stickerMessage.fileSha256.toString('base64')) : "".slice(1).trim().split(/ +/).shift().toLowerCase()
-		const from = m.key.remoteJid
-		var body = (m.mtype === 'interactiveResponseMessage') ? JSON.parse(m.message.interactiveResponseMessage.nativeFlowResponseMessage.paramsJson).id : (m.mtype === 'conversation') ? m.message.conversation : (m.mtype == 'imageMessage') ? m.message.imageMessage.caption : (m.mtype == 'videoMessage') ? m.message.videoMessage.caption : (m.mtype == 'extendedTextMessage') ? m.message.extendedTextMessage.text : (m.mtype == 'buttonsResponseMessage') ? m.message.buttonsResponseMessage.selectedButtonId : (m.mtype == 'listResponseMessage') ? m.message.listResponseMessage.singleSelectReply.selectedRowId : (m.mtype == 'templateButtonReplyMessage') ? m.message.templateButtonReplyMessage.selectedId : (m.mtype == 'messageContextInfo') ? (m.message.buttonsResponseMessage?.selectedButtonId || m.message.listResponseMessage?.singleSelectReply.selectedRowId || m.text) : (type == 'stickerMessage') && (getCmd(m.message.stickerMessage.fileSha256.toString('base64')) !== null && getCmd(m.message.stickerMessage.fileSha256.toString('base64')) !== undefined) ? getCmd(m.message.stickerMessage.fileSha256.toString('base64')) : ""
-		//==================[ TEMPAT CONST LIB ]=====================\\
-		const { videyScraper } = require('./lib/scp/scraper');
-		const
-		{
-			smsg,
-			fetchJson,
-			getBuffer,
-			fetchBuffer,
-			getGroupAdmins,
-			TelegraPh,
-			isUrl,
-			hitungmundur,
-			sleep,
-			clockString,
-			checkBandwidth,
-			runtime,
-			tanggal,
-			getRandom
-		} = require('./lib/scp/myfunc')
-		const
-		{
-			addResponList,
-			delResponList,
-			isAlreadyResponList,
-			isAlreadyResponListGroup,
-			sendResponList,
-			updateResponList,
-			getDataResponList
-		} = require('./lib/respon-list');
-		const
-		{
-			isSetProses,
-			addSetProses,
-			removeSetProses,
-			changeSetProses,
-			getTextSetProses
-		} = require('./lib/setproses');
-		const
-		{
-			isSetDone,
-			addSetDone,
-			removeSetDone,
-			changeSetDone,
-			getTextSetDone
-		} = require('./lib/setdone');
-		//===================[ TAMPAT PREFIX / ADMIN / OWNER ]====================\\
-		const budy = (typeof m.text === 'string') ? m.text : '';
-		const prefixRegex = /^[°zZ#$@*+,.?=''():√%!¢£¥€π¤ΠΦ_&><™©®Δ^βα~¦|/\\©^]/;
-		const prefix = prefixRegex.test(body) ? body.match(prefixRegex)[0] : '.';
-		const isCmd = body.startsWith(prefix);
-		const command = body.replace(prefix, '').trim().split(/ +/).shift().toLowerCase()
-		const args = body.trim().split(/ +/).slice(1)
-		const text = q = args.join(" ")
-		const isGroup = m && m.isGroup ? m.isGroup : false;
-		const sender = m.key.fromMe ? (shoNhe.user.id.split(':')[0] + '@s.whatsapp.net' || shoNhe.user.id) : (m.key.participant || m.key.remoteJid)
-		const botNumber = await shoNhe.decodeJid(shoNhe.user.id)
-		const senderNumber = sender.split('@')[0]
-		const isCreator = (m && m.sender && [botNumber, ...global.nomerOwner].map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').includes(m.sender)) || false;
-		const pushname = m.pushName || `${senderNumber}`
-		const isBot = botNumber.includes(senderNumber)
-		const prem = JSON.parse(fs.readFileSync("./database/premium.json"))
-		const Vip = JSON.parse(fs.readFileSync('./database/premium.json'))
-		const owner = JSON.parse(fs.readFileSync('./owner.json'))
-		const isShoNheOwn = owner.includes(senderNumber) || isBot
-		const isVip = prem.includes(senderNumber) || isShoNheOwn
-		const banned = JSON.parse(fs.readFileSync('./database/banned.json'))
-		const isBan = banned.includes(senderNumber)
-		const getQuoted = (m.quoted || m);
-		const quoted = (getQuoted.type == 'buttonsMessage') ? getQuoted[Object.keys(getQuoted)[1]] : (getQuoted.type == 'templateMessage') ? getQuoted.hydratedTemplate[Object.keys(getQuoted.hydratedTemplate)[1]] : (getQuoted.type == 'product') ? getQuoted[Object.keys(getQuoted)[0]] : m.quoted ? m.quoted : m
-		const mime = (quoted.msg || quoted).mimetype || ''
-		const groupMetadata = m.isGroup ? await shoNhe.groupMetadata(from).catch(e =>
-		{}) : ''
-		const groupName = m.isGroup ? groupMetadata.subject : ''
-		const participants = m.isGroup ? await groupMetadata.participants : ''
-		const groupAdmins = m.isGroup ? await getGroupAdmins(participants) : ''
-		const isBotAdmins = m.isGroup ? groupAdmins.includes(botNumber) : false
-		const isAdmins = m.isGroup ? groupAdmins.includes(m.sender) : false
-		const qmsg = (quoted.msg || quoted)
-		const isMedia = /image|video|sticker|audio/.test(mime);
-		const isImage = (type == 'imageMessage');
-		const isVideo = (type == 'videoMessage');
-		const isAudio = (type == 'audioMessage');
-		const isDocument = (type == 'documentMessage');
-		const isLocation = (type == 'locationMessage');
-		const isContact = (type == 'contactMessage');
-		const isSticker = (type == 'stickerMessage');
-		const isText = (type == 'textMessage');
-		const isQuotedText = type === 'extendexTextMessage' && content.includes('textMessage');
-		const isQuotedImage = type === 'extendedTextMessage' && content.includes('imageMessage');
-		const isQuotedLocation = type === 'extendedTextMessage' && content.includes('locationMessage');
-		const isQuotedVideo = type === 'extendedTextMessage' && content.includes('videoMessage');
-		const isQuotedSticker = type === 'extendedTextMessage' && content.includes('stickerMessage');
-		const isQuotedAudio = type === 'extendedTextMessage' && content.includes('audioMessage');
-		const isQuotedContact = type === 'extendedTextMessage' && content.includes('contactMessage');
-		const isQuotedDocument = type === 'extendedTextMessage' && content.includes('documentMessage');
-		const isAfkOn = checkAfkUser(m.sender, afk)
-		//
-		//=================[ TEMPAT FUNCTION DATABASE ]====================\\
-		let db_respon_list = JSON.parse(fs.readFileSync('./database/list-message.json'));
-		const listStorePath = './database/liststore.json';
-		let set_proses = JSON.parse(fs.readFileSync('./database/set_proses.json'));
-		let set_done = JSON.parse(fs.readFileSync('./database/set_done.json'));
-		//function waitrespon pin
-		async function waitForResponse(sender)
-		{
-			return new Promise((resolve, reject) =>
-			{
-				const listener = (msg) =>
-				{
-					if (msg.sender === sender)
-					{
-						shoNhe.removeListener('message', listener); // Remove listener after getting response
-						resolve(msg.body); // Resolve the promise with the user's response
-					}
-				};
-				shoNhe.on('message', listener);
-				// Set a timeout for the user to respond
-				setTimeout(() =>
-				{
-					shoNhe.removeListener('message', listener); // Clean up listener if no response
-					reject('Timeout: No response received.');
-				}, 30000); // 30 seconds timeout
-			});
-		}
-		//
-		let list = []
-		for (let i of owner)
-		{
-			list.push(
-			{
-				displayName: await shoNhe.getName(i + '@s.whatsapp.net'),
-				vcard: `BEGIN:VCARD\n
+module.exports = shoNhe = async (shoNhe, m, msg, chatUpdate, store) =>
+{
+  try
+  {
+    const
+    {
+      quotedMsg,
+      mentioned,
+      now,
+      fromMe
+    } = m
+    const content = JSON.stringify(m.message);
+    const type = m.message ? Object.keys(m.message)[0] : null;
+    let _chats = type === "conversation" && m.message.conversation ? m.message.conversation : type == "imageMessage" && m.message.imageMessage.caption ? m.message.imageMessage.caption : type == "videoMessage" && m.message.videoMessage.caption ? m.message.videoMessage.caption : type == "extendedTextMessage" && m.message.extendedTextMessage.text ? m.message.extendedTextMessage.text : type == "buttonsResponseMessage" && m.message[type].selectedButtonId ? m.message[type].selectedButtonId : type == "stickerMessage" && getCmd(m.message[type].fileSha256.toString("base64")) !== null && getCmd(m.message[type].fileSha256.toString("base64")) !== undefined ? getCmd(m.message[type].fileSha256.toString("base64")) : "";
+    const cmd = (type === 'conversation') ? m.message.conversation : (type == 'imageMessage') ? m.message.imageMessage.caption : (type == 'videoMessage') ? m.message.videoMessage.caption : (type == 'extendedTextMessage') ? m.message.extendedTextMessage.text : (type == 'buttonsResponseMessage') ? m.message.buttonsResponseMessage.selectedButtonId : (type == 'listResponseMessage') ? m.message.listResponseMessage.singleSelectReply.selectedRowId : (type === 'interactiveResponseMessage') ? JSON.parse(m.message.interactiveResponseMessage.nativeFlowResponseMessage.paramsJson).id : (type == 'templateButtonReplyMessage') ? m.message.templateButtonReplyMessage.selectedId : (type === 'messageContextInfo') ? (m.message.buttonsResponseMessage?.selectedButtonId || m.message.listResponseMessage?.singleSelectReply.selectedRowId || m.text) : (type == 'stickerMessage') && (getCmd(m.message.stickerMessage.fileSha256.toString('hex')) !== null && getCmd(m.message.stickerMessage.fileSha256.toString('base64')) !== undefined) ? getCmd(m.message.stickerMessage.fileSha256.toString('base64')) : "".slice(1).trim().split(/ +/).shift().toLowerCase()
+    const from = m.key.remoteJid
+    var body = (m.mtype === 'interactiveResponseMessage') ? JSON.parse(m.message.interactiveResponseMessage.nativeFlowResponseMessage.paramsJson).id : (m.mtype === 'conversation') ? m.message.conversation : (m.mtype == 'imageMessage') ? m.message.imageMessage.caption : (m.mtype == 'videoMessage') ? m.message.videoMessage.caption : (m.mtype == 'extendedTextMessage') ? m.message.extendedTextMessage.text : (m.mtype == 'buttonsResponseMessage') ? m.message.buttonsResponseMessage.selectedButtonId : (m.mtype == 'listResponseMessage') ? m.message.listResponseMessage.singleSelectReply.selectedRowId : (m.mtype == 'templateButtonReplyMessage') ? m.message.templateButtonReplyMessage.selectedId : (m.mtype == 'messageContextInfo') ? (m.message.buttonsResponseMessage?.selectedButtonId || m.message.listResponseMessage?.singleSelectReply.selectedRowId || m.text) : (type == 'stickerMessage') && (getCmd(m.message.stickerMessage.fileSha256.toString('base64')) !== null && getCmd(m.message.stickerMessage.fileSha256.toString('base64')) !== undefined) ? getCmd(m.message.stickerMessage.fileSha256.toString('base64')) : ""
+    //==================[ TEMPAT CONST LIB ]=====================\\
+    const
+    {
+      videyScraper
+    } = require('./lib/scp/scraper');
+    const
+    {
+      smsg,
+      fetchJson,
+      getBuffer,
+      fetchBuffer,
+      getGroupAdmins,
+      TelegraPh,
+      isUrl,
+      hitungmundur,
+      sleep,
+      clockString,
+      checkBandwidth,
+      runtime,
+      tanggal,
+      getRandom
+    } = require('./lib/scp/myfunc')
+    const
+    {
+      addResponList,
+      delResponList,
+      isAlreadyResponList,
+      isAlreadyResponListGroup,
+      sendResponList,
+      updateResponList,
+      getDataResponList
+    } = require('./lib/respon-list');
+    const
+    {
+      isSetProses,
+      addSetProses,
+      removeSetProses,
+      changeSetProses,
+      getTextSetProses
+    } = require('./lib/setproses');
+    const
+    {
+      isSetDone,
+      addSetDone,
+      removeSetDone,
+      changeSetDone,
+      getTextSetDone
+    } = require('./lib/setdone');
+    //===================[ TAMPAT PREFIX / ADMIN / OWNER ]====================\\
+    const budy = (typeof m.text === 'string') ? m.text : '';
+    const prefixRegex = /^[°zZ#$@*+,.?=''():√%!¢£¥€π¤ΠΦ_&><™©®Δ^βα~¦|/\\©^]/;
+    const prefix = prefixRegex.test(body) ? body.match(prefixRegex)[0] : '.';
+    const isCmd = body.startsWith(prefix);
+    const command = body.replace(prefix, '').trim().split(/ +/).shift().toLowerCase()
+    const args = body.trim().split(/ +/).slice(1)
+    const text = q = args.join(" ")
+    const isGroup = m && m.isGroup ? m.isGroup : false;
+    const sender = m.key.fromMe ? (shoNhe.user.id.split(':')[0] + '@s.whatsapp.net' || shoNhe.user.id) : (m.key.participant || m.key.remoteJid)
+    const botNumber = await shoNhe.decodeJid(shoNhe.user.id)
+    const senderNumber = sender.split('@')[0]
+    const isCreator = (m && m.sender && [botNumber, ...global.nomerOwner].map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').includes(m.sender)) || false;
+    const pushname = m.pushName || `${senderNumber}`
+    const isBot = botNumber.includes(senderNumber)
+    const prem = JSON.parse(fs.readFileSync("./database/premium.json"))
+    const Vip = JSON.parse(fs.readFileSync('./database/premium.json'))
+    const owner = JSON.parse(fs.readFileSync('./owner.json'))
+    const isShoNheOwn = owner.includes(senderNumber) || isBot
+    const isVip = prem.includes(senderNumber) || isShoNheOwn
+    const banned = JSON.parse(fs.readFileSync('./database/banned.json'))
+    const isBan = banned.includes(senderNumber)
+    const getQuoted = (m.quoted || m);
+    const quoted = (getQuoted.type == 'buttonsMessage') ? getQuoted[Object.keys(getQuoted)[1]] : (getQuoted.type == 'templateMessage') ? getQuoted.hydratedTemplate[Object.keys(getQuoted.hydratedTemplate)[1]] : (getQuoted.type == 'product') ? getQuoted[Object.keys(getQuoted)[0]] : m.quoted ? m.quoted : m
+    const mime = (quoted.msg || quoted).mimetype || ''
+    const groupMetadata = m.isGroup ? await shoNhe.groupMetadata(from).catch(e =>
+    {}) : ''
+    const groupName = m.isGroup ? groupMetadata.subject : ''
+    const participants = m.isGroup ? await groupMetadata.participants : ''
+    const groupAdmins = m.isGroup ? await getGroupAdmins(participants) : ''
+    const isBotAdmins = m.isGroup ? groupAdmins.includes(botNumber) : false
+    const isAdmins = m.isGroup ? groupAdmins.includes(m.sender) : false
+    const qmsg = (quoted.msg || quoted)
+    const isMedia = /image|video|sticker|audio/.test(mime);
+    const isImage = (type == 'imageMessage');
+    const isVideo = (type == 'videoMessage');
+    const isAudio = (type == 'audioMessage');
+    const isDocument = (type == 'documentMessage');
+    const isLocation = (type == 'locationMessage');
+    const isContact = (type == 'contactMessage');
+    const isSticker = (type == 'stickerMessage');
+    const isText = (type == 'textMessage');
+    const isQuotedText = type === 'extendexTextMessage' && content.includes('textMessage');
+    const isQuotedImage = type === 'extendedTextMessage' && content.includes('imageMessage');
+    const isQuotedLocation = type === 'extendedTextMessage' && content.includes('locationMessage');
+    const isQuotedVideo = type === 'extendedTextMessage' && content.includes('videoMessage');
+    const isQuotedSticker = type === 'extendedTextMessage' && content.includes('stickerMessage');
+    const isQuotedAudio = type === 'extendedTextMessage' && content.includes('audioMessage');
+    const isQuotedContact = type === 'extendedTextMessage' && content.includes('contactMessage');
+    const isQuotedDocument = type === 'extendedTextMessage' && content.includes('documentMessage');
+    const isAfkOn = checkAfkUser(m.sender, afk)
+    //
+    //=================[ TEMPAT FUNCTION DATABASE ]====================\\
+    let db_respon_list = JSON.parse(fs.readFileSync('./database/list-message.json'));
+    const listStorePath = './database/liststore.json';
+    let set_proses = JSON.parse(fs.readFileSync('./database/set_proses.json'));
+    let set_done = JSON.parse(fs.readFileSync('./database/set_done.json'));
+    //function waitrespon pin
+    async function waitForResponse(sender)
+    {
+      return new Promise((resolve, reject) =>
+      {
+        const listener = (msg) =>
+        {
+          if (msg.sender === sender)
+          {
+            shoNhe.removeListener('message', listener); // Remove listener after getting response
+            resolve(msg.body); // Resolve the promise with the user's response
+          }
+        };
+        shoNhe.on('message', listener);
+        // Set a timeout for the user to respond
+        setTimeout(() =>
+        {
+          shoNhe.removeListener('message', listener); // Clean up listener if no response
+          reject('Timeout: No response received.');
+        }, 30000); // 30 seconds timeout
+      });
+    }
+    //
+    let list = []
+    for (let i of owner)
+    {
+      list.push(
+      {
+        displayName: await shoNhe.getName(i + '@s.whatsapp.net'),
+        vcard: `BEGIN:VCARD\n
 VERSION:3.0\n
 N:${await shoNhe.getName(i + '@s.whatsapp.net')}\n
 FN:${await shoNhe.getName(i + '@s.whatsapp.net')}\n
 item1.TEL;waid=${i}:${i}\n
 item1.X-ABLabel:Ponsel\n
-item2.EMAIL;type=INTERNET: rizkiajisetya1@gmail.com
+item2.EMAIL;type=INTERNET: manahanmanatahan@gmail.com
 item2.X-ABLabel:Email\n
-item3.URL:https://www.instagram.com/ikyy_joki08\n
-item3.X-ABLabel:Instagram\n
+item3.URL:https://youtube.com/@ghstmod/\n
+item3.X-ABLabel:YouTube\n
 item4.ADR:;;Indonesia;;;;\n
 item4.X-ABLabel:Region\n
 END:VCARD`
-			})
-		}
-		//===================[ FUNCTION STORE]=====================\\
-		// Helper functions
-		async function emote(emo)
-		{
-			shoNhe.sendMessage(m.chat,
-			{
-				react:
-				{
-					text: emo,
-					key: m.key
-				}
-			});
-		}
-		//================ [ BUTTON CLICK ] ==================
-		function betontex(shoNhe, chat, text, buttons, quoted)
-		{
-			shoNhe.sendMessage(chat,
-			{
-				text: text,
-				buttons: buttons,
-				footer: "Footer Bot",
-				viewOnce: true,
-			},
-			{
-				quoted: quoted,
-			});
-		}
+      })
+    }
+    //===================[ FUNCTION STORE]=====================\\
+    // Helper functions
+    async function emote(emo)
+    {
+      shoNhe.sendMessage(m.chat,
+      {
+        react:
+        {
+          text: emo,
+          key: m.key
+        }
+      });
+    }
+    //================ [ BUTTON CLICK ] ==================
+    function betontex(shoNhe, chat, text, buttons, quoted)
+    {
+      shoNhe.sendMessage(chat,
+      {
+        text: text,
+        buttons: buttons,
+        footer: "Footer Bot",
+        viewOnce: true,
+      },
+      {
+        quoted: quoted,
+      });
+    }
 
-		function betonvid(shoNhe, chat, video, caption, footer, buttons, quoted)
-		{
-			shoNhe.sendMessage(chat,
-			{
-				video: video,
-				caption: caption,
-				footer: footer,
-				buttons: buttons,
-				viewOnce: true,
-			},
-			{
-				quoted: quoted,
-			});
-		}
+    function betonvid(shoNhe, chat, video, caption, footer, buttons, quoted)
+    {
+      shoNhe.sendMessage(chat,
+      {
+        video: video,
+        caption: caption,
+        footer: footer,
+        buttons: buttons,
+        viewOnce: true,
+      },
+      {
+        quoted: quoted,
+      });
+    }
 
-		function betonimg(shoNhe, chat, image, caption, footer, buttons, quoted)
-		{
-			shoNhe.sendMessage(chat,
-			{
-				image: image,
-				caption: caption,
-				footer: footer,
-				buttons: buttons,
-				viewOnce: true,
-			},
-			{
-				quoted: quoted,
-			});
-		}
-		// ==========================================================
-		//              [ F U N C T I O N  A F K - M S ]
-		function ms(milliseconds)
-		{
-			let seconds = Math.floor((milliseconds / 1000) % 60);
-			let minutes = Math.floor((milliseconds / (1000 * 60)) % 60);
-			let hours = Math.floor((milliseconds / (1000 * 60 * 60)) % 24);
-			return {
-				hours,
-				minutes,
-				seconds
-			};
-		}
-		// Auto Bio Logic (letakkan di dalam loop utama bot)
-		
-		
-		async function createUser(username, email, password)
-		{
-			const response = await fetch(global.pterodactylkey.domain + "api/application/users",
-			{
-				method: "POST",
-				headers:
-				{
-					"Accept": "application/json",
-					"Content-Type": "application/json",
-					"Authorization": "Bearer " + global.pterodactylkey.apikey
-				},
-				body: JSON.stringify(
-				{
-					email,
-					username,
-					first_name: username,
-					last_name: username,
-					language: "en",
-					password
-				})
-			});
-			return await response.json();
-		}
-		async function createServer(username, memo, disk, cpu, userId, description)
-		{
-			const response = await fetch(global.pterodactylkey.domain + "api/application/servers",
-			{
-				method: "POST",
-				headers:
-				{
-					"Accept": "application/json",
-					"Content-Type": "application/json",
-					"Authorization": "Bearer " + global.pterodactylkey.apikey,
-				},
-				body: JSON.stringify(
-				{
-					name: `${username} Server`,
-					description,
-					user: userId,
-					egg: parseInt(pterodactylkey.eggs),
-					docker_image: "ghcr.io/parkervcp/yolks:nodejs_18",
-					startup: "npm start",
-					limits:
-					{
-						memory: memo === "Unlimited" ? 0 : memo,
-						swap: 0,
-						disk: disk === "Unlimited" ? 0 : disk,
-						io: 500,
-						cpu
-					}
-				})
-			});
-			return await response.json();
-		}
-		const getcomandces = (cases) =>
-		{
-			try
-			{
-				const fileContent = fs.readFileSync('./case.js').toString();
-				let caseContent = fileContent.split(`case '${cases}'`);
-				if (caseContent.length === 1)
-				{
-					caseContent = fileContent.split(`case "${cases}"`);
-				}
-				if (caseContent.length > 1)
-				{
-					return "case " + `'${cases}'` + caseContent[1].split("break")[0] + "break";
-				}
-				else
-				{
-					return "none";
-				}
-			}
-			catch (e)
-			{
-				return "none";
-			}
-		};
-		// Akses data yang telah diinisialisasi
-		const userdb = global.db.data.users[m.sender];
-		const settingdb = global.db.data.settings[botNumber];
-		const chatdb = global.db.data.chats[m.chat];
-		try
-		{
-			let isNumber = (x) => typeof x === 'number' && !isNaN(x);
-			// Pastikan global.db diinisialisasi
-			if (!global.db)
-			{
-				global.db = {
-					data:
-					{
-						users:
-						{},
-						chats:
-						{},
-						settings:
-						{}
-					}
-				};
-			}
-			if (!global.db.data)
-			{
-				global.db.data = {
-					users:
-					{},
-					chats:
-					{},
-					settings:
-					{}
-				};
-			}
-			if (!global.db.data.users) global.db.data.users = {};
-			if (!global.db.data.chats) global.db.data.chats = {};
-			if (!global.db.data.settings) global.db.data.settings = {};
-			// Pastikan user data diinisialisasi
-			let user = global.db.data.users[m.sender];
-			if (!user || typeof user !== 'object')
-			{
-			}
-			// Pastikan chat data diinisialisasi
-			let chats = global.db.data.chats[m.chat];
-			if (!chats || typeof chats !== 'object')
-			{
-				global.db.data.chats[m.chat] = {
-					isBanned: false,
-					antispam: false
-				};
-			}
-			else
-			{
-				if (!('isBanned' in chats)) chats.isBanned = false;
-				if (!('antispam' in chats)) chats.antispam = false;
-				if (!('antilink' in chats)) chats.antilink = false;
-    			if (!('antilinkgc' in chats)) chats.antilinkgc = false;
-			}
-			// Pastikan settings diinisialisasi
-			let setting = global.db.data.settings[botNumber];
-			if (!setting || typeof setting !== 'object')
-			{
-				global.db.data.settings[botNumber] = {
-					autoread: false
-				};
-			}
-			else
-			{
-				if (!('autoread' in setting)) setting.autoread = false;
-			}
-		}
-		catch (err)
-		{
-			console.error('❌ Error:', err.message);
-		}
-		if (global.db.data.settings[botNumber].autoread)
-		{
-			shoNhe.readMessages([m.key]);
-		}
-        if (db.data.chats[m.chat].antilinkgc) {
-			if (budy.match(`chat.whatsapp.com`)) {
-				if (isAdmins) return
-				if (m.key.fromMe) return
-				if (isCreator) return
+    function betonimg(shoNhe, chat, image, caption, footer, buttons, quoted)
+    {
+      shoNhe.sendMessage(chat,
+      {
+        image: image,
+        caption: caption,
+        footer: footer,
+        buttons: buttons,
+        viewOnce: true,
+      },
+      {
+        quoted: quoted,
+      });
+    }
+    // ==========================================================
+    //              [ F U N C T I O N  A F K - M S ]
+    function ms(milliseconds)
+    {
+      let seconds = Math.floor((milliseconds / 1000) % 60);
+      let minutes = Math.floor((milliseconds / (1000 * 60)) % 60);
+      let hours = Math.floor((milliseconds / (1000 * 60 * 60)) % 24);
+      return {
+        hours,
+        minutes,
+        seconds
+      };
+    }
+    // Auto Bio Logic (letakkan di dalam loop utama bot)
+    if (autoBio)
+    {
+      if (new Date() * 1 - setbio.status > 60000)
+      {
+        const uptimeQuotes = [`⏳ Uptime: ${runtime(os.uptime())}`, `💻 shoNhe Botz: Udah jalan ${runtime(os.uptime())}`, `📅 ${moment().format('dddd, DD MMM YYYY')}`, `⚡ Bot tetep hidup, gak pernah tidur!`];
+        const randomUptimeQuote = uptimeQuotes[Math.floor(Math.random() * uptimeQuotes.length)];
+        await shoNhe.updateProfileStatus(randomUptimeQuote);
+        setbio.status = new Date() * 1;
+      }
+    }
+    else
+    {
+      const motivationQuotes = [`💪 Semangat terus, lo hebat!`, `🌟 Jangan mau kalah, terus gas!`, `🔥 Jangan nyerah, sukses udah deket!`, `🚀 Ayo gas pol, capai mimpi lo!`, `⚡ Bangun pagi, yuk semangat!`];
+      const randomMotivationQuote = motivationQuotes[Math.floor(Math.random() * motivationQuotes.length)];
+      await shoNhe.updateProfileStatus(randomMotivationQuote);
+    }
+    const getcomandces = (cases) =>
+    {
+      try
+      {
+        const fileContent = fs.readFileSync('./case.js').toString();
+        let caseContent = fileContent.split(`case '${cases}'`);
+        if (caseContent.length === 1)
+        {
+          caseContent = fileContent.split(`case "${cases}"`);
+        }
+        if (caseContent.length > 1)
+        {
+          return "case " + `'${cases}'` + caseContent[1].split("break")[0] + "break";
+        }
+        else
+        {
+          return "none";
+        }
+      }
+      catch (e)
+      {
+        return "none";
+      }
+    };
+    // Akses data yang telah diinisialisasi
+    const userdb = global.db.data.users[m.sender];
+    const settingdb = global.db.data.settings[botNumber];
+    const chatdb = global.db.data.chats[m.chat];
+    try
+    {
+      let isNumber = (x) => typeof x === 'number' && !isNaN(x);
+      // Pastikan global.db diinisialisasi
+      if (!global.db)
+      {
+        global.db = {
+          data:
+          {
+            users:
+            {},
+            chats:
+            {},
+            settings:
+            {}
+          }
+        };
+      }
+      if (!global.db.data)
+      {
+        global.db.data = {
+          users:
+          {},
+          chats:
+          {},
+          settings:
+          {}
+        };
+      }
+      if (!global.db.data.users) global.db.data.users = {};
+      if (!global.db.data.chats) global.db.data.chats = {};
+      if (!global.db.data.settings) global.db.data.settings = {};
+      // Pastikan user data diinisialisasi
+      let user = global.db.data.users[m.sender];
+      if (!user || typeof user !== 'object')
+      {}
+      // Pastikan chat data diinisialisasi
+      let chats = global.db.data.chats[m.chat];
+      if (!chats || typeof chats !== 'object')
+      {
+        global.db.data.chats[m.chat] = {
+          isBanned: false,
+          antispam: false
+        };
+      }
+      else
+      {
+        if (!('isBanned' in chats)) chats.isBanned = false;
+        if (!('antispam' in chats)) chats.antispam = false;
+        if (!('antilink' in chats)) chats.antilink = false;
+        if (!('antilinkgc' in chats)) chats.antilinkgc = false;
+      }
+      // Pastikan settings diinisialisasi
+      let setting = global.db.data.settings[botNumber];
+      if (!setting || typeof setting !== 'object')
+      {
+        global.db.data.settings[botNumber] = {
+          autoread: false
+        };
+      }
+      else
+      {
+        if (!('autoread' in setting)) setting.autoread = false;
+      }
+    }
+    catch (err)
+    {
+      console.error('❌ Error:', err.message);
+    }
+    if (global.db.data.settings[botNumber].autoread)
+    {
+      shoNhe.readMessages([m.key]);
+    }
+    if (db.data.chats[m.chat].antilinkgc)
+    {
+      if (budy.match(`chat.whatsapp.com`))
+      {
+        if (isAdmins) return
+        if (m.key.fromMe) return
+        if (isCreator) return
+        await shoNhe.sendMessage(m.chat,
+        {
+          delete:
+          {
+            remoteJid: m.chat,
+            fromMe: false,
+            id: m.key.id,
+            participant: m.key.participant
+          }
+        });
+      }
+    }
+    if (db.data.chats[m.chat].antilink)
+    {
+      const linkPatterns = [/http/i, /https/i, /www\./i, /wa\.me/i, /t\.me/i, /bit\.ly/i, /goo\.gl/i, /y2u\.be/i, /discord\.gg/i, /telegram\.me/i];
+      const containsLink = linkPatterns.some(pattern => pattern.test(budy));
+      if (containsLink)
+      {
+        if (isAdmins || m.key.fromMe || isShoNheOwn) return
+        await shoNhe.sendMessage(m.chat,
+        {
+          delete:
+          {
+            remoteJid: m.chat,
+            fromMe: false,
+            id: m.key.id,
+            participant: m.key.participant
+          }
+        });
+      }
+    }
 
-				await shoNhe.sendMessage(m.chat, {
-					delete: {
-						remoteJid: m.chat,
-						fromMe: false,
-						id: m.key.id,
-						participant: m.key.participant
-					}
-				});
-			}
-		}
+    function findRiwayat(idtrx)
+    {
+      // Baca file riwayat.json
+      const riwayatPath = './database/riwayat.json';
+      const riwayat = JSON.parse(fs.readFileSync(riwayatPath));
+      // Cari transaksi dengan ID TRX yang cocok dan status "pending"
+      const transaction = Object.values(riwayat).find(t => t.idtrx === idtrx && t.status === "pending");
+      return transaction;
+    }
+    const idkcl = (length) =>
+    {
+      let result = '';
+      const characters = 'abcdefghijklmnopqrstuvwxyz';
+      const charactersLength = characters.length;
+      for (let i = 0; i < length; i++)
+      {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      }
+      return result
+    }
+    const idgede = (length) =>
+    {
+      let result = '';
+      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      const charactersLength = characters.length;
+      for (let i = 0; i < length; i++)
+      {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      }
+      return result
+    }
+    const idnum = (length) =>
+    {
+      let result = '';
+      const characters = '1234567890';
+      const charactersLength = characters.length;
+      for (let i = 0; i < length; i++)
+      {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      }
+      return result
+    }
+    const thum = fs.readFileSync("./storage/image.png")
+    const thumb = fs.readFileSync("./storage/image.png")
+    const imqris = fs.readFileSync('./storage/qris.png')
 
-		if (db.data.chats[m.chat].antilink) {
-			const linkPatterns = [
-				/http/i,
-				/https/i,
-				/www\./i,
-				/wa\.me/i,
-				/t\.me/i,
-				/bit\.ly/i,
-				/goo\.gl/i,
-				/y2u\.be/i,
-				/discord\.gg/i,
-				/telegram\.me/i
-			];
-			const containsLink = linkPatterns.some(pattern => pattern.test(budy));
-			if (containsLink) {
-				if (isAdmins || m.key.fromMe || isShoNheOwn) return
-				await shoNhe.sendMessage(m.chat, {
-					delete: {
-						remoteJid: m.chat,
-						fromMe: false,
-						id: m.key.id,
-						participant: m.key.participant
-					}
-				});
-			}
-		}
-		function findRiwayat(idtrx)
-		{
-			// Baca file riwayat.json
-			const riwayatPath = './database/riwayat.json';
-			const riwayat = JSON.parse(fs.readFileSync(riwayatPath));
-			// Cari transaksi dengan ID TRX yang cocok dan status "pending"
-			const transaction = Object.values(riwayat).find(t => t.idtrx === idtrx && t.status === "pending");
-			return transaction;
-		}
-		const idkcl = (length) =>
-		{
-			let result = '';
-			const characters = 'abcdefghijklmnopqrstuvwxyz';
-			const charactersLength = characters.length;
-			for (let i = 0; i < length; i++)
-			{
-				result += characters.charAt(Math.floor(Math.random() * charactersLength));
-			}
-			return result
-		}
-		const idgede = (length) =>
-		{
-			let result = '';
-			const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-			const charactersLength = characters.length;
-			for (let i = 0; i < length; i++)
-			{
-				result += characters.charAt(Math.floor(Math.random() * charactersLength));
-			}
-			return result
-		}
-		const idnum = (length) =>
-		{
-			let result = '';
-			const characters = '1234567890';
-			const charactersLength = characters.length;
-			for (let i = 0; i < length; i++)
-			{
-				result += characters.charAt(Math.floor(Math.random() * charactersLength));
-			}
-			return result
-		}
-		const thum = fs.readFileSync("./storage/image.png")
-		const thumb = fs.readFileSync("./storage/image.png")
-		const imqris = fs.readFileSync('./storage/qris.png')
+    function toRupiah(angka)
+    {
+      var saldo = "";
+      var angkarev = angka.toString().split("").reverse().join("");
+      for (var i = 0; i < angkarev.length; i++)
+        if (i % 3 == 0) saldo += angkarev.substr(i, 3) + ".";
+      return ("" + saldo.split("", saldo.length - 1).reverse().join(""));
+    }
+    let member = JSON.parse(fs.readFileSync("./database/user.json"));
+    const cek = (satu, dua) =>
+    {
+      let store = false;
+      Object.keys(member).forEach((i) =>
+      {
+        if (member[i].id == dua)
+        {
+          store = i;
+        }
+      });
+      if (store !== false)
+      {
+        if (satu == "id")
+        {
+          return member[store].id;
+        }
+        if (satu == "saldo")
+        {
+          return member[store].saldo;
+        }
+        if (satu == "transaksi")
+        {
+          return member[store].transaksi;
+        }
+        if (satu == "idproduk")
+        {
+          return member[store].idproduk;
+        }
+        if (satu == "idtujuan")
+        {
+          return member[store].idtujuan;
+        }
+        if (satu == "nama")
+        {
+          return member[store].nama;
+        }
+        if (satu == "harga")
+        {
+          return member[store].harga;
+        }
+        if (satu == "seri")
+        {
+          return member[store].seri;
+        }
+      }
+      if (store == false)
+      {
+        return null;
+      }
+    };
+    let sett = (satu, dua, tiga) =>
+    {
+      Object.keys(member).forEach((i) =>
+      {
+        if (member[i].id == dua)
+        {
+          if (satu == "+saldo")
+          {
+            member[i].saldo += tiga;
+            fs.writeFileSync("./database/user.json", JSON.stringify(member));
+          }
+          if (satu == "-saldo")
+          {
+            member[i].saldo -= tiga;
+            if (satu == "±seri")
+            {
+              db_user[i].seri = tiga;
+              fs.writeFileSync("./database/user.json", JSON.stringify(member));
+            }
+            fs.writeFileSync("./database/user.json", JSON.stringify(member));
+          }
+          if (satu == "transaksi")
+          {
+            member[i].transaksi = tiga;
+            fs.writeFileSync("./database/user.json", JSON.stringify(member));
+          }
+          if (satu == "idproduk")
+          {
+            member[i].idproduk = tiga;
+            fs.writeFileSync("./database/user.json", JSON.stringify(member));
+          }
+          if (satu == "idtujuan")
+          {
+            member[i].idtujuan = tiga;
+            fs.writeFileSync("./database/user.json", JSON.stringify(member));
+          }
+          if (satu == "nama")
+          {
+            member[i].nama = tiga;
+            fs.writeFileSync("./database/user.json", JSON.stringify(member));
+          }
+          if (satu == "+harga")
+          {
+            member[i].harga += tiga;
+            fs.writeFileSync("./database/user.json", JSON.stringify(member));
+          }
+          if (satu == "harga")
+          {
+            member[i].harga = tiga;
+            fs.writeFileSync("./database/user.json", JSON.stringify(member));
+          }
+        }
+      });
+    };
+    const saldo = toRupiah(`${cek("saldo", m.sender)}`);
+    //
+    if (db.data.chats[m.chat].antispam)
+    {
+      if (m.isGroup && m.message && isFiltered(m.chat))
+      {
+        console.log(`[SPAM]`, color(moment(m.messageTimestamp * 100).format('DD/MM/YYYY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`), 'dari', color(m.pushName));
+        return await shoNhe.groupParticipantsUpdate(m.chat, [m.sender], 'remove');
+      }
+    }
+    if (m.message)
+    {
+      console.log(chalk.black.bgCyan(' [ NOTIF ] '), // Teks singkat dengan simbol kilat
+        chalk.black.bgYellow(` ⏰ ${new Date().toLocaleTimeString()} `), // Simbol jam dan waktu
+        chalk.white.bgMagenta(` 💬 ${budy || m.mtype} `), // Simbol pesan
+        '\n' + chalk.green('👤 Dari: '), chalk.blue(pushname), // Nama pengirim dengan simbol orang
+        chalk.redBright(`📧 ${m.sender}`), // ID pengirim dengan simbol email
+        '\n' + chalk.green('📍 Chat: '), chalk.yellow(m.isGroup ? '👥 Grup' : '🔒 Privat') // Grup dengan simbol grup, privat dengan simbol gembok
+      );
+    }
 
-		function toRupiah(angka)
-		{
-			var saldo = "";
-			var angkarev = angka.toString().split("").reverse().join("");
-			for (var i = 0; i < angkarev.length; i++)
-				if (i % 3 == 0) saldo += angkarev.substr(i, 3) + ".";
-			return ("" + saldo.split("", saldo.length - 1).reverse().join(""));
-		}
-		let member = JSON.parse(fs.readFileSync("./database/user.json"));
-		const cek = (satu, dua) =>
-		{
-			let store = false;
-			Object.keys(member).forEach((i) =>
-			{
-				if (member[i].id == dua)
-				{
-					store = i;
-				}
-			});
-			if (store !== false)
-			{
-				if (satu == "id")
-				{
-					return member[store].id;
-				}
-				if (satu == "saldo")
-				{
-					return member[store].saldo;
-				}
-				if (satu == "transaksi")
-				{
-					return member[store].transaksi;
-				}
-				if (satu == "idproduk")
-				{
-					return member[store].idproduk;
-				}
-				if (satu == "idtujuan")
-				{
-					return member[store].idtujuan;
-				}
-				if (satu == "nama")
-				{
-					return member[store].nama;
-				}
-				if (satu == "harga")
-				{
-					return member[store].harga;
-				}
-				if (satu == "seri")
-				{
-					return member[store].seri;
-				}
-			}
-			if (store == false)
-			{
-				return null;
-			}
-		};
-		let sett = (satu, dua, tiga) =>
-		{
-			Object.keys(member).forEach((i) =>
-			{
-				if (member[i].id == dua)
-				{
-					if (satu == "+saldo")
-					{
-						member[i].saldo += tiga;
-						fs.writeFileSync("./database/user.json", JSON.stringify(member));
-					}
-					if (satu == "-saldo")
-					{
-						member[i].saldo -= tiga;
-						if (satu == "±seri")
-						{
-							db_user[i].seri = tiga;
-							fs.writeFileSync("./database/user.json", JSON.stringify(member));
-						}
-						fs.writeFileSync("./database/user.json", JSON.stringify(member));
-					}
-					if (satu == "transaksi")
-					{
-						member[i].transaksi = tiga;
-						fs.writeFileSync("./database/user.json", JSON.stringify(member));
-					}
-					if (satu == "idproduk")
-					{
-						member[i].idproduk = tiga;
-						fs.writeFileSync("./database/user.json", JSON.stringify(member));
-					}
-					if (satu == "idtujuan")
-					{
-						member[i].idtujuan = tiga;
-						fs.writeFileSync("./database/user.json", JSON.stringify(member));
-					}
-					if (satu == "nama")
-					{
-						member[i].nama = tiga;
-						fs.writeFileSync("./database/user.json", JSON.stringify(member));
-					}
-					if (satu == "+harga")
-					{
-						member[i].harga += tiga;
-						fs.writeFileSync("./database/user.json", JSON.stringify(member));
-					}
-					if (satu == "harga")
-					{
-						member[i].harga = tiga;
-						fs.writeFileSync("./database/user.json", JSON.stringify(member));
-					}
-				}
-			});
-		};
-		const saldo = toRupiah(`${cek("saldo", m.sender)}`);
-		//
-		if (db.data.chats[m.chat].antispam)
-		{
-			if (m.isGroup && m.message && isFiltered(m.chat))
-			{
-				console.log(`[SPAM]`, color(moment(m.messageTimestamp * 100).format('DD/MM/YYYY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`), 'dari', color(m.pushName));
-				return await shoNhe.groupParticipantsUpdate(m.chat, [m.sender], 'remove');
-			}
-		}
-		if (m.message)
-		{
-			console.log(chalk.black.bgCyan(' [ NOTIF ] '), // Teks singkat dengan simbol kilat
-				chalk.black.bgYellow(` ⏰ ${new Date().toLocaleTimeString()} `), // Simbol jam dan waktu
-				chalk.white.bgMagenta(` 💬 ${budy || m.mtype} `), // Simbol pesan
-				'\n' + chalk.green('👤 Dari: '), chalk.blue(pushname), // Nama pengirim dengan simbol orang
-				chalk.redBright(`📧 ${m.sender}`), // ID pengirim dengan simbol email
-				'\n' + chalk.green('📍 Chat: '), chalk.yellow(m.isGroup ? '👥 Grup' : '🔒 Privat') // Grup dengan simbol grup, privat dengan simbol gembok
-			);
-		}
+    function delay(ms)
+    {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+    async function loading()
+    {
+      const lod = ["█▒▒▒▒▒▒▒▒▒▒▒ 10%", "███▒▒▒▒▒▒▒▒▒ 30%", "██████▒▒▒▒▒▒ 50%", "████████▒▒▒▒ 80%", "███████████ 100%"];
+      const
+      {
+        key
+      } = await shoNhe.sendMessage(m.chat,
+      {
+        text: '⚠️ *INITIALIZING SYSTEM...* PLEASE WAIT...'
+      });
+      for (let i = 0; i < lod.length; i++)
+      {
+        await shoNhe.sendMessage(m.chat,
+        {
+          text: `🖥️ *STATUS UPDATE*:\n\n⏳ *LOADING...* ${lod[i]}\n\n*System Processing... Please remain patient. This may take a few moments.*`
+        });
+        await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate loading delay
+      }
+      await shoNhe.sendMessage(m.chat,
+      {
+        text: '✅ *SYSTEM INITIALIZATION COMPLETE.*\n\n*Welcome to the network.*'
+      });
+      for (let i = 0; i < lod.length; i++)
+      {
+        await shoNhe.sendMessage(m.chat,
+        {
+          text: lod[i],
+          edit: key
+        });
+      }
+    }
+    // Lokasi folder untuk menyimpan thumbnail versi 3
+    const thumbFolder3 = './src/thum3/';
+    // Lokasi default thumbnail untuk versi 3
+    const defaultThumbnailPath3 = './src/thum3/shoNhe.jpg';
+    // Membuat folder jika belum ada
+    if (!fs.existsSync(thumbFolder3))
+    {
+      fs.mkdirSync(thumbFolder3,
+      {
+        recursive: true
+      });
+    }
+    // Pastikan default thumbnail ada
+    if (!fs.existsSync(defaultThumbnailPath3))
+    {
+      const defaultImage3 = Buffer.from('Default Thumbnail Version 3');
+      fs.writeFileSync(defaultThumbnailPath3, defaultImage3);
+    }
+    // *Fungsi: Membaca semua thumbnail di folder*
+    const readThumbList3 = () =>
+    {
+      const files3 = fs.readdirSync(thumbFolder3).filter(file => file.toLowerCase().endsWith('.jpg'));
+      return files3.map(file => (
+      {
+        name: path.parse(file).name, // Nama file tanpa ekstensi
+        path: path.join(thumbFolder3, file), // Lokasi file lengkap
+      }));
+    };
+    // *Fungsi: Menambahkan thumbnail*
+    const addThumb3 = async (nama3, quoted3, mime3) =>
+    {
+      if (!/image/.test(mime3)) return 'Kirim/Reply Image dengan Caption untuk menambahkan thumbnail.';
+      const fileName3 = `${thumbFolder3}${nama3}.jpg`;
+      if (fs.existsSync(fileName3)) return 'Thumbnail dengan nama tersebut sudah ada.';
+      const media3 = await quoted3.download(); // Unduh file media dari pesan
+      fs.writeFileSync(fileName3, media3);
+      return `Thumbnail dengan nama "${nama3}" berhasil ditambahkan.`;
+    };
+    // *Fungsi: Menghapus thumbnail*
+    const delThumb3 = (nama3) =>
+    {
+      const fileName3 = `${thumbFolder3}${nama3}.jpg`;
+      if (!fs.existsSync(fileName3)) return 'Thumbnail dengan nama tersebut tidak ditemukan.';
+      fs.unlinkSync(fileName3);
+      return `Thumbnail dengan nama "${nama3}" berhasil dihapus.`;
+    };
+    // *Fungsi: Menampilkan daftar thumbnail*
+    const listThumb3 = () =>
+    {
+      const thumbList3 = readThumbList3();
+      if (thumbList3.length === 0) return 'Tidak ada thumbnail yang tersimpan.';
+      return thumbList3.map(thumb => `Nama: ${thumb.name}`).join('\n');
+    };
+    // *Fungsi: Mengambil thumbnail secara acak*
+    const getRandomThumb3 = () =>
+    {
+      const thumbList3 = readThumbList3();
+      if (thumbList3.length === 0)
+      {
+        // Jika folder kosong, gunakan default thumbnail
+        console.log('Tidak ada thumbnail, menggunakan default');
+        return fs.readFileSync(defaultThumbnailPath3);
+      }
+      const randomFile3 = thumbList3[Math.floor(Math.random() * thumbList3.length)];
+      console.log(`Memilih thumbnail acak: ${randomFile3.name}`);
+      return fs.readFileSync(randomFile3.path); // Return Buffer thumbnail
+    };
+    async function sendRegister(shoNhe, m, prefix, namabot)
+    {
+      await shoNhe.sendMessage(m.chat,
+      {
+        image: getRandomThumb3(),
+        caption: mess.regis,
+        footer: namabot,
+        buttons: [
+        {
+          buttonId: `${prefix}register`,
+          buttonText:
+          {
+            displayText: "REGISTER"
+          }
+        }],
+        viewOnce: true
+      },
+      {
+        quoted: m
+      });
+    }
+    //==================[ FUNCTION FITUR ]=====================\\
+    const ftoko = {
+      key:
+      {
+        fromMe: false,
+        participant: `18002428478@s.whatsapp.net`,
+        ...(m.chat ?
+        {
+          remoteJid: "status@broadcast"
+        } :
+        {}),
+      },
+      message:
+      {
+        productMessage:
+        {
+          product:
+          {
+            title: `Hai👋🏻.\nBOT BY\nshoNhe's`,
+            description: `${m.pushName ? m.pushName : 'Temen shoNhe'} order`,
+            currencyCode: "IDR",
+            priceAmount1000: "1000000000000",
+            retailerId: `shoNheNotStore`,
+            productImageCount: 1,
+          },
+          businessOwnerJid: `18002428478@s.whatsapp.net`,
+        },
+      },
+    };
+    const script = {
+      key:
+      {
+        fromMe: false,
+        participant: `6287862997267@s.whatsapp.net`,
+        ...(m.chat ?
+        {
+          remoteJid: "status@broadcast"
+        } :
+        {}),
+      },
+      message:
+      {
+        productMessage:
+        {
+          product:
+          {
+            title: `Hai ${m.pushName ? m.pushName : 'Temen shoNhe'} 👋🏻, BUY YA`,
+            description: `${m.pushName ? m.pushName : 'Temen shoNhe'} order`,
+            currencyCode: "IDR",
+            priceAmount1000: "10000000",
+            retailerId: `shoNheID`,
+            productImageCount: 1,
+          },
+          businessOwnerJid: `18002428478@s.whatsapp.net`,
+        },
+      },
+    };
+    const sound = {
+      key:
+      {
+        fromMe: false,
+        participant: `18002428478@s.whatsapp.net`,
+        ...(from ?
+        {
+          remoteJid: "status@broadcast"
+        } :
+        {})
+      },
+      "message":
+      {
+        "audioMessage":
+        {
+          "url": "https://mmg.whatsapp.net/v/t62.7114-24/56189035_1525713724502608_8940049807532382549_n.enc?ccb=11-4&oh=01_AdR7-4b88Hf2fQrEhEBY89KZL17TYONZdz95n87cdnDuPQ&oe=6489D172&mms3=true",
+          "mimetype": "audio/mp4",
+          "fileSha256": "oZeGy+La3ZfKAnQ1epm3rbm1IXH8UQy7NrKUK3aQfyo=",
+          "fileLength": "1067401",
+          "seconds": 9999999999999,
+          "ptt": true,
+          "mediaKey": "PeyVe3/+2nyDoHIsAfeWPGJlgRt34z1uLcV3Mh7Bmfg=",
+          "fileEncSha256": "TLOKOAvB22qIfTNXnTdcmZppZiNY9pcw+BZtExSBkIE=",
+          "directPath": "/v/t62.7114-24/56189035_1525713724502608_8940049807532382549_n.enc?ccb=11-4&oh=01_AdR7-4b88Hf2fQrEhEBY89KZL17TYONZdz95n87cdnDuPQ&oe=6489D172",
+          "mediaKeyTimestamp": "1684161893"
+        }
+      }
+    }
+    try
+    {
+      ppuser = await shoNhe.profilePictureUrl(m.sender, 'image')
+    }
+    catch (err)
+    {
+      ppuser = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png?q=60'
+    }
+    ppnyauser = await getBuffer(ppuser)
+    try
+    {
+      let isNumber = x => typeof x === 'number' && !isNaN(x)
+      let limitUser = global.limitawal.free
+      let user = global.db.data.users[m.sender]
+      if (typeof user !== 'object') global.db.data.users[m.sender] = {}
+      if (user)
+      {
+        if (!isNumber(user.afkTime)) user.afkTime = -1
+        if (!('afkReason' in user)) user.afkReason = ''
+        if (!isNumber(user.limit)) user.limit = limitUser
+      }
+      else global.db.data.users[m.sender] = {
+        afkTime: -1,
+        afkReason: '',
+        limit: limitUser,
+      }
+    }
+    catch (err)
+    {
+      console.log(err)
+    }
+    // respon list 
+    if (m.isGroup && isAlreadyResponList(m.chat, body.toLowerCase(), db_respon_list))
+    {
+      var get_data_respon = getDataResponList(m.chat, body.toLowerCase(), db_respon_list)
+      if (get_data_respon.isImage === false)
+      {
+        shoNhe.sendMessage(m.chat,
+        {
+          text: sendResponList(m.chat, body.toLowerCase(), db_respon_list)
+        },
+        {
+          quoted: m
+        })
+      }
+      else
+      {
+        shoNhe.sendMessage(m.chat,
+        {
+          image: await getBuffer(get_data_respon.image_url),
+          caption: get_data_respon.response
+        },
+        {
+          quoted: m
+        })
+      }
+    }
+    const reSize = async (buffer, ukur1, ukur2) =>
+    {
+      return new Promise(async (resolve, reject) =>
+      {
+        let jimp = require('jimp')
+        var baper = await jimp.read(buffer);
+        var ab = await baper.resize(ukur1, ukur2).getBufferAsync(jimp.MIME_JPEG)
+        resolve(ab)
+      })
+    }
+    const fkethmb = await reSize(ppuser, 300, 300)
+    // function resize
+    let jimp = require("jimp")
+    const resize = async (image, width, height) =>
+    {
+      const read = await jimp.read(image);
+      const data = await read.resize(width, height).getBufferAsync(jimp.MIME_JPEG);
+      return data;
+    };
+    async function downloadMp4(link)
+    {
+      try
+      {
+        console.log('🕒 Memulai proses download MP4...');
+        shoNhe.sendMessage(m.chat,
+        {
+          react:
+          {
+            text: '⏳',
+            key: m.key
+          }
+        });
+        // Fetch data dari API baru
+        let response = await fetch(`https://ytdl.siputzx.my.id/api/convert?url=${link}&type=mp4`);
+        let textResponse = await response.text();
+        // Validasi apakah respons adalah JSON
+        let data;
+        try
+        {
+          data = JSON.parse(textResponse);
+        }
+        catch (err)
+        {
+          console.error('❌ Respons bukan JSON:', textResponse);
+          RepshoNheError("Terjadi kesalahan pada API. Silakan coba lagi nanti.");
+          return;
+        }
+        console.log('📥 Respons diterima dari API:', data);
+        if (data.dl)
+        {
+          console.log('✅ Data valid, mengirim file video...');
+          shoNhe.sendMessage(m.chat,
+          {
+            video:
+            {
+              url: data.dl
+            },
+            caption: `🎬 *${data.title}*`
+          },
+          {
+            quoted: hw
+          });
+          console.log('✅ Proses selesai, file video berhasil dikirim.');
+        }
+        else
+        {
+          console.log('❌ Gagal mengambil video. URL tidak valid.');
+          RepshoNheError("Gagal mengambil video. Silakan periksa URL.");
+        }
+      }
+      catch (err)
+      {
+        console.error('❌ Terjadi kesalahan:', err.message);
+        RepshoNheError(`Error: ${err.message}`);
+      }
+    }
+    async function downloadMp3(link)
+    {
+      try
+      {
+        console.log('🕒 Memulai proses download MP3...');
+        shoNhe.sendMessage(m.chat,
+        {
+          react:
+          {
+            text: '⏳',
+            key: m.key
+          }
+        });
+        // Panggil API untuk mendapatkan URL file MP3
+        let response = await fetch(`https://ytdl.siputzx.my.id/api/convert?url=${link}&type=mp3`);
+        let textResponse = await response.text();
+        let data;
+        try
+        {
+          data = JSON.parse(textResponse);
+        }
+        catch (err)
+        {
+          console.error('❌ Respons bukan JSON:', textResponse);
+          RepshoNheError("Terjadi kesalahan pada API. Silakan coba lagi nanti.");
+          return;
+        }
+        console.log('📥 Respons diterima dari API:', data);
+        if (data.dl)
+        {
+          const fileUrl = data.dl;
+          const fileName = 'audio.mp3';
+          const fixedFileName = 'fixed_audio.mp3';
+          const filePath = path.join(__dirname, fileName);
+          const fixedFilePath = path.join(__dirname, fixedFileName);
+          console.log('⏳ Mengunduh file audio...');
+          const writer = fs.createWriteStream(filePath);
+          const audioResponse = await axios(
+          {
+            url: fileUrl,
+            method: 'GET',
+            responseType: 'stream',
+          });
+          audioResponse.data.pipe(writer);
+          writer.on('finish', () =>
+          {
+            console.log('✅ File audio berhasil diunduh, memulai proses konversi...');
+            // Konversi ulang file audio menggunakan ffmpeg
+            ffmpeg(filePath).toFormat('mp3').on('end', () =>
+            {
+              console.log('✅ File audio berhasil dikonversi.');
+              // Kirim file audio yang telah dikonversi
+              shoNhe.sendMessage(m.chat,
+              {
+                audio: fs.readFileSync(fixedFilePath),
+                mimetype: 'audio/mpeg',
+                fileName: `${data.title}.mp3`,
+              },
+              {
+                quoted: hw
+              });
+              // Hapus file sementara
+              fs.unlinkSync(filePath);
+              fs.unlinkSync(fixedFilePath);
+              console.log('✅ File audio berhasil dikirim dan file sementara dihapus.');
+            }).on('error', (err) =>
+            {
+              console.error('❌ Gagal mengonversi file audio:', err.message);
+              RepshoNheError('Gagal memproses ulang file audio.');
+            }).save(fixedFilePath);
+          });
+          writer.on('error', (err) =>
+          {
+            console.error('❌ Gagal mengunduh file audio:', err.message);
+            RepshoNheError('Gagal mengunduh file audio.');
+          });
+        }
+        else
+        {
+          console.log('❌ Gagal mengambil audio. URL tidak valid.');
+          RepshoNheError("Gagal mengambil audio. Silakan periksa URL.");
+        }
+      }
+      catch (err)
+      {
+        console.error('❌ Terjadi kesalahan:', err.message);
+        RepshoNheError(`Error: ${err.message}`);
+      }
+    }
+    if (!global.public)
+    {
+      if (!m.key.fromMe && !isShoNheOwn) return; // Abaikan jika bukan pesan bot atau owner
+    }
+    // Blokir command di chat pribadi saat Group Only aktif
+    if (global.groupOnly && !m.isGroup && !isShoNheOwn) return console.log('⚠️ GROUP ONLY')
+    if (global.privateChatOnly && m.isGroup && !isShoNheOwn) return console.log('⚠️ PRIVATE CHAT ONLY');
+    // func db
+    // Load user database from JSON file
+    function loadUserDatabase()
+    {
+      let rawdata = fs.readFileSync('database/user.json');
+      return JSON.parse(rawdata);
+    }
+    // Save updated user database back to JSON file
+    function saveUserDatabase(database)
+    {
+      fs.writeFileSync('database/user.json', JSON.stringify(database, null, 2));
+    }
+    const userFirePath = './database/userFire.json';
+    // Fungsi untuk membaca database
+    function loadUserFire()
+    {
+      if (!fs.existsSync(userFirePath))
+      {
+        fs.writeFileSync(userFirePath, JSON.stringify(
+        {}));
+      }
+      return JSON.parse(fs.readFileSync(userFirePath));
+    }
+    // Fungsi untuk menyimpan database
+    function saveUserFire(db)
+    {
+      fs.writeFileSync(userFirePath, JSON.stringify(db, null, 2));
+    }
 
-		function delay(ms)
-		{
-			return new Promise(resolve => setTimeout(resolve, ms));
-		}
-		async function loading()
-		{
-			const lod = ["█▒▒▒▒▒▒▒▒▒▒▒ 10%", "███▒▒▒▒▒▒▒▒▒ 30%", "██████▒▒▒▒▒▒ 50%", "████████▒▒▒▒ 80%", "███████████ 100%"];
-const {
-    key
-} = await shoNhe.sendMessage(m.chat, {
-    text: '⚠️ *INITIALIZING SYSTEM...* PLEASE WAIT...'
-});
+    function topRank() {
+    const db = loadUserFire();
+    const sortedUsers = Object.entries(db)
+        .sort((a, b) => b[1].level - a[1].level) // Urutkan berdasarkan level
+        .slice(0, 3); // Ambil 3 teratas
 
-for (let i = 0; i < lod.length; i++) {
-    await shoNhe.sendMessage(m.chat, {
-        text: `🖥️ *STATUS UPDATE*:\n\n⏳ *LOADING...* ${lod[i]}\n\n*System Processing... Please remain patient. This may take a few moments.*`
+    if (sortedUsers.length === 0) return { text: "🚀 Tidak ada data peringkat saat ini.", mentions: [] };
+
+    let message = "🏆 *TOP 3 RANKING FIRE* 🔥\n\n";
+    let mentions = [];
+
+    sortedUsers.forEach(([user, data], index) => {
+        const formattedUser = `@${user.split('@')[0]}`;
+        mentions.push(user); // Tambahkan ke mentions
+        message += `🥇 #${index + 1} - ${formattedUser}\n`;
+        message += `   🎮 Level: ${data.level}\n`;
+        message += `   📖 EXP: ${data.exp}/${data.expTarget}\n`;
+        message += `   💰 Balance: Rp${data.balance}\n\n`;
     });
-    await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate loading delay
+
+    return { text: message, mentions };
 }
 
-await shoNhe.sendMessage(m.chat, {
-    text: '✅ *SYSTEM INITIALIZATION COMPLETE.*\n\n*Welcome to the network.*'
-});
-			for (let i = 0; i < lod.length; i++)
-			{
-				await shoNhe.sendMessage(m.chat,
-				{
-					text: lod[i],
-					edit: key
-				});
-			}
-		}
-		// Lokasi folder untuk menyimpan thumbnail versi 3
-		const thumbFolder3 = './src/thum2/';
-		// Lokasi default thumbnail untuk versi 3
-		const defaultThumbnailPath3 = './src/thum2/shoNhe.jpg';
-		// Membuat folder jika belum ada
-		if (!fs.existsSync(thumbFolder3))
-		{
-			fs.mkdirSync(thumbFolder3,
-			{
-				recursive: true
-			});
-		}
-		// Pastikan default thumbnail ada
-		if (!fs.existsSync(defaultThumbnailPath3))
-		{
-			const defaultImage3 = Buffer.from('Default Thumbnail Version 3');
-			fs.writeFileSync(defaultThumbnailPath3, defaultImage3);
-		}
-		// **Fungsi: Membaca semua thumbnail di folder**
-		const readThumbList3 = () =>
-		{
-			const files3 = fs.readdirSync(thumbFolder3).filter(file => file.toLowerCase().endsWith('.jpg'));
-			return files3.map(file => (
-			{
-				name: path.parse(file).name, // Nama file tanpa ekstensi
-				path: path.join(thumbFolder3, file), // Lokasi file lengkap
-			}));
-		};
-		// **Fungsi: Menambahkan thumbnail**
-		const addThumb3 = async (nama3, quoted3, mime3) =>
-		{
-			if (!/image/.test(mime3)) return 'Kirim/Reply Image dengan Caption untuk menambahkan thumbnail.';
-			const fileName2 = `${thumbFolder2}${nama2}.jpg`;
-			if (fs.existsSync(fileName3)) return 'Thumbnail dengan nama tersebut sudah ada.';
-			const media3 = await quoted3.download(); // Unduh file media dari pesan
-			fs.writeFileSync(fileName3, media3);
-			return `Thumbnail dengan nama "${nama2}" berhasil ditambahkan.`;
-		};
-		// **Fungsi: Menghapus thumbnail**
-		const delThumb3 = (nama3) =>
-		{
-			const fileName3 = `${thumbFolder3}${nama3}.jpg`;
-			if (!fs.existsSync(fileName3)) return 'Thumbnail dengan nama tersebut tidak ditemukan.';
-			fs.unlinkSync(fileName3);
-			return `Thumbnail dengan nama "${nama3}" berhasil dihapus.`;
-		};
-		// **Fungsi: Menampilkan daftar thumbnail**
-		const listThumb3 = () =>
-		{
-			const thumbList3 = readThumbList3();
-			if (thumbList3.length === 0) return 'Tidak ada thumbnail yang tersimpan.';
-			return thumbList3.map(thumb => `Nama: ${thumb.name}`).join('\n');
-		};
-		// **Fungsi: Mengambil thumbnail secara acak**
-		const getRandomThumb2 = () =>
-		{
-			const thumbList3 = readThumbList3();
-			if (thumbList3.length === 0)
-			{
-				// Jika folder kosong, gunakan default thumbnail
-				console.log('Tidak ada thumbnail, menggunakan default');
-				return fs.readFileSync(defaultThumbnailPath3);
-			}
-			const randomFile3 = thumbList3[Math.floor(Math.random() * thumbList3.length)];
-			console.log(`Memilih thumbnail acak: ${randomFile3.name}`);
-			return fs.readFileSync(randomFile3.path); // Return Buffer thumbnail
-		};
-		async function sendRegister(shoNhe, m, prefix, namabot)
-		{
-			await shoNhe.sendMessage(m.chat,
-			{
-				image: getRandomThumb2(),
-				caption: mess.regis,
-				footer: namabot,
-				buttons: [
-				{
-					buttonId: `${prefix}register`,
-					buttonText:
-					{
-						displayText: "REGISTER"
-					}
-				}],
-				viewOnce: true
-			},
-			{
-				quoted: m
-			});
-		}
-		//==================[ FUNCTION FITUR ]=====================\\
-		const ftoko = {
-			key:
-			{
-				fromMe: false,
-				participant: `18002428478@s.whatsapp.net`,
-				...(m.chat ?
-				{
-					remoteJid: "status@broadcast"
-				} :
-				{}),
-			},
-			message:
-			{
-				productMessage:
-				{
-					product:
-					{
-						title: `Hai👋🏻.\nBOT BY\nK͜ʏʏ-Stoʀɛ`,
-						description: `${m.pushName ? m.pushName : 'Temen shoNhe'} order`,
-						currencyCode: "IDR",
-						priceAmount1000: "1000000000000",
-						retailerId: `shoNheNotStore`,
-						productImageCount: 1,
-					},
-					businessOwnerJid: `18002428478@s.whatsapp.net`,
-				},
-			},
-		};
-		const script = {
-			key:
-			{
-				fromMe: false,
-				participant: `6287862997267@s.whatsapp.net`,
-				...(m.chat ?
-				{
-					remoteJid: "status@broadcast"
-				} :
-				{}),
-			},
-			message:
-			{
-				productMessage:
-				{
-					product:
-					{
-						title: `Hai ${m.pushName ? m.pushName : 'Temen K͜ʏʏ-Stoʀɛ'} 👋🏻, BUY YA`,
-						description: `${m.pushName ? m.pushName : 'Temen K͜ʏʏ-Stoʀɛ'} order`,
-						currencyCode: "IDR",
-						priceAmount1000: "10000000",
-						retailerId: `shoNheID`,
-						productImageCount: 1,
-					},
-					businessOwnerJid: `18002428478@s.whatsapp.net`,
-				},
-			},
-		};
-		const sound = {
-			key:
-			{
-				fromMe: false,
-				participant: `18002428478@s.whatsapp.net`,
-				...(from ?
-				{
-					remoteJid: "status@broadcast"
-				} :
-				{})
-			},
-			"message":
-			{
-				"audioMessage":
-				{
-					"url": "https://mmg.whatsapp.net/v/t62.7114-24/56189035_1525713724502608_8940049807532382549_n.enc?ccb=11-4&oh=01_AdR7-4b88Hf2fQrEhEBY89KZL17TYONZdz95n87cdnDuPQ&oe=6489D172&mms3=true",
-					"mimetype": "audio/mp4",
-					"fileSha256": "oZeGy+La3ZfKAnQ1epm3rbm1IXH8UQy7NrKUK3aQfyo=",
-					"fileLength": "1067401",
-					"seconds": 9999999999999,
-					"ptt": true,
-					"mediaKey": "PeyVe3/+2nyDoHIsAfeWPGJlgRt34z1uLcV3Mh7Bmfg=",
-					"fileEncSha256": "TLOKOAvB22qIfTNXnTdcmZppZiNY9pcw+BZtExSBkIE=",
-					"directPath": "/v/t62.7114-24/56189035_1525713724502608_8940049807532382549_n.enc?ccb=11-4&oh=01_AdR7-4b88Hf2fQrEhEBY89KZL17TYONZdz95n87cdnDuPQ&oe=6489D172",
-					"mediaKeyTimestamp": "1684161893"
-				}
-			}
-		}
-		try
-		{
-			ppuser = await shoNhe.profilePictureUrl(m.sender, 'image')
-		}
-		catch (err)
-		{
-			ppuser = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png?q=60'
-		}
-		ppnyauser = await getBuffer(ppuser)
-		try
-		{
-			let isNumber = x => typeof x === 'number' && !isNaN(x)
-			let limitUser = global.limitawal.free
-			let user = global.db.data.users[m.sender]
-			if (typeof user !== 'object') global.db.data.users[m.sender] = {}
-			if (user)
-			{
-				if (!isNumber(user.afkTime)) user.afkTime = -1
-				if (!('afkReason' in user)) user.afkReason = ''
-				if (!isNumber(user.limit)) user.limit = limitUser
-			}
-			else global.db.data.users[m.sender] = {
-				afkTime: -1,
-				afkReason: '',
-				limit: limitUser,
-			}
-		}
-		catch (err)
-		{
-			console.log(err)
-		}
-		// respon list 
-		if (m.isGroup && isAlreadyResponList(m.chat, body.toLowerCase(), db_respon_list))
-		{
-			var get_data_respon = getDataResponList(m.chat, body.toLowerCase(), db_respon_list)
-			if (get_data_respon.isImage === false)
-			{
-				shoNhe.sendMessage(m.chat,
-				{
-					text: sendResponList(m.chat, body.toLowerCase(), db_respon_list)
-				},
-				{
-					quoted: m
-				})
-			}
-			else
-			{
-				shoNhe.sendMessage(m.chat,
-				{
-					image: await getBuffer(get_data_respon.image_url),
-					caption: get_data_respon.response
-				},
-				{
-					quoted: m
-				})
-			}
-		}
-		const reSize = async (buffer, ukur1, ukur2) =>
-		{
-			return new Promise(async (resolve, reject) =>
-			{
-				let jimp = require('jimp')
-				var baper = await jimp.read(buffer);
-				var ab = await baper.resize(ukur1, ukur2).getBufferAsync(jimp.MIME_JPEG)
-				resolve(ab)
-			})
-		}
-		const fkethmb = await reSize(ppuser, 300, 300)
-		// function resize
-		let jimp = require("jimp")
-		const resize = async (image, width, height) =>
-		{
-			const read = await jimp.read(image);
-			const data = await read.resize(width, height).getBufferAsync(jimp.MIME_JPEG);
-			return data;
-		};
-		async function downloadMp4(link)
-		{
-			try
-			{
-				console.log('🕒 Memulai proses download MP4...');
-				shoNhe.sendMessage(m.chat,
-				{
-					react:
-					{
-						text: '⏳',
-						key: m.key
-					}
-				});
-				// Fetch data dari API
-				let response = await fetch(`https://api.siputzx.my.id/api/d/ytmp4?url=${link}`);
-				let textResponse = await response.text();
-				// Validasi apakah respons adalah JSON
-				let data;
-				try
-				{
-					data = JSON.parse(textResponse);
-				}
-				catch (err)
-				{
-					console.error('❌ Respons bukan JSON:', textResponse);
-					m.reply("Terjadi kesalahan pada API. Silakan coba lagi nanti.");
-					return;
-				}
-				console.log('📥 Respons diterima dari API:', data);
-				if (data.status)
-				{
-					console.log('✅ Data valid, mengirim file video...');
-					shoNhe.sendMessage(m.chat,
-					{
-						video:
-						{
-							url: data.data.dl
-						},
-						caption: ''
-					},
-					{
-						quoted: m
-					});
-					console.log('✅ Proses selesai, file video berhasil dikirim.');
-				}
-				else
-				{
-					console.log('❌ Gagal mengambil video. URL tidak valid.');
-					m.reply("Gagal mengambil video. Silakan periksa URL.");
-				}
-			}
-			catch (err)
-			{
-				console.error('❌ Terjadi kesalahan:', err.message);
-				m.reply(`Error: ${err.message}`);
-			}
-		}
-		async function downloadMp3(link)
-		{
-			try
-			{
-				console.log('🕒 Memulai proses download MP3...');
-				shoNhe.sendMessage(m.chat,
-				{
-					react:
-					{
-						text: '⏳',
-						key: m.key
-					}
-				});
-				// Panggil API untuk mendapatkan URL file
-				let response = await fetch(`https://api.siputzx.my.id/api/d/ytmp3?url=${link}`);
-				let textResponse = await response.text();
-				let data;
-				try
-				{
-					data = JSON.parse(textResponse);
-				}
-				catch (err)
-				{
-					console.error('❌ Respons bukan JSON:', textResponse);
-					m.reply("Terjadi kesalahan pada API. Silakan coba lagi nanti.");
-					return;
-				}
-				console.log('📥 Respons diterima dari API:', data);
-				if (data.status && data.data.dl)
-				{
-					const fileUrl = data.data.dl;
-					const fileName = 'audio.mp3';
-					const fixedFileName = 'fixed_audio.mp3';
-					const filePath = path.join(__dirname, fileName);
-					const fixedFilePath = path.join(__dirname, fixedFileName);
-					// Unduh file audio
-					console.log('⏳ Mengunduh file audio...');
-					const writer = fs.createWriteStream(filePath);
-					const audioResponse = await axios(
-					{
-						url: fileUrl,
-						method: 'GET',
-						responseType: 'stream',
-					});
-					audioResponse.data.pipe(writer);
-					writer.on('finish', () =>
-					{
-						console.log('✅ File audio berhasil diunduh, memulai proses konversi...');
-						// Proses ulang file audio menggunakan ffmpeg
-						ffmpeg(filePath).toFormat('mp3') // Konversi ulang ke format MP3
-							.on('end', () =>
-							{
-								console.log('✅ File audio berhasil dikonversi.');
-								// Kirim file audio yang telah diperbaiki
-								shoNhe.sendMessage(m.chat,
-								{
-									audio: fs.readFileSync(fixedFilePath),
-									mimetype: 'audio/mpeg',
-									fileName: 'audio_fixed.mp3', // Nama file baru
-								},
-								{
-									quoted: m
-								});
-								// Hapus file sementara
-								fs.unlinkSync(filePath);
-								fs.unlinkSync(fixedFilePath);
-								console.log('✅ File audio berhasil dikirim dan file sementara dihapus.');
-							}).on('error', (err) =>
-							{
-								console.error('❌ Gagal mengonversi file audio:', err.message);
-								m.reply('Gagal memproses ulang file audio.');
-							}).save(fixedFilePath);
-					});
-					writer.on('error', (err) =>
-					{
-						console.error('❌ Gagal mengunduh file audio:', err.message);
-						m.reply('Gagal mengunduh file audio.');
-					});
-				}
-				else
-				{
-					console.log('❌ Gagal mengambil audio. URL tidak valid.');
-					m.reply("Gagal mengambil audio. Silakan periksa URL.");
-				}
-			}
-			catch (err)
-			{
-				console.error('❌ Terjadi kesalahan:', err.message);
-				m.reply(`Error: ${err.message}`);
-			}
-		}
-		if (!global.public)
-		{
-			if (!m.key.fromMe && !isShoNheOwn) return; // Abaikan jika bukan pesan bot atau owner
-		}
-		// Blokir command di chat pribadi saat Group Only aktif
-		if (global.groupOnly && !m.isGroup && !isShoNheOwn) return console.log('⚠️ GROUP ONLY')
-		if (global.privateChatOnly && m.isGroup && !isShoNheOwn) return console.log('⚠️ PRIVATE CHAT ONLY');
-		// func db
-		// Load user database from JSON file
-		function loadUserDatabase()
-		{
-			let rawdata = fs.readFileSync('database/user.json');
-			return JSON.parse(rawdata);
-		}
-		// Save updated user database back to JSON file
-		function saveUserDatabase(database)
-		{
-			fs.writeFileSync('database/user.json', JSON.stringify(database, null, 2));
-		}
-		const userFirePath = './database/userFire.json';
-		// Fungsi untuk membaca database
-		function loadUserFire()
-		{
-			if (!fs.existsSync(userFirePath))
-			{
-				fs.writeFileSync(userFirePath, JSON.stringify(
-				{}));
-			}
-			return JSON.parse(fs.readFileSync(userFirePath));
-		}
-		// Fungsi untuk menyimpan database
-		function saveUserFire(db)
-		{
-			fs.writeFileSync(userFirePath, JSON.stringify(db, null, 2));
-		}
-function levelUpdate(command, sender) {
+function listRank() {
+    const db = loadUserFire();
+    const sortedUsers = Object.entries(db)
+        .sort((a, b) => b[1].level - a[1].level); // Urutkan berdasarkan level
+
+    if (sortedUsers.length === 0) return { text: "📜 Tidak ada data peringkat saat ini.", mentions: [] };
+
+    let message = "📊 *LIST RANKING FIRE* 🔥\n\n";
+    let mentions = [];
+
+    sortedUsers.forEach(([user, data], index) => {
+        const formattedUser = `@${user.split('@')[0]}`;
+        mentions.push(user); // Tambahkan ke mentions
+        message += `#${index + 1} - ${formattedUser}\n`;
+        message += `   🎮 Level: ${data.level}\n`;
+        message += `   📖 EXP: ${data.exp}/${data.expTarget}\n`;
+        message += `   💰 Balance: Rp${data.balance}\n\n`;
+    });
+
+    return { text: message, mentions };
+}
+async function levelUpdate(command, sender, m) {
     const db = loadUserFire();
     if (!db[sender]) {
         db[sender] = {
@@ -1614,7 +2294,7 @@ function levelUpdate(command, sender) {
             exp: 0,
             expTarget: 10,
             commandCount: 0,
-            balance: 0 // Initial balance
+            balance: 2,
         };
     }
     const user = db[sender];
@@ -1622,1050 +2302,1038 @@ function levelUpdate(command, sender) {
     if (user.exp == null) user.exp = 0;
     if (user.level == null) user.level = 0;
     if (user.expTarget == null) user.expTarget = 10;
-    if (user.balance == null) user.balance = 0;
+    if (user.balance == null) user.balance = 2;
 
     // Increment commands and exp
     user.commandCount += 1;
-    user.exp += 1;
-
-    let levelUpMessage = null;
-    if (user.exp >= user.expTarget) {
-        user.level += 1; // Level up
-        user.expTarget += 20; // Increase target exp
-
-        // Define image URL based on level
-        const levelImages = {
-            1: "https://i.ibb.co.com/tXMNptr/01.png",
-            2: "https://i.ibb.co.com/Gxqbrzg/02.png",
-            3: "https://i.ibb.co.com/fVRR1BV/03.png",
-            4: "https://i.ibb.co.com/zPy0DcD/04.png",
-            5: "https://i.ibb.co.com/0V7msHW/05.png",
-            6: "https://i.ibb.co.com/4tNm7BV/06.png",
-            7: "https://i.ibb.co.com/6NrT4wb/07.png",
-            8: "https://i.ibb.co.com/QYbY3Qb/08.png",
-            9: "https://i.ibb.co.com/g7KC6jg/09.png",
-            10: "https://i.ibb.co.com/Bndy2xp/10.png",
-            default: "https://i.ibb.co.com/CQcbcQP/default.png"
-        };
-
-        const levelImage = levelImages[user.level] || levelImages.default;
-
-        levelUpMessage = {
-            text: 
-`─██░░SYSTEM UPDATE░░██─
-
-🔓 [ACCESS GRANTED]  
->> User leveling system initiated...  
->> Loading user profile...  
->> Scanning database integrity... ✅  
-
-────────────────────
-🛡️ *LEVEL-UP NOTIFICATION*  
-🎉 *CONGRATULATIONS, AGENT!*  
-📈 You've climbed the ranks to:  
-   LEVEL: *${user.level - 1} ➡️ ${user.level}*  
-
-───────────────────
-📊 *USER DATABASE REPORT*  
-───────────
-📂 *Name*        : *${m.pushName || 'Unknown'}*  
-📂 *Number*      : *${sender.split('@')[0]}*  
-📂 *Current Level*: *${user.level}*  
-📂 *Experience*  : *${user.exp}/${user.expTarget}*  
-📂 *Commands Used*: *${user.commandCount}*  
-📂 *Balance*     : *Rp${user.balance}*  
-📂 *Role*        : *${user.role || 'Regular User'}*  
-
-🔻 *END TRANSMISSION* 🔻
-────────────────────`,
-            image: levelImage
-        };
+    if (user.level < 10) {
+        user.exp += 1;
     }
 
+    let levelUpMessage = null;
+
+    // Cek apakah pengguna mencapai level baru
+    if (user.level < 10 && user.exp >= user.expTarget) {
+        user.level += 1; // Level up
+        user.expTarget += 20; // Tambah target EXP
+
+        try {
+            // Ambil avatar pengguna
+            const avatar = await shoNhe.profilePictureUrl(sender, "image").catch(() => 'https://files.catbox.moe/316j0f.jpg');
+
+            const bgImage = "https://files.catbox.moe/ref84k.png"; // Background level-up
+            const levelApiUrl = `https://api.siputzx.my.id/api/canvas/level-up?backgroundURL=${encodeURIComponent(bgImage)}&avatarURL=${encodeURIComponent(avatar)}&fromLevel=${user.level - 1}&toLevel=${user.level}&name=${encodeURIComponent(m.pushName || 'User')}`;
+
+            // Ambil gambar dari API (buffer)
+            let response = await axios.get(levelApiUrl, {
+                responseType: 'arraybuffer',
+                headers: { 'User-Agent': 'LevelUpBot' },
+                timeout: 5000, // Timeout 5 detik
+                httpsAgent: new (require('https').Agent)({
+                    family: 4,
+                    lookup: (hostname, options, cb) => require('dns').lookup(hostname, {
+                        ...options, all: false, hints: require('dns').ADDRCONFIG,
+                        family: 4, servers: ['1.1.1.1', '1.0.0.1']
+                    }, cb)
+                }) // Pakai Cloudflare DNS
+            });
+
+            // Struktur pesan Level-Up
+            levelUpMessage = {
+                text: `🌸✨ 𝐂𝐎𝐍𝐆𝐑𝐀𝐓𝐒 𝐅𝐎𝐑 𝐋𝐄𝐕𝐄𝐋 𝐔𝐏 𝐅𝐑𝐎𝐌 ${user.level - 1} to ${user.level}. 🎐\n\n🌿 *𝐔𝐒𝐄𝐑 𝐈𝐍𝐅𝐎*\n📛 *Nama*: ${m.pushName || 'Unknown'}\n📱 *Nomor*: ${sender.split('@')[0]}\n\n🎮 *Level*: ${user.level}\n✨ *EXP*: ${user.exp}/${user.expTarget}\n💰 *Saldo*: Rp${user.balance}\n🌺 *Role*: ${user.role || 'Regular User'}\n\n🌕 𝐊𝐄𝐄𝐏 𝐑𝐀𝐈𝐒𝐈𝐍𝐆 𝐘𝐎𝐔𝐑 𝐋𝐄𝐕𝐄𝐋! 🍃`,
+                image: response.data // Buffer gambar level-up
+            };
+        } catch (error) {
+            console.error("Gagal mengambil gambar level-up:", error);
+            levelUpMessage = { text: `🎉 Selamat! Kamu naik level ke ${user.level}. Tetap semangat! 🔥` };
+        }
+    }
+
+    // Simpan data pengguna
     saveUserFire(db);
-    console.log(`📊 Command "${command}" executed by ${sender}`);
+
     return levelUpMessage;
 }
-		// Fungsi untuk menambah saldo (hanya bisa dilakukan oleh owner)
-		function addBalance(sender, amount, owner)
-		{
-			const db = loadUserFire();
-			if (!owner.includes(senderNumber))
-			{
-				return mess.owners
-			}
-			// Cek apakah pengguna terdaftar
-			if (!db[sender])
-			{
-				return mess.regis
-			}
-			// Tambah saldo pengguna
-			db[sender].balance += amount;
-			saveUserFire(db);
-			return `✅ Saldo sebesar Rp${amount} telah ditambahkan ke ${sender.split('@')[0]}.\n💰 Saldo sekarang: Rp${db[sender].balance}`;
-		}
-		// Fungsi untuk mendaftarkan user
-		function registerUser(sender, role = 'user')
-		{
-			const db = loadUserFire();
-			if (!db[sender])
-			{
-				db[sender] = {
-					register: true,
-					role: role,
-					limit: role === 'owner' ? -1 : role === 'vip' ? 1000 : 100
-				};
-				saveUserFire(db);
-				return `🎉 Anda berhasil terdaftar sebagai ${role} dengan limit ${db[sender].limit}!`;
-			}
-			else if (!db[sender].register)
-			{
-				db[sender].register = true;
-				saveUserFire(db);
-				return `✅ Registrasi berhasil diaktifkan.`;
-			}
-			else
-			{
-				return `⚠️ Anda sudah terdaftar sebelumnya.`;
-			}
-		}
-		// Fungsi untuk mengecek status user
-		function checkUser(sender)
-		{
-			const db = loadUserFire();
-			if (!db[sender])
-			{
-				return `⚠️ Anda belum terdaftar. Silakan daftar terlebih dahulu.`;
-			}
-			return `ℹ️ Status Anda:\n- Role: ${db[sender].role}\n- Limit: ${db[sender].limit}\n- Register: ${db[sender].register}`;
-		}
-		// Baca database user fire
-		function loadUserFire()
-		{
-			if (!fs.existsSync(userFirePath))
-			{
-				fs.writeFileSync(userFirePath, JSON.stringify(
-				{}));
-			}
-			return JSON.parse(fs.readFileSync(userFirePath));
-		}
-		// Simpan perubahan database user fire
-		function saveUserFire(db)
-		{
-			fs.writeFileSync(userFirePath, JSON.stringify(db, null, 2));
-		}
+    // Fungsi untuk menambah saldo (hanya bisa dilakukan oleh owner)
+    function addBalance(sender, amount, owner)
+    {
+      const db = loadUserFire();
+      if (!owner.includes(senderNumber))
+      {
+        return mess.owners
+      }
+      // Cek apakah pengguna terdaftar
+      if (!db[sender])
+      {
+        return mess.regis
+      }
+      // Tambah saldo pengguna
+      db[sender].balance += amount;
+      saveUserFire(db);
+      return `✅ Saldo sebesar Rp${amount} telah ditambahkan ke ${sender.split('@')[0]}.\n💰 Saldo sekarang: Rp${db[sender].balance}`;
+    }
+    // Fungsi untuk mendaftarkan user
+    function registerUser(sender, role = 'user')
+    {
+      const db = loadUserFire();
+      if (!db[sender])
+      {
+        db[sender] = {
+          register: true,
+          role: role,
+          limit: role === 'owner' ? -1 : role === 'vip' ? 1000 : 100
+        };
+        saveUserFire(db);
+        return `🎉 Anda berhasil terdaftar sebagai ${role} dengan limit ${db[sender].limit}!`;
+      }
+      else if (!db[sender].register)
+      {
+        db[sender].register = true;
+        saveUserFire(db);
+        return `✅ Registrasi berhasil diaktifkan.`;
+      }
+      else
+      {
+        return `⚠️ Anda sudah terdaftar sebelumnya.`;
+      }
+    }
+    // Fungsi untuk mengecek status user
+    function checkUser(sender)
+    {
+      const db = loadUserFire();
+      if (!db[sender])
+      {
+        return `⚠️ Anda belum terdaftar. Silakan daftar terlebih dahulu.`;
+      }
+      return `ℹ️ Status Anda:\n- Role: ${db[sender].role}\n- Limit: ${db[sender].limit}\n- Register: ${db[sender].register}`;
+    }
+    // Baca database user fire
+    function loadUserFire()
+    {
+      if (!fs.existsSync(userFirePath))
+      {
+        fs.writeFileSync(userFirePath, JSON.stringify(
+        {}));
+      }
+      return JSON.parse(fs.readFileSync(userFirePath));
+    }
+    // Simpan perubahan database user fire
+    function saveUserFire(db)
+    {
+      fs.writeFileSync(userFirePath, JSON.stringify(db, null, 2));
+    }
 
-		function claimFire(m)
-		{
-			const db = loadUserFire();
-			const sender = m.sender;
-			if (!db[sender] || !db[sender].register)
-			{
-				sendRegister(shoNhe, m, prefix, namabot);
-				return;
-			}
-			const now = Date.now();
-			const cooldown = 24 * 60 * 60 * 1000; // 24 jam dalam milidetik
-			const lastClaim = db[sender].lastClaim || 0;
-			// Cek cooldown
-			if (now - lastClaim < cooldown)
-			{
-				const remainingTime = cooldown - (now - lastClaim);
-				const hours = Math.floor(remainingTime / (60 * 60 * 1000));
-				const minutes = Math.floor((remainingTime % (60 * 60 * 1000)) / (60 * 1000));
-				reply(`⏳ Anda sudah klaim. Coba lagi dalam ${hours} jam ${minutes} menit.`);
-				return;
-			}
-			// Tambahkan limit berdasarkan role
-			const reward = db[sender].role === 'vip' ? 50 : 20;
-			db[sender].limit += reward;
-			db[sender].lastClaim = now;
-			saveUserFire(db);
-			reply(`🎉 Anda berhasil klaim limit harian!\n🔥 Anda mendapatkan: ${reward}\n🔥 Total limit Anda: ${db[sender].limit}`);
-		}
+    function claimFire(m)
+    {
+      const db = loadUserFire();
+      const sender = m.sender;
+      if (!db[sender] || !db[sender].register)
+      {
+        sendRegister(shoNhe, m, prefix, namabot);
+        return;
+      }
+      const now = Date.now();
+      const cooldown = 24 * 60 * 60 * 1000; // 24 jam dalam milidetik
+      const lastClaim = db[sender].lastClaim || 0;
+      // Cek cooldown
+      if (now - lastClaim < cooldown)
+      {
+        const remainingTime = cooldown - (now - lastClaim);
+        const hours = Math.floor(remainingTime / (60 * 60 * 1000));
+        const minutes = Math.floor((remainingTime % (60 * 60 * 1000)) / (60 * 1000));
+        reply(`⏳ Anda sudah klaim. Coba lagi dalam ${hours} jam ${minutes} menit.`);
+        return;
+      }
+      // Tambahkan limit berdasarkan role
+      const reward = db[sender].role === 'vip' ? 50 : 20;
+      db[sender].limit += reward;
+      db[sender].lastClaim = now;
+      saveUserFire(db);
+      reply(`🎉 Anda berhasil klaim limit harian!\n🔥 Anda mendapatkan: ${reward}\n🔥 Total limit Anda: ${db[sender].limit}`);
+    }
 
-		function getFireThumbnail(limit)
-		{
-			const thumbnails = {
-				1000: './src/role/vipRole.jpg', // VIP/Premium
-				100: './src/role/100Role.jpg',
-				80: './src/role/80Role.jpg',
-				60: './src/role/60Role.jpg',
-				40: './src/role/40Role.jpg',
-				20: './src/role/20Role.jpg',
-				10: './src/role/10Role.jpg',
-				0: './src/role/0Role.jpg', // Untuk limit habis
-				'-1': './src/role/ownerRole.jpg' // Thumbnail khusus Owner
-			};
-			// Thumbnail default jika file tidak ditemukan
-			const defaultThumbnail = './src/role/0Role.jpg';
-			// Tentukan rentang berdasarkan nilai limit
-			let selectedThumbnail = defaultThumbnail;
-			if (limit === -1)
-			{
-				selectedThumbnail = thumbnails['-1']; // Owner
-			}
-			else if (limit > 1000)
-			{
-				selectedThumbnail = thumbnails[1000]; // VIP
-			}
-			else if (limit >= 101 && limit <= 1000)
-			{
-				selectedThumbnail = thumbnails[1000]; // Rentang VIP
-			}
-			else if (limit >= 81 && limit <= 100)
-			{
-				selectedThumbnail = thumbnails[100]; // Rentang 100
-			}
-			else if (limit >= 61 && limit <= 80)
-			{
-				selectedThumbnail = thumbnails[80]; // Rentang 80
-			}
-			else if (limit >= 41 && limit <= 60)
-			{
-				selectedThumbnail = thumbnails[60]; // Rentang 60
-			}
-			else if (limit >= 21 && limit <= 40)
-			{
-				selectedThumbnail = thumbnails[40]; // Rentang 40
-			}
-			else if (limit >= 11 && limit <= 20)
-			{
-				selectedThumbnail = thumbnails[20]; // Rentang 20
-			}
-			else if (limit >= 1 && limit <= 10)
-			{
-				selectedThumbnail = thumbnails[10]; // Rentang 10
-			}
-			else if (limit === 0)
-			{
-				selectedThumbnail = thumbnails[0]; // Limit habis
-			}
-			// Periksa apakah file thumbnail ada
-			if (fs.existsSync(selectedThumbnail))
-			{
-				return fs.readFileSync(selectedThumbnail);
-			}
-			else
-			{
-				console.error(`File thumbnail tidak ditemukan: ${selectedThumbnail}, menggunakan default.`);
-				return fs.readFileSync(defaultThumbnail);
-			}
-		}
+    function getFireThumbnail(limit)
+    {
+      const thumbnails = {
+        1000: './src/role/vipRole.jpg', // VIP/Premium
+        100: './src/role/100Role.jpg',
+        80: './src/role/80Role.jpg',
+        60: './src/role/60Role.jpg',
+        40: './src/role/40Role.jpg',
+        20: './src/role/20Role.jpg',
+        10: './src/role/10Role.jpg',
+        0: './src/role/0Role.jpg', // Untuk limit habis
+        '-1': './src/role/ownerRole.jpg' // Thumbnail khusus Owner
+      };
+      // Thumbnail default jika file tidak ditemukan
+      const defaultThumbnail = './src/role/0Role.jpg';
+      // Tentukan rentang berdasarkan nilai limit
+      let selectedThumbnail = defaultThumbnail;
+      if (limit === -1)
+      {
+        selectedThumbnail = thumbnails['-1']; // Owner
+      }
+      else if (limit > 1000)
+      {
+        selectedThumbnail = thumbnails[1000]; // VIP
+      }
+      else if (limit >= 101 && limit <= 1000)
+      {
+        selectedThumbnail = thumbnails[1000]; // Rentang VIP
+      }
+      else if (limit >= 81 && limit <= 100)
+      {
+        selectedThumbnail = thumbnails[100]; // Rentang 100
+      }
+      else if (limit >= 61 && limit <= 80)
+      {
+        selectedThumbnail = thumbnails[80]; // Rentang 80
+      }
+      else if (limit >= 41 && limit <= 60)
+      {
+        selectedThumbnail = thumbnails[60]; // Rentang 60
+      }
+      else if (limit >= 21 && limit <= 40)
+      {
+        selectedThumbnail = thumbnails[40]; // Rentang 40
+      }
+      else if (limit >= 11 && limit <= 20)
+      {
+        selectedThumbnail = thumbnails[20]; // Rentang 20
+      }
+      else if (limit >= 1 && limit <= 10)
+      {
+        selectedThumbnail = thumbnails[10]; // Rentang 10
+      }
+      else if (limit === 0)
+      {
+        selectedThumbnail = thumbnails[0]; // Limit habis
+      }
+      // Periksa apakah file thumbnail ada
+      if (fs.existsSync(selectedThumbnail))
+      {
+        return fs.readFileSync(selectedThumbnail);
+      }
+      else
+      {
+        console.error(`File thumbnail tidak ditemukan: ${selectedThumbnail}, menggunakan default.`);
+        return fs.readFileSync(defaultThumbnail);
+      }
+    }
 
-		function firely(m, teks)
-		{
-			const db = loadUserFire();
-			const sender = m.sender;
-			// Cek apakah user sudah terdaftar
-			if (!db[sender] || !db[sender].register)
-			{
-				sendRegister(shoNhe, m, prefix, namabot);
-				return false;
-			}
-			// Dapatkan limit user berdasarkan role
-			const userLimit = db[sender].limit;
-			const reduction = db[sender].role === 'owner' ? 0 : 5; // Owner tidak ada pengurangan limit
-			// Cek limit sebelum melanjutkan
-			if (userLimit <= 0 && db[sender].role !== 'owner')
-			{
-				reply('🔥 Limit Anda sudah habis. Silakan klaim limit atau tingkatkan role Anda.');
-				return false;
-			}
-			// Kurangi limit jika bukan owner
-			if (db[sender].role !== 'owner')
-			{
-				db[sender].limit -= reduction;
-				saveUserFire(db);
-			}
-			// Kirim pesan firely
-			const thumbnail = getFireThumbnail(userLimit); // Mendapatkan thumbnail sesuai limit
-			shoNhe.sendMessage(m.chat,
-			{
-				text: teks + `\n🔥 Limit tersisa: _${db[sender].limit}_`,
-				contextInfo:
-				{
-					externalAdReply:
-					{
-						title: `🔥 Fire Limit`,
-						body: `🔥 Anda mengurangi ${reduction} limit.`,
-						previewType: "PHOTO",
-						thumbnail: thumbnail,
-						sourceUrl: 'https://wa.me/6288742782469'
-					}
-				}
-			},
-			{
-				quoted: m
-			});
-			return true;
-		}
-		const firelos = (m, teks) =>
-		{
-			const db = loadUserFire();
-			const sender = m.sender;
-			const userLimit = db[sender]?.limit || 0; // Default 0 jika user tidak ada
-			const thumbnailUrl = getFireThumbnail(userLimit);
-			shoNhe.sendMessage(m.chat,
-			{
-				text: teks + `\n🔥 Anda tidak memiliki limit tersisa.`,
-				contextInfo:
-				{
-					externalAdReply:
-					{
-						title: `🔥 Fire Limit`,
-						body: `🔥 Your Fire Limits: ${userLimit}`,
-						previewType: "PHOTO",
-						thumbnail: thumbnailUrl,
-						sourceUrl: `https://whatsapp.com/channel/0029Vb0v3F71yT264EejzJ3e`
-					}
-				}
-			},
-			{
-				quoted: m
-			});
-		};
+    function userFire(m, teks)
+    {
+      const db = loadUserFire();
+      const sender = m.sender;
+      // Cek apakah user sudah terdaftar
+      if (!db[sender] || !db[sender].register)
+      {
+        sendRegister(shoNhe, m, prefix, namabot);
+        return false;
+      }
+      // Dapatkan limit user berdasarkan role
+      const userLimit = db[sender].limit;
+      const reduction = db[sender].role === 'owner' ? 0 : 5; // Owner tidak ada pengurangan limit
+      // Cek limit sebelum melanjutkan
+      if (userLimit <= 0 && db[sender].role !== 'owner')
+      {
+        reply('🔥 Limit Anda sudah habis. Silakan klaim limit atau tingkatkan role Anda.');
+        return false;
+      }
+      // Kurangi limit jika bukan owner
+      if (db[sender].role !== 'owner')
+      {
+        db[sender].limit -= reduction;
+        saveUserFire(db);
+      }
+      // Kirim pesan userFire
+      const thumbnail = getFireThumbnail(userLimit); // Mendapatkan thumbnail sesuai limit
+      shoNhe.sendMessage(m.chat,
+      {
+        text: teks + `\n🔥 Limit tersisa: ${db[sender].limit}`,
+        contextInfo:
+        {
+          externalAdReply:
+          {
+            title: `🔥 Fire Limit`,
+            body: `🔥 Anda mengurangi ${reduction} limit.`,
+            previewType: "PHOTO",
+            thumbnail: thumbnail,
+            sourceUrl: 'https://wa.me/6288989971490'
+          }
+        }
+      },
+      {
+        quoted: m
+      });
+      return true;
+    }
+    const firelos = (m, teks) =>
+    {
+      const db = loadUserFire();
+      const sender = m.sender;
+      const userLimit = db[sender]?.limit || 0; // Default 0 jika user tidak ada
+      const thumbnailUrl = getFireThumbnail(userLimit);
+      shoNhe.sendMessage(m.chat,
+      {
+        text: teks + `\n🔥 Anda tidak memiliki limit tersisa.`,
+        contextInfo:
+        {
+          externalAdReply:
+          {
+            title: `🔥 Fire Limit`,
+            body: `🔥 Your Fire Limits: ${userLimit}`,
+            previewType: "PHOTO",
+            thumbnail: thumbnailUrl,
+            sourceUrl: `https://whatsapp.com/channel/0029Vb0v3F71yT264EejzJ3e`
+          }
+        }
+      },
+      {
+        quoted: m
+      });
+    };
 
-		function isRegistered(m)
-		{
-			const db = loadUserFire(); // Load database
-			const sender = m.sender; // ID pengirim
-			return db[sender]?.register || false; // Return true jika terdaftar, false jika tidak
-		}
-		const thumbFolder2 = './src/thum2/'; // Lokasi folder untuk menyimpan thumbnail
-		const defaultThumbnailPath2 = './src/thum2/shoNhe.jpg'; // Lokasi thumbnail default (file lokal)
-		// Membuat folder jika belum ada
-		if (!fs.existsSync(thumbFolder2))
-		{
-			fs.mkdirSync(thumbFolder2,
-			{
-				recursive: true
-			});
-		}
-		// Pastikan default thumbnail ada
-		if (!fs.existsSync(defaultThumbnailPath2))
-		{
-			// Jika tidak ada default, Anda bisa menambahkan file default manual atau secara otomatis.
-			const defaultImage2 = Buffer.from('Default Thumbnail'); // Placeholder default thumbnail
-			fs.writeFileSync(defaultThumbnailPath2, defaultImage2);
-		}
-		// **Fungsi: Membaca semua thumbnail di folder**
-		const readThumbList2 = () =>
-		{
-			const files2 = fs.readdirSync(thumbFolder2).filter(file => file.endsWith('.jpg'));
-			return files2.map(file => (
-			{
-				name: path.parse(file).name, // Nama file tanpa ekstensi
-				path: path.join(thumbFolder2, file), // Lokasi file lengkap
-			}));
-		};
-		// **Fungsi: Menambahkan thumbnail**
-		const addThumb2 = async (nama2, quoted2, mime2) =>
-		{
-			if (!/image/.test(mime2)) return 'Kirim/Reply Image dengan Caption untuk menambahkan thumbnail.';
-			const fileName2 = `${thumbFolder2}${nama2}.jpg`;
-			if (fs.existsSync(fileName2)) return 'Thumbnail dengan nama tersebut sudah ada.';
-			const media2 = await quoted2.download(); // Unduh file media dari pesan
-			fs.writeFileSync(fileName2, media2);
-			return `Thumbnail dengan nama "${nama2}" berhasil ditambahkan.`;
-		};
-		// **Fungsi: Menghapus thumbnail**
-		const delThumb2 = (nama2) =>
-		{
-			const fileName2 = `${thumbFolder2}${nama2}.jpg`;
-			if (!fs.existsSync(fileName2)) return 'Thumbnail dengan nama tersebut tidak ditemukan.';
-			fs.unlinkSync(fileName2);
-			return `Thumbnail dengan nama "${nama2}" berhasil dihapus.`;
-		};
-		// **Fungsi: Menampilkan daftar thumbnail**
-		const listThumb2 = () =>
-		{
-			const thumbList2 = readThumbList2();
-			if (thumbList2.length === 0) return 'Tidak ada thumbnail yang tersimpan.';
-			return thumbList2.map(thumb => `Nama: ${thumb.name}`).join('\n');
-		};
-		// **Fungsi: Mengambil thumbnail secara acak**
-		const getRandomThum3 = () =>
-		{
-			const thumbList2 = readThumbList2();
-			if (thumbList2.length === 0)
-			{
-				// Jika folder kosong, gunakan default thumbnail
-				return fs.readFileSync(defaultThumbnailPath2);
-			}
-			const randomFile2 = thumbList2[Math.floor(Math.random() * thumbList2.length)];
-			return fs.readFileSync(randomFile2.path); // Return Buffer thumbnail
-		};
-		//===================[ FUNCTION REPLY ]=====================\\
-		const aifake = {
-			key:
-			{
-				participant: '18002428478@s.whatsapp.net',
-				...(m.chat ?
-				{
-					remoteJid: `status@broadcast`
-				} :
-				{})
-			},
-			message:
-			{
-				liveLocationMessage:
-				{
-					caption: `© kyy`,
-					jpegThumbnail: ""
-				}
-			},
-		}
-		const shoNhemand = body.replace(prefix, '').trim().split(/ +/).shift().toUpperCase();
-		// Array emoji alam dan hewan yang baru
-		const emojis = ['🔥', '👁️‍🗨️','⏳'];
-		// Memilih emoji secara acak
-		const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
-		// Membuat teks dengan format yang diinginkan
-		const formattedshoNhemand = `${randomEmoji} ${shoNhemand}`;
-		// Menyiapkan objek message untuk digunakan
-		const hw = {
-			key:
-			{
-				participant: '0@s.whatsapp.net',
-				...(m.chat ?
-				{
-					remoteJid: `status@broadcast`
-				} :
-				{})
-			},
-			message:
-			{
-				liveLocationMessage:
-				{
-					caption: `${formattedshoNhemand}`,
-					jpegThumbnail: ""
-				}
-			},
-			quoted: sound
-		}
-		const jq = {
-			key:
-			{
-				participant: '18002428478@s.whatsapp.net',
-				...(m.chat ?
-				{
-					remoteJid: `status@broadcast`
-				} :
-				{})
-			},
-			message:
-			{
-				liveLocationMessage:
-				{
-					caption: `Always Use Termux⚡`,
-					jpegThumbnail: ""
-				}
-			},
-			quoted: sound
-		}
-		// Pastikan autotyping atau autovn aktif berdasarkan pesan yang sedang diketik
-		if (botSettings.autotyping && shoNhe.public)
-		{
-			await shoNhe.sendPresenceUpdate('composing', m.chat);
-		}
-		if (botSettings.autovn && shoNhe.public)
-		{
-			await shoNhe.sendPresenceUpdate('recording', m.chat);
-		}
-		// Lokasi file JSON di folder 'database'
-		const thumbListFilePath = path.join(__dirname, 'database', 'thumbList.json');
-		// Fungsi untuk membaca data thumbnail dari file JSON
-		const readThumbList = () =>
-		{
-			if (!fs.existsSync(thumbListFilePath))
-			{
-				// Jika file tidak ada, buat file baru dengan array kosong
-				fs.writeFileSync(thumbListFilePath, JSON.stringify([]));
-				return [];
-			}
-			const data = fs.readFileSync(thumbListFilePath, 'utf-8');
-			return JSON.parse(data);
-		};
-		// Fungsi untuk menulis data thumbnail ke file JSON
-		const writeThumbList = (thumbList) =>
-		{
-			fs.writeFileSync(thumbListFilePath, JSON.stringify(thumbList, null, 2));
-		};
-		// Fungsi untuk menambahkan thumbnail
-		const addthumb = (nama, url) =>
-		{
-			const thumbList = readThumbList();
-			// Cek apakah nama sudah ada
-			if (thumbList.find(thumb => thumb.name === nama))
-			{
-				return 'Thumbnail dengan nama tersebut sudah ada.';
-			}
-			// Menambahkan thumbnail ke dalam daftar
-			thumbList.push(
-			{
-				name: nama,
-				url: url
-			});
-			writeThumbList(thumbList);
-			return `Thumbnail dengan nama ${nama} berhasil ditambahkan.`;
-		};
-		// Fungsi untuk menghapus thumbnail berdasarkan nama
-		const delthumb = (nama) =>
-		{
-			const thumbList = readThumbList();
-			const index = thumbList.findIndex(thumb => thumb.name === nama);
-			if (index === -1)
-			{
-				return 'Thumbnail dengan nama tersebut tidak ditemukan.';
-			}
-			thumbList.splice(index, 1);
-			writeThumbList(thumbList);
-			return `Thumbnail dengan nama ${nama} berhasil dihapus.`;
-		};
-		// Fungsi untuk menampilkan daftar thumbnail
-		const listthumb = () =>
-		{
-			const thumbList = readThumbList();
-			if (thumbList.length === 0)
-			{
-				return 'Tidak ada thumbnail yang tersimpan.';
-			}
-			return thumbList.map(thumb => `Nama: ${thumb.name}, URL: ${thumb.url}`).join('\n');
-		};
-		// Fungsi untuk memilih thumbnail secara random dari daftar
-		const getRandomThumb = () =>
-		{
-			const thumbList = readThumbList();
-			return thumbList[Math.floor(Math.random() * thumbList.length)]?.url || 'https://i.ibb.co.com/x6cRFN1/6cbaad220c211d8399577906a2f30856.jpg';
-		};
-		const reply = (teks) =>
-		{
-			shoNhe.sendMessage(from,
-			{
-				text: teks,
-				contextInfo:
-				{
-					mentionedJid: [m.sender],
-					"externalAdReply":
-					{
-						"title": `🅥 Store`,
-						"body": `🅥K͜ʏʏ-Stoʀɛ`,
-						"previewType": "PHOTO",
-						"thumbnail": getRandomThumb2(),
-						"sourceUrl": gh
-					}
-				}
-			},
-			{
-				quoted: hw
-			})
-		}
-		const reply2 = (teks) =>
-		{
-			shoNhe.sendMessage(from,
-			{
-				text: teks
-			},
-			{
-				quoted: m
-			})
-		}
-		//Fake quoted 
-		const fpay = {
-			key:
-			{
-				remoteJid: '0@s.whatsapp.net',
-				fromMe: false,
-				id: global.namabot,
-				participant: '0@s.whatsapp.net'
-			},
-			message:
-			{
-				requestPaymentMessage:
-				{
-					currencyCodeIso4217: "USD",
-					amount1000: 999999999,
-					requestFrom: '0@s.whatsapp.net',
-					noteMessage:
-					{
-						extendedTextMessage:
-						{
-							text: global.namabot
-						}
-					},
-					expiryTimestamp: 999999999,
-					amount:
-					{
-						value: 91929291929,
-						offset: 1000,
-						currencyCode: "USD"
-					}
-				}
-			}
-		}
-		const ftroli = {
-			key:
-			{
-				fromMe: false,
-				"participant": "0@s.whatsapp.net",
-				"remoteJid": "status@broadcast"
-			},
-			"message":
-			{
-				orderMessage:
-				{
-					itemCount: 1986,
-					status: 200,
-					thumbnail: getRandomThumb2(),
-					surface: 200,
-					message: "Rp 2.000",
-					orderTitle: namaowner,
-					sellerJid: '0@s.whatsapp.net'
-				}
-			},
-			contextInfo:
-			{
-				"forwardingScore": 999,
-				"isForwarded": true
-			},
-			sendEphemeral: true
-		}
-		const fdoc = {
-			key:
-			{
-				participant: '0@s.whatsapp.net',
-				...(m.chat ?
-				{
-					remoteJid: `status@broadcast`
-				} :
-				{})
-			},
-			message:
-			{
-				documentMessage:
-				{
-					title: namabot,
-					jpegThumbnail: getRandomThumb2()
-				}
-			}
-		}
-		const fvn = {
-			key:
-			{
-				participant: `0@s.whatsapp.net`,
-				...(m.chat ?
-				{
-					remoteJid: "status@broadcast"
-				} :
-				{})
-			},
-			message:
-			{
-				"audioMessage":
-				{
-					"mimetype": "audio/ogg; codecs=opus",
-					"seconds": 0,
-					"ptt": "true"
-				}
-			}
-		}
-		const fgif = {
-			key:
-			{
-				participant: `0@s.whatsapp.net`,
-				...(m.chat ?
-				{
-					remoteJid: "status@broadcast"
-				} :
-				{})
-			},
-			message:
-			{
-				"videoMessage":
-				{
-					"title": namabot,
-					"h": packname,
-					'seconds': '359996400',
-					'gifPlayback': 'true',
-					'caption': namaowner,
-					'jpegThumbnail': getRandomThumb2()
-				}
-			}
-		}
-		const fgclink = {
-			key:
-			{
-				participant: "0@s.whatsapp.net",
-				"remoteJid": "0@s.whatsapp.net"
-			},
-			"message":
-			{
-				"groupInviteMessage":
-				{
-					"groupJid": "6288213840883-1616169743@g.us",
-					"inviteCode": "m",
-					"groupName": packname,
-					"caption": `${m.pushName ? m.pushName : 'Temen kyybotz'}`,
-					'jpegThumbnail': getRandomThumb2()
-				}
-			}
-		}
-		const fvideo = {
-			key:
-			{
-				fromMe: false,
-				participant: `0@s.whatsapp.net`,
-				...(m.chat ?
-				{
-					remoteJid: "status@broadcast"
-				} :
-				{})
-			},
-			message:
-			{
-				"videoMessage":
-				{
-					"title": namabot,
-					"h": packname,
-					'seconds': '0',
-					'caption': `${m.pushName ? m.pushName : 'Temen kyybotz'}`,
-					'jpegThumbnail': getRandomThumb2()
-				}
-			}
-		}
-		const floc = {
-			key:
-			{
-				participant: '0@s.whatsapp.net',
-				...(m.chat ?
-				{
-					remoteJid: `status@broadcast`
-				} :
-				{})
-			},
-			message:
-			{
-				locationMessage:
-				{
-					name: packname,
-					jpegThumbnail: getRandomThumb2()
-				}
-			}
-		}
-		const fkontak = {
-			key:
-			{
-				participant: `0@s.whatsapp.net`,
-				...(m.chat ?
-				{
-					remoteJid: `status@broadcast`
-				} :
-				{})
-			},
-			message:
-			{
-				'contactMessage':
-				{
-					'displayName': namaowner,
-					'vcard': `BEGIN:VCARD\nVERSION:3.0\nN: Smartfren;${namaowner},;;;\nFN:${namaowner}\nitem1.TEL;waid=916909137213:916909137213\nitem1.X-ABLabel:Mobile\nEND:VCARD`,
-					'jpegThumbnail': getRandomThumb2(),
-					thumbnail: getRandomThumb2(),
-					sendEphemeral: true
-				}
-			}
-		}
-		const fakestatus = {
-			key:
-			{
-				fromMe: false,
-				participant: `0@s.whatsapp.net`,
-				...(m.chat ?
-				{
-					remoteJid: "status@broadcast"
-				} :
-				{})
-			},
-			message:
-			{
-				"imageMessage":
-				{
-					"url": "https://mmg.whatsapp.net/d/f/At0x7ZdIvuicfjlf9oWS6A3AR9XPh0P-hZIVPLsI70nM.enc",
-					"mimetype": "image/jpeg",
-					"caption": packname,
-					"fileSha256": "+Ia+Dwib70Y1CWRMAP9QLJKjIJt54fKycOfB2OEZbTU=",
-					"fileLength": "28777",
-					"height": 1080,
-					"width": 1079,
-					"mediaKey": "vXmRR7ZUeDWjXy5iQk17TrowBzuwRya0errAFnXxbGc=",
-					"fileEncSha256": "sR9D2RS5JSifw49HeBADguI23fWDz1aZu4faWG/CyRY=",
-					"directPath": "/v/t62.7118-24/21427642_840952686474581_572788076332761430_n.enc?oh=3f57c1ba2fcab95f2c0bb475d72720ba&oe=602F3D69",
-					"mediaKeyTimestamp": "1610993486",
-					"jpegThumbnail": fs.readFileSync('./ShoNheMedia/image/owner.jpg'),
-					"scansSidecar": "1W0XhfaAcDwc7xh1R8lca6Qg/1bB4naFCSngM2LKO2NoP5RI7K+zLw=="
-				}
-			}
-		}
-		const frpayment = {
-			key:
-			{
-				remoteJid: '0@s.whatsapp.net',
-				fromMe: false,
-				id: `${namaowner}`,
-				participant: '0@s.whatsapp.net'
-			},
-			message:
-			{
-				requestPaymentMessage:
-				{
-					currencyCodeIso4217: "USD",
-					amount1000: 999999999,
-					requestFrom: '0@s.whatsapp.net',
-					noteMessage:
-					{
-						extendedTextMessage:
-						{
-							text: `${namabot}`
-						}
-					},
-					expiryTimestamp: 999999999,
-					amount:
-					{
-						value: 91929291929,
-						offset: 1000,
-						currencyCode: "INR"
-					}
-				}
-			}
-		}
+    function isRegistered(m)
+    {
+      const db = loadUserFire(); // Load database
+      const sender = m.sender; // ID pengirim
+      return db[sender]?.register || false; // Return true jika terdaftar, false jika tidak
+    }
+    const thumbFolder2 = './src/thum2/'; // Lokasi folder untuk menyimpan thumbnail
+    const defaultThumbnailPath2 = './src/thum2/shoNhe.jpg'; // Lokasi thumbnail default (file lokal)
+    // Membuat folder jika belum ada
+    if (!fs.existsSync(thumbFolder2))
+    {
+      fs.mkdirSync(thumbFolder2,
+      {
+        recursive: true
+      });
+    }
+    // Pastikan default thumbnail ada
+    if (!fs.existsSync(defaultThumbnailPath2))
+    {
+      // Jika tidak ada default, Anda bisa menambahkan file default manual atau secara otomatis.
+      const defaultImage2 = Buffer.from('Default Thumbnail'); // Placeholder default thumbnail
+      fs.writeFileSync(defaultThumbnailPath2, defaultImage2);
+    }
+    // *Fungsi: Membaca semua thumbnail di folder*
+    const readThumbList2 = () =>
+    {
+      const files2 = fs.readdirSync(thumbFolder2).filter(file => file.endsWith('.jpg'));
+      return files2.map(file => (
+      {
+        name: path.parse(file).name, // Nama file tanpa ekstensi
+        path: path.join(thumbFolder2, file), // Lokasi file lengkap
+      }));
+    };
+    // *Fungsi: Menambahkan thumbnail*
+    const addThumb2 = async (nama2, quoted2, mime2) =>
+    {
+      if (!/image/.test(mime2)) return 'Kirim/Reply Image dengan Caption untuk menambahkan thumbnail.';
+      const fileName2 = `${thumbFolder2}${nama2}.jpg`;
+      if (fs.existsSync(fileName2)) return 'Thumbnail dengan nama tersebut sudah ada.';
+      const media2 = await quoted2.download(); // Unduh file media dari pesan
+      fs.writeFileSync(fileName2, media2);
+      return `Thumbnail dengan nama "${nama2}" berhasil ditambahkan.`;
+    };
+    // *Fungsi: Menghapus thumbnail*
+    const delThumb2 = (nama2) =>
+    {
+      const fileName2 = `${thumbFolder2}${nama2}.jpg`;
+      if (!fs.existsSync(fileName2)) return 'Thumbnail dengan nama tersebut tidak ditemukan.';
+      fs.unlinkSync(fileName2);
+      return `Thumbnail dengan nama "${nama2}" berhasil dihapus.`;
+    };
+    // *Fungsi: Menampilkan daftar thumbnail*
+    const listThumb2 = () =>
+    {
+      const thumbList2 = readThumbList2();
+      if (thumbList2.length === 0) return 'Tidak ada thumbnail yang tersimpan.';
+      return thumbList2.map(thumb => `Nama: ${thumb.name}`).join('\n');
+    };
+    // *Fungsi: Mengambil thumbnail secara acak*
+    const getRandomThumb2 = () =>
+    {
+      const thumbList2 = readThumbList2();
+      if (thumbList2.length === 0)
+      {
+        // Jika folder kosong, gunakan default thumbnail
+        return fs.readFileSync(defaultThumbnailPath2);
+      }
+      const randomFile2 = thumbList2[Math.floor(Math.random() * thumbList2.length)];
+      return fs.readFileSync(randomFile2.path); // Return Buffer thumbnail
+    };
+    //===================[ FUNCTION REPLY ]=====================\\
+    const aifake = {
+      key:
+      {
+        participant: '18002428478@s.whatsapp.net',
+        ...(m.chat ?
+        {
+          remoteJid: `status@broadcast`
+        } :
+        {})
+      },
+      message:
+      {
+        liveLocationMessage:
+        {
+          caption: `© DaTngxz"S`,
+          jpegThumbnail: ""
+        }
+      },
+    }
+    const shoNhemand = body.replace(prefix, '').trim().split(/ +/).shift().toUpperCase();
+    // Array emoji alam dan hewan yang baru
+    const emojis = ['⚡', '🌪️', '🌊', '🫧', '💧', '🪵', '🍄', '☘️', '🍃', '🪷', '💫', '✨', '🌟', '🔥', '🪨', '🪽', '⚓', '💎', '🚀', '🛸', '✈️', '🥕', '🍓', '🐙', '🦑', '🦞', '🐣', '🐓', '🐍', '🐊', '🐉', '🐱', '🌻', '🐦‍🔥', '🐬', '🍏', '⚽', '🪀', '🔮', '🧸', '🦉', '🐾', '🦪', '🎠', '🏕️'];
+    // Memilih emoji secara acak
+    const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+    // Membuat teks dengan format yang diinginkan
+    const formattedshoNhemand = `${randomEmoji} ${shoNhemand}`;
+    // Menyiapkan objek message untuk digunakan
+    const hw = {
+      key:
+      {
+        participant: '0@s.whatsapp.net',
+        ...(m.chat ?
+        {
+          remoteJid: `status@broadcast`
+        } :
+        {})
+      },
+      message:
+      {
+        liveLocationMessage:
+        {
+          caption: `${formattedshoNhemand}`,
+          jpegThumbnail: ""
+        }
+      },
+      quoted: sound
+    }
+    const jq = {
+      key:
+      {
+        participant: '18002428478@s.whatsapp.net',
+        ...(m.chat ?
+        {
+          remoteJid: `status@broadcast`
+        } :
+        {})
+      },
+      message:
+      {
+        liveLocationMessage:
+        {
+          caption: `Always Use Termux⚡`,
+          jpegThumbnail: ""
+        }
+      },
+      quoted: sound
+    }
+    // Pastikan autotyping atau autovn aktif berdasarkan pesan yang sedang diketik
+    if (botSettings.autotyping && shoNhe.public)
+    {
+      await shoNhe.sendPresenceUpdate('composing', m.chat);
+    }
+    if (botSettings.autovn && shoNhe.public)
+    {
+      await shoNhe.sendPresenceUpdate('recording', m.chat);
+    }
+    // Lokasi file JSON di folder 'database'
+    const thumbListFilePath = path.join(__dirname, 'database', 'thumbList.json');
+    // Fungsi untuk membaca data thumbnail dari file JSON
+    const readThumbList = () =>
+    {
+      if (!fs.existsSync(thumbListFilePath))
+      {
+        // Jika file tidak ada, buat file baru dengan array kosong
+        fs.writeFileSync(thumbListFilePath, JSON.stringify([]));
+        return [];
+      }
+      const data = fs.readFileSync(thumbListFilePath, 'utf-8');
+      return JSON.parse(data);
+    };
+    // Fungsi untuk menulis data thumbnail ke file JSON
+    const writeThumbList = (thumbList) =>
+    {
+      fs.writeFileSync(thumbListFilePath, JSON.stringify(thumbList, null, 2));
+    };
+    // Fungsi untuk menambahkan thumbnail
+    const addthumb = (nama, url) =>
+    {
+      const thumbList = readThumbList();
+      // Cek apakah nama sudah ada
+      if (thumbList.find(thumb => thumb.name === nama))
+      {
+        return 'Thumbnail dengan nama tersebut sudah ada.';
+      }
+      // Menambahkan thumbnail ke dalam daftar
+      thumbList.push(
+      {
+        name: nama,
+        url: url
+      });
+      writeThumbList(thumbList);
+      return `Thumbnail dengan nama ${nama} berhasil ditambahkan.`;
+    };
+    // Fungsi untuk menghapus thumbnail berdasarkan nama
+    const delthumb = (nama) =>
+    {
+      const thumbList = readThumbList();
+      const index = thumbList.findIndex(thumb => thumb.name === nama);
+      if (index === -1)
+      {
+        return 'Thumbnail dengan nama tersebut tidak ditemukan.';
+      }
+      thumbList.splice(index, 1);
+      writeThumbList(thumbList);
+      return `Thumbnail dengan nama ${nama} berhasil dihapus.`;
+    };
+    // Fungsi untuk menampilkan daftar thumbnail
+    const listthumb = () =>
+    {
+      const thumbList = readThumbList();
+      if (thumbList.length === 0)
+      {
+        return 'Tidak ada thumbnail yang tersimpan.';
+      }
+      return thumbList.map(thumb => `Nama: ${thumb.name}, URL: ${thumb.url}`).join('\n');
+    };
+    // Fungsi untuk memilih thumbnail secara random dari daftar
+    const getRandomThumb = () =>
+    {
+      const thumbList = readThumbList();
+      return thumbList[Math.floor(Math.random() * thumbList.length)]?.url || 'https://i.ibb.co.com/x6cRFN1/6cbaad220c211d8399577906a2f30856.jpg';
+    };
+    const reply = (teks) =>
+    {
+      shoNhe.sendMessage(from,
+      {
+        text: teks,
+        contextInfo:
+        {
+          mentionedJid: [m.sender],
+          "externalAdReply":
+          {
+            "title": `shoNhe BY DATNGXZ'S`,
+            "body": `© DaTngxz'S`,
+            "previewType": "PHOTO",
+            "thumbnail": getRandomThumb2(),
+            "sourceUrl": gh
+          }
+        }
+      },
+      {
+        quoted: hw
+      })
+    }
+    const reply2 = (teks) =>
+    {
+      shoNhe.sendMessage(from,
+      {
+        text: teks
+      },
+      {
+        quoted: m
+      })
+    }
+    //Fake quoted 
+    const fpay = {
+      key:
+      {
+        remoteJid: '0@s.whatsapp.net',
+        fromMe: false,
+        id: global.namabot,
+        participant: '0@s.whatsapp.net'
+      },
+      message:
+      {
+        requestPaymentMessage:
+        {
+          currencyCodeIso4217: "USD",
+          amount1000: 999999999,
+          requestFrom: '0@s.whatsapp.net',
+          noteMessage:
+          {
+            extendedTextMessage:
+            {
+              text: global.namabot
+            }
+          },
+          expiryTimestamp: 999999999,
+          amount:
+          {
+            value: 91929291929,
+            offset: 1000,
+            currencyCode: "USD"
+          }
+        }
+      }
+    }
+    const ftroli = {
+      key:
+      {
+        fromMe: false,
+        "participant": "0@s.whatsapp.net",
+        "remoteJid": "status@broadcast"
+      },
+      "message":
+      {
+        orderMessage:
+        {
+          itemCount: 1986,
+          status: 200,
+          thumbnail: getRandomThumb2(),
+          surface: 200,
+          message: "Rp 2.000",
+          orderTitle: namaowner,
+          sellerJid: '0@s.whatsapp.net'
+        }
+      },
+      contextInfo:
+      {
+        "forwardingScore": 999,
+        "isForwarded": true
+      },
+      sendEphemeral: true
+    }
+    const fdoc = {
+      key:
+      {
+        participant: '0@s.whatsapp.net',
+        ...(m.chat ?
+        {
+          remoteJid: `status@broadcast`
+        } :
+        {})
+      },
+      message:
+      {
+        documentMessage:
+        {
+          title: namabot,
+          jpegThumbnail: getRandomThumb2()
+        }
+      }
+    }
+    const fvn = {
+      key:
+      {
+        participant: `0@s.whatsapp.net`,
+        ...(m.chat ?
+        {
+          remoteJid: "status@broadcast"
+        } :
+        {})
+      },
+      message:
+      {
+        "audioMessage":
+        {
+          "mimetype": "audio/ogg; codecs=opus",
+          "seconds": 0,
+          "ptt": "true"
+        }
+      }
+    }
+    const fgif = {
+      key:
+      {
+        participant: `0@s.whatsapp.net`,
+        ...(m.chat ?
+        {
+          remoteJid: "status@broadcast"
+        } :
+        {})
+      },
+      message:
+      {
+        "videoMessage":
+        {
+          "title": namabot,
+          "h": packname,
+          'seconds': '359996400',
+          'gifPlayback': 'true',
+          'caption': namaowner,
+          'jpegThumbnail': getRandomThumb2()
+        }
+      }
+    }
+    const fgclink = {
+      key:
+      {
+        participant: "0@s.whatsapp.net",
+        "remoteJid": "0@s.whatsapp.net"
+      },
+      "message":
+      {
+        "groupInviteMessage":
+        {
+          "groupJid": "6288213840883-1616169743@g.us",
+          "inviteCode": "m",
+          "groupName": packname,
+          "caption": `${m.pushName ? m.pushName : 'Temen shoNhe'}`,
+          'jpegThumbnail': getRandomThumb2()
+        }
+      }
+    }
+    const fvideo = {
+      key:
+      {
+        fromMe: false,
+        participant: `0@s.whatsapp.net`,
+        ...(m.chat ?
+        {
+          remoteJid: "status@broadcast"
+        } :
+        {})
+      },
+      message:
+      {
+        "videoMessage":
+        {
+          "title": namabot,
+          "h": packname,
+          'seconds': '0',
+          'caption': `${m.pushName ? m.pushName : 'Temen shoNhe'}`,
+          'jpegThumbnail': getRandomThumb2()
+        }
+      }
+    }
+    const floc = {
+      key:
+      {
+        participant: '0@s.whatsapp.net',
+        ...(m.chat ?
+        {
+          remoteJid: `status@broadcast`
+        } :
+        {})
+      },
+      message:
+      {
+        locationMessage:
+        {
+          name: packname,
+          jpegThumbnail: getRandomThumb2()
+        }
+      }
+    }
+    const fkontak = {
+      key:
+      {
+        participant: `0@s.whatsapp.net`,
+        ...(m.chat ?
+        {
+          remoteJid: `status@broadcast`
+        } :
+        {})
+      },
+      message:
+      {
+        'contactMessage':
+        {
+          'displayName': namaowner,
+          'vcard': `BEGIN:VCARD\nVERSION:3.0\nN:XL;${namaowner},;;;\nFN:${namaowner}\nitem1.TEL;waid=916909137213:916909137213\nitem1.X-ABLabel:Mobile\nEND:VCARD`,
+          'jpegThumbnail': getRandomThumb2(),
+          thumbnail: getRandomThumb2(),
+          sendEphemeral: true
+        }
+      }
+    }
+    const fakestatus = {
+      key:
+      {
+        fromMe: false,
+        participant: `0@s.whatsapp.net`,
+        ...(m.chat ?
+        {
+          remoteJid: "status@broadcast"
+        } :
+        {})
+      },
+      message:
+      {
+        "imageMessage":
+        {
+          "url": "https://mmg.whatsapp.net/d/f/At0x7ZdIvuicfjlf9oWS6A3AR9XPh0P-hZIVPLsI70nM.enc",
+          "mimetype": "image/jpeg",
+          "caption": packname,
+          "fileSha256": "+Ia+Dwib70Y1CWRMAP9QLJKjIJt54fKycOfB2OEZbTU=",
+          "fileLength": "28777",
+          "height": 1080,
+          "width": 1079,
+          "mediaKey": "vXmRR7ZUeDWjXy5iQk17TrowBzuwRya0errAFnXxbGc=",
+          "fileEncSha256": "sR9D2RS5JSifw49HeBADguI23fWDz1aZu4faWG/CyRY=",
+          "directPath": "/v/t62.7118-24/21427642_840952686474581_572788076332761430_n.enc?oh=3f57c1ba2fcab95f2c0bb475d72720ba&oe=602F3D69",
+          "mediaKeyTimestamp": "1610993486",
+          "jpegThumbnail": fs.readFileSync('./ShoNheMedia/image/owner.jpg'),
+          "scansSidecar": "1W0XhfaAcDwc7xh1R8lca6Qg/1bB4naFCSngM2LKO2NoP5RI7K+zLw=="
+        }
+      }
+    }
+    const frpayment = {
+      key:
+      {
+        remoteJid: '0@s.whatsapp.net',
+        fromMe: false,
+        id: `${namaowner}`,
+        participant: '0@s.whatsapp.net'
+      },
+      message:
+      {
+        requestPaymentMessage:
+        {
+          currencyCodeIso4217: "USD",
+          amount1000: 999999999,
+          requestFrom: '0@s.whatsapp.net',
+          noteMessage:
+          {
+            extendedTextMessage:
+            {
+              text: `${namabot}`
+            }
+          },
+          expiryTimestamp: 999999999,
+          amount:
+          {
+            value: 91929291929,
+            offset: 1000,
+            currencyCode: "INR"
+          }
+        }
+      }
+    }
 
-		function capitalizeWords(str)
-		{
-			return str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
-		}
-		if (m.isGroup)
-		{
-			// Pastikan liststore ada di dalam database
-			let listStore = {};
-			if (fs.existsSync(listStorePath))
-			{
-				listStore = JSON.parse(fs.readFileSync(listStorePath, 'utf8'));
-			}
-			// Cek apakah 'body' ada di liststore grup ini
-			if (listStore[m.chat] && listStore[m.chat][body])
-			{
-				const entry = listStore[m.chat][body]; // Mendapatkan entry untuk key 'body'
-				let teks = entry.response; // Response yang dikirim
-				// Mengecek jika ada gambar
-				if (entry.img)
-				{
-					shoNhe.sendMessage(m.chat,
-					{
-						image:
-						{
-							url: entry.img // Mengirim gambar dari URL
-						},
-						caption: teks // Menambahkan teks sebagai caption
-					},
-					{
-						quoted: m // Menambahkan quoted message jika ada
-					});
-					// Mengecek jika ada video
-				}
-				else if (entry.video)
-				{
-					shoNhe.sendMessage(m.chat,
-					{
-						video:
-						{
-							url: entry.video // Mengirim video dari URL
-						},
-						caption: teks // Menambahkan teks sebagai caption
-					},
-					{
-						quoted: m // Menambahkan quoted message jika ada
-					});
-					// Jika tidak ada gambar atau video, kirim teks biasa
-				}
-				else
-				{
-					const contentText = {
-						text: teks,
-						contextInfo:
-						{
-							mentionedJid: [m.sender], // Menyebutkan pengirim
-							forwardingScore: 999999,
-							isForwarded: true,
-							forwardedNewsletterMessageInfo:
-							{
-								newsletterName: namach, // Nama saluran
-								newsletterJid: idsaluran, // Jid saluran
-							},
-							externalAdReply:
-							{
-								showAdAttribution: true,
-								containsAutoReply: true,
-								title: `Store List 🛍️`,
-								body: namabot, // Nama bot
-								previewType: "PHOTO",
-								thumbnailUrl: `https://pomf2.lain.la/f/sdzl7dc2.jpg`, // Gambar thumbnail
-								sourceUrl: wagc // URL untuk sumber (misalnya link grup atau toko)
-							}
-						}
-					};
-					shoNhe.sendMessage(m.chat, contentText,
-					{
-						quoted: m, // Menyertakan quoted message
-					});
-				}
-			}
-		}
-		async function shoNherly(teks)
-		{
-			if (typereply === 's1')
-			{
-				m.reply(teks);
-			}
-			else if (typereply === 's2')
-			{
-				shoNhe.sendMessage(m.chat,
-				{
-					contextInfo:
-					{
-						externalAdReply:
-						{
-							showAdAttribution: true,
-							title: namabot,
-							body: namaowner,
-							previewType: "PHOTO",
-							thumbnail: getRandomThumb2(),
-							sourceUrl: wagc
-						}
-					},
-					text: teks
-				},
-				{
-					quoted: hw
-				});
-			}
-			else if (typereply === 's3')
-			{
-				shoNhe.sendMessage(m.chat,
-				{
-					text: teks,
-					contextInfo:
-					{
-						externalAdReply:
-						{
-							showAdAttribution: true,
-							title: namabot,
-							body: namaowner,
-							thumbnail: getRandomThumb2(),
-							sourceUrl: gh,
-							mediaType: 1,
-							renderLargerThumbnail: true
-						}
-					}
-				},
-				{
-					quoted: hw
-				});
-			}
-			else if (typereply === 's4')
-			{
-				shoNherlyy(teks);
-			}
-			else if (typereply === 's5')
-			{
-				shoNhe.sendMessage(from,
-				{
-					text: teks,
-					contextInfo:
-					{
-						mentionedJid: [m.sender],
-						"externalAdReply":
-						{
-							"title": `BOT BY kyy-store`,
-							"body": `© kyybotz`,
-							"previewType": "PHOTO",
-							"thumbnail": getRandomThumb2(),
-							"sourceUrl": gh
-						}
-					}
-				},
-				{
-					quoted: hw
-				})
-			}
-		}
-		async function shoNherlyy(teks)
-		{
-			const repshoNhe = {
-				contextInfo:
-				{
-					forwardingScore: 1,
-					isForwarded: true,
-					forwardedNewsletterMessageInfo:
-					{
-						newsletterName: namabot,
-						newsletterJid: idsaluran,
-					},
-					externalAdReply:
-					{
-						showAdAttribution: true,
-						title: waktuucapan,
-						body: namabot,
-						thumbnail: getRandomThumb2(),
-						sourceUrl: gh
-					}
-				},
-				text: teks
-			};
-			return shoNhe.sendMessage(m.chat, repshoNhe,
-			{
-				quoted: hw,
-			});
-		}
-		//==================[ FUNCTION WAKTU ]======================\\
-		let d = new Date(new Date() + 3600000);
-		let locale = "id";
-		let clock = d.toLocaleTimeString(locale,
-		{
-			hour: "numeric",
-			minute: "numeric",
-			second: "numeric",
-		});
-		const date = moment().tz("Asia/Jakarta").format("dddd, ll");
-		const time = moment(Date.now()).tz("Asia/Jakarta").locale("id").format("HH:mm:ss z");
+    function capitalizeWords(str)
+    {
+      return str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
+    }
+    if (m.isGroup)
+    {
+      // Pastikan liststore ada di dalam database
+      let listStore = {};
+      if (fs.existsSync(listStorePath))
+      {
+        listStore = JSON.parse(fs.readFileSync(listStorePath, 'utf8'));
+      }
+      // Cek apakah 'body' ada di liststore grup ini
+      if (listStore[m.chat] && listStore[m.chat][body])
+      {
+        const entry = listStore[m.chat][body]; // Mendapatkan entry untuk key 'body'
+        let teks = entry.response; // Response yang dikirim
+        // Mengecek jika ada gambar
+        if (entry.img)
+        {
+          shoNhe.sendMessage(m.chat,
+          {
+            image:
+            {
+              url: entry.img // Mengirim gambar dari URL
+            },
+            caption: teks // Menambahkan teks sebagai caption
+          },
+          {
+            quoted: m // Menambahkan quoted message jika ada
+          });
+          // Mengecek jika ada video
+        }
+        else if (entry.video)
+        {
+          shoNhe.sendMessage(m.chat,
+          {
+            video:
+            {
+              url: entry.video // Mengirim video dari URL
+            },
+            caption: teks // Menambahkan teks sebagai caption
+          },
+          {
+            quoted: m // Menambahkan quoted message jika ada
+          });
+          // Jika tidak ada gambar atau video, kirim teks biasa
+        }
+        else
+        {
+          const contentText = {
+            text: teks,
+            contextInfo:
+            {
+              mentionedJid: [m.sender], // Menyebutkan pengirim
+              forwardingScore: 999999,
+              isForwarded: true,
+              forwardedNewsletterMessageInfo:
+              {
+                newsletterName: namach, // Nama saluran
+                newsletterJid: idsaluran, // Jid saluran
+              },
+              externalAdReply:
+              {
+                showAdAttribution: true,
+                containsAutoReply: true,
+                title: `Store List 🛍️`,
+                body: namabot, // Nama bot
+                previewType: "PHOTO",
+                thumbnailUrl: `https://pomf2.lain.la/f/sdzl7dc2.jpg`, // Gambar thumbnail
+                sourceUrl: wagc // URL untuk sumber (misalnya link grup atau toko)
+              }
+            }
+          };
+          shoNhe.sendMessage(m.chat, contentText,
+          {
+            quoted: m, // Menyertakan quoted message
+          });
+        }
+      }
+    }
+    async function shoNherly(teks)
+    {
+      if (typereply === 's1')
+      {
+        m.reply(teks);
+      }
+      else if (typereply === 's2')
+      {
+        shoNhe.sendMessage(m.chat,
+        {
+          contextInfo:
+          {
+            externalAdReply:
+            {
+              showAdAttribution: true,
+              title: namabot,
+              body: namaowner,
+              previewType: "PHOTO",
+              thumbnail: getRandomThumb2(),
+              sourceUrl: wagc
+            }
+          },
+          text: teks
+        },
+        {
+          quoted: hw
+        });
+      }
+      else if (typereply === 's3')
+      {
+        shoNhe.sendMessage(m.chat,
+        {
+          text: teks,
+          contextInfo:
+          {
+            externalAdReply:
+            {
+              showAdAttribution: true,
+              title: namabot,
+              body: namaowner,
+              thumbnail: getRandomThumb3(),
+              sourceUrl: gh,
+              mediaType: 1,
+              renderLargerThumbnail: true
+            }
+          }
+        },
+        {
+          quoted: hw
+        });
+      }
+      else if (typereply === 's4')
+      {
+        shoNherlyy(teks);
+      }
+      else if (typereply === 's5')
+      {
+        shoNhe.sendMessage(from,
+        {
+          text: teks,
+          contextInfo:
+          {
+            mentionedJid: [m.sender],
+            "externalAdReply":
+            {
+              "title": `BOT BY DaTngxz'S`,
+              "body": `© DaTngxz'S`,
+              "previewType": "PHOTO",
+              "thumbnail": getRandomThumb2(),
+              "sourceUrl": gh
+            }
+          }
+        },
+        {
+          quoted: hw
+        })
+      }
+    }
+    async function shoNherlyy(teks)
+    {
+      const repshoNhe = {
+        contextInfo:
+        {
+          forwardingScore: 1,
+          isForwarded: true,
+          forwardedNewsletterMessageInfo:
+          {
+            newsletterName: namabot,
+            newsletterJid: idsaluran,
+          },
+          externalAdReply:
+          {
+            showAdAttribution: true,
+            title: waktuucapan,
+            body: namabot,
+            thumbnail: getRandomThumb2(),
+            sourceUrl: gh
+          }
+        },
+        text: teks
+      };
+      return shoNhe.sendMessage(m.chat, repshoNhe,
+      {
+        quoted: hw,
+      });
+    }
+    //==================[ FUNCTION WAKTU ]======================\\
+    let d = new Date(new Date() + 3600000);
+    let locale = "id";
+    let clock = d.toLocaleTimeString(locale,
+    {
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+    });
+    const date = moment().tz("Asia/Jakarta").format("dddd, ll");
+    const time = moment(Date.now()).tz("Asia/Jakarta").locale("id").format("HH:mm:ss z");
 
-		function getFormattedDate()
-		{
-			var currentDate = new Date();
-			var day = currentDate.getDate();
-			var month = currentDate.getMonth() + 1;
-			var year = currentDate.getFullYear();
-			var hours = currentDate.getHours();
-			var minutes = currentDate.getMinutes();
-			var seconds = currentDate.getSeconds();
-		}
-		const hariini = d.toLocaleDateString('id',
-		{
-			day: 'numeric',
-			month: 'long',
-			year: 'numeric'
-		})
+    function getFormattedDate()
+    {
+      var currentDate = new Date();
+      var day = currentDate.getDate();
+      var month = currentDate.getMonth() + 1;
+      var year = currentDate.getFullYear();
+      var hours = currentDate.getHours();
+      var minutes = currentDate.getMinutes();
+      var seconds = currentDate.getSeconds();
+    }
+    const hariini = d.toLocaleDateString('id',
+    {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    })
 
-		function msToTime(duration)
-		{
-			var milliseconds = parseInt((duration % 1000) / 100),
-				seconds = Math.floor((duration / 1000) % 60),
-				minutes = Math.floor((duration / (1000 * 60)) % 60),
-				hours = Math.floor((duration / (1000 * 60 * 60)) % 24)
-			hours = (hours < 10) ? "0" + hours : hours
-			minutes = (minutes < 10) ? "0" + minutes : minutes
-			seconds = (seconds < 10) ? "0" + seconds : seconds
-			return hours + " jam " + minutes + " menit " + seconds + " detik"
-		}
+    function msToTime(duration)
+    {
+      var milliseconds = parseInt((duration % 1000) / 100),
+        seconds = Math.floor((duration / 1000) % 60),
+        minutes = Math.floor((duration / (1000 * 60)) % 60),
+        hours = Math.floor((duration / (1000 * 60 * 60)) % 24)
+      hours = (hours < 10) ? "0" + hours : hours
+      minutes = (minutes < 10) ? "0" + minutes : minutes
+      seconds = (seconds < 10) ? "0" + seconds : seconds
+      return hours + " jam " + minutes + " menit " + seconds + " detik"
+    }
 
 		function msToDate(ms)
 		{
@@ -5934,7 +6602,22 @@ const lod = ["█▒▒▒▒▒▒▒▒▒▒▒ 10%", "████▒▒▒�
 				// Periksa saldo pengguna
 				if (!db[sender] || db[sender].balance < hargaScript)
 				{
-					return shoNherly(`❌ Saldo Anda tidak cukup untuk membeli script no enc!\n\n` + `💰 Harga: Rp${hargaScript}\n` + `💸 Saldo Anda saat ini: Rp${db[sender]?.balance || 0}\n\n` + `Gunakan perintah *${prefix}owner* untuk membeli saldo.`);
+					return shoNherly(`---------SCRIPT KYY•STORE---------
+
+https://github.com/RizkiBotz/kyy-botz
+
+*SCRIPT KYY•STORE SUDAH SHARE VIA GITHUB*
+
+•FITUR-FITUR:
+> STORE MENU 
+> NSFW MENU 18+
+> STORE OWN MENU
+> PAYMENT AUTOMATION
+> AI MENU
+> BRAT 
+> QC?
+> JACKPOT?
+> FITUR LANGKA `);
 				}
 				
 				// Kurangi saldo jika mencukupi
@@ -7420,7 +8103,7 @@ ${readmore}
 > │ ⎘ ᴍᴏᴅᴇ: ${shoNhe.public ? 'Public' : 'Self'}
 > │ ⎘ ᴘʀᴇғɪx: ${prefix}
 > │ ⎘ ᴀɪ ʜɪᴛꜱ: ${aiMessage}
-> │ ⎘ ᴠᴇʀꜱɪᴏɴ: ${version}
+> │ ⎘ ᴠᴇʀꜱɪᴏɴ: 4.0.0
 > │ ⎙ ʜɪᴛᴜɴɢ ᴍᴜɴᴅᴜʀ:
 > │ ⎘ Ramadhan: ${countdownRamadhan}
 > │ ⎘ Idul Fitri: ${countdownIdulFitri}
@@ -8507,7 +9190,7 @@ ${menuforu(prefix, simbols)}
 > │ ⎘ ᴄᴏᴍᴍᴀɴᴅ ᴄᴏᴜɴᴛ: ${commandCount}
 > └───────────────╼.✗
 
-> ┌╾⚟┉➲ ${c}【ɪsʟɑᴍ ᴍᴇɴᴜ】${c} ⟢
+> ┌╾⚟┉➲ ${c}【ᴀsᴜᴘᴀɴ ᴍᴇɴᴜ】${c} ⟢
 > ├────────────────
 > ┞ᗛ ${simbols} ${prefix}tiktokgirl
 > ┞ᗛ ${simbols} ${prefix}tiktokukthy
@@ -9877,7 +10560,7 @@ const lod = ["█▒▒▒▒▒▒▒▒▒▒▒ 10%", "████▒▒▒�
 					buttonParamsJson: JSON.stringify(
 					{
 						display_text: "GitHub 📱",
-						url: `https://github.com/RizkiBotz/kyy-botz`,
+						url: `https://github.com/RizkiBotz/kyy_store`,
 					}),
 				},
 				{
@@ -9885,7 +10568,7 @@ const lod = ["█▒▒▒▒▒▒▒▒▒▒▒ 10%", "████▒▒▒�
 					buttonParamsJson: JSON.stringify(
 					{
 						display_text: "Instagram 🌐",
-						url: `https://www.instagram.com/ikyy_joki08`,
+						url: `https://github.com/RizkiBotz/kyy-botz`,
 					}),
 				}, ];
 				// Kirim pesan dengan gambar dan tombol
@@ -11001,13 +11684,13 @@ const lod = ["█▒▒▒▒▒▒▒▒▒▒▒ 10%", "████▒▒▒�
         let target = new Date(targetDate);
         let selisih = target - now;
 
-        if (selisih <= 0) return "✨ *Hari ini!* ✨";
+        if (selisih <= 0) return " *Hari ini!* ";
 
         let hari = Math.floor(selisih / (1000 * 60 * 60 * 24));
         let jam = Math.floor((selisih % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         let menit = Math.floor((selisih % (1000 * 60 * 60)) / (1000 * 60));
 
-        return `⏳ *${hari} hari, ${jam} jam, ${menit} menit lagi*`;
+        return ` *${hari} hari, ${jam} jam lagi*`;
     }
 
     const ramadhanDate = "2025-03-01";  // Tanggal estimasi Puasa Ramadhan 1446 H
@@ -12641,7 +13324,7 @@ ${menuforu(prefix, simbols)}
            }
 			}
 			break
-			case 'statusvideo':
+			case 'upswvid':
 			case 'upswvideo':
 			{
 			
@@ -12802,6 +13485,61 @@ ${menuforu(prefix, simbols)}
 			}
 			break
 			case 'metaai':
+			{
+				
+				updatePopularCommand(command);
+				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
+				// Nama case sesuai API
+				if (!text) return shoNherly('⚠️ Harap masukkan teks yang ingin dijadikan input untuk AI.\n\nContoh: meta-llama Apa kabar?');
+				try
+				{
+					// Panggil API tanpa prompt
+					const apiUrl = `https://api.siputzx.my.id/api/ai/meta-llama-33-70B-instruct-turbo?content=${encodeURIComponent(text)}`;
+					const response = await axios.get(apiUrl);
+					if (response.data && response.data.status)
+					{
+						shoNherly(response.data.data); // Balas dengan output dari AI
+					}
+					else
+					{
+						shoNherly('❌ Tidak dapat memproses permintaan. Coba lagi nanti.');
+					}
+				}
+				catch (error)
+				{
+					console.error(error);
+					shoNherly('❌ Terjadi kesalahan saat menghubungi API.');
+				}
+				if (levelUpMessage) {
+        await shoNhe.sendMessage(m.chat,
+				{
+					image: { url: levelUpMessage.image },
+					caption: levelUpMessage.text,
+					footer: "LEVEL UP🔥",
+					buttons: [
+					{
+						buttonId: `${prefix}tqto`,
+						buttonText:
+						{
+							displayText: "📍TQTO"
+						}
+					},
+					{
+						buttonId: `${prefix}menu`,
+						buttonText:
+						{
+							displayText: "⏸️ MENU "
+						}
+					}],
+					viewOnce: true,
+				},
+				{
+					quoted: hw
+				});
+           }
+			}
+			break 
+			case 'chatgbt':
 			{
 				
 				updatePopularCommand(command);
@@ -13457,24 +14195,20 @@ ${menuforu(prefix, simbols)}
 			case 'menusimpel':
 			case 'simpelmenu':
 			{
-				if (!isRegistered(m))
-				{
-					return sendRegister(shoNhe, m, prefix, namabot);
-				}
 				updatePopularCommand(command);
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
-				let menu = `*_👋🏻 *Hello! I am K͜ʏʏ-Stoʀɛ Bot Version 9999.*  
+				let menu = `*_👋🏻 *Hello! I am K͜ʏʏ-Stoʀɛ Bot Version 4.0.0.*  
 Ready products like nokos, and many more! Designed with precision and care, I ensure your experience is seamless and efficient.  
 
 ╭───❐ *I N F O R M A S I* ❐───✧  
-├ 📜 *Bot Name* : ShoNhe 
-├ 👨‍💻 *Owner* : K͜ʏʏ-Stoʀɛ
-├ 🌐 *Version* : 3.3.3  
+├ 📜 *Bot Name* : main1 
+├ 👨‍💻 *Owner* : K͜ʏʏ-Stoʀɛ⁹⁹
+├ 🌐 *Version* : 4.0.0  
 ├ 🛒 *Product* : Nokos  
 ╰─────────────────────✧  
 
 💡 *Feel free to explore all my features using the menu provided!*  
-🔰 Powered by 🅥 K͜ʏʏ-Stoʀɛ _*`;
+🔰 Powered by 🅥 K͜ʏʏ-Stoʀɛ⁹⁹ _*`;
 				// Tombol utama
 				let buttons = [
 				{
@@ -21371,7 +22105,7 @@ break;
         const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
         // Update popular command log
         if (!text) return shoNherly(`Enter Query!`);
-        if (!(await userFire(m, mess.waits))) return; // Jika limit habis, proses berhenti di sini
+        
         async function createImage(url)
         {
           const
@@ -24376,6 +25110,321 @@ thumbnail: getRandomThumb2(),
 				});
 				
            }
+           break 
+           case 'sound43':
+			{	updatePopularCommand(command);
+				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
+				const repshow = {
+					contextInfo:
+					{
+						forwardingScore: 1,
+						isForwarded: true,
+						
+						externalAdReply:
+						{
+							showAdAttribution: true,
+							
+							body: "✧─────────❐ SOUND 43 ❐─────────✧",
+						thumbnail: getRandomThumb2(),
+								mediaType: 3,
+								renderLargerThumbnail: true,
+								previewType: 0,		
+						},
+					},
+					audio:
+					{
+						url: './ShoNheMedia/audio/43.mp3'
+					}, // Ganti dengan path file audio
+					mimetype: 'audio/mpeg', // Tipe file audio
+					fileName: 'ShoNhe-song.mp3', // Nama file audio
+					ptt: true, // Ubah ke true jika ingin dikirim sebagai pesan suara
+				};
+				return shoNhe.sendMessage(m.chat, repshow,
+				{
+					quoted: hw, // Pesan yang dikutip
+				});
+				
+           }
+           break 
+           case 'sound44':
+			{	updatePopularCommand(command);
+				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
+				const repshow = {
+					contextInfo:
+					{
+						forwardingScore: 1,
+						isForwarded: true,
+						
+						externalAdReply:
+						{
+							showAdAttribution: true,
+							
+							body: "✧─────────❐ SOUND 44 ❐─────────✧",
+						thumbnail: getRandomThumb2(),
+								mediaType: 3,
+								renderLargerThumbnail: true,
+								previewType: 0,		
+						},
+					},
+					audio:
+					{
+						url: './ShoNheMedia/audio/44.mp3'
+					}, // Ganti dengan path file audio
+					mimetype: 'audio/mpeg', // Tipe file audio
+					fileName: 'ShoNhe-song.mp3', // Nama file audio
+					ptt: true, // Ubah ke true jika ingin dikirim sebagai pesan suara
+				};
+				return shoNhe.sendMessage(m.chat, repshow,
+				{
+					quoted: hw, // Pesan yang dikutip
+				});
+				
+           }
+           break 
+           case 'sound45':
+			{	updatePopularCommand(command);
+				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
+				const repshow = {
+					contextInfo:
+					{
+						forwardingScore: 1,
+						isForwarded: true,
+						
+						externalAdReply:
+						{
+							showAdAttribution: true,
+							
+							body: "✧─────────❐ SOUND 45 ❐─────────✧",
+						thumbnail: getRandomThumb2(),
+								mediaType: 3,
+								renderLargerThumbnail: true,
+								previewType: 0,		
+						},
+					},
+					audio:
+					{
+						url: './ShoNheMedia/audio/45.mp3'
+					}, // Ganti dengan path file audio
+					mimetype: 'audio/mpeg', // Tipe file audio
+					fileName: 'ShoNhe-song.mp3', // Nama file audio
+					ptt: true, // Ubah ke true jika ingin dikirim sebagai pesan suara
+				};
+				return shoNhe.sendMessage(m.chat, repshow,
+				{
+					quoted: hw, // Pesan yang dikutip
+				});
+				
+           }
+           break 
+           case 'sound46':
+			{	updatePopularCommand(command);
+				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
+				const repshow = {
+					contextInfo:
+					{
+						forwardingScore: 1,
+						isForwarded: true,
+						
+						externalAdReply:
+						{
+							showAdAttribution: true,
+							
+							body: "✧─────────❐ SOUND 46 ❐─────────✧",
+						thumbnail: getRandomThumb2(),
+								mediaType: 3,
+								renderLargerThumbnail: true,
+								previewType: 0,		
+						},
+					},
+					audio:
+					{
+						url: './ShoNheMedia/audio/46.mp3'
+					}, // Ganti dengan path file audio
+					mimetype: 'audio/mpeg', // Tipe file audio
+					fileName: 'ShoNhe-song.mp3', // Nama file audio
+					ptt: true, // Ubah ke true jika ingin dikirim sebagai pesan suara
+				};
+				return shoNhe.sendMessage(m.chat, repshow,
+				{
+					quoted: hw, // Pesan yang dikutip
+				});
+				
+           }
+           break
+           case 'sound47':
+			{	updatePopularCommand(command);
+				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
+				const repshow = {
+					contextInfo:
+					{
+						forwardingScore: 1,
+						isForwarded: true,
+						
+						externalAdReply:
+						{
+							showAdAttribution: true,
+							
+							body: "✧─────────❐ SOUND 47 ❐─────────✧",
+						thumbnail: getRandomThumb2(),
+								mediaType: 3,
+								renderLargerThumbnail: true,
+								previewType: 0,		
+						},
+					},
+					audio:
+					{
+						url: './ShoNheMedia/audio/47.mp3'
+					}, // Ganti dengan path file audio
+					mimetype: 'audio/mpeg', // Tipe file audio
+					fileName: 'ShoNhe-song.mp3', // Nama file audio
+					ptt: true, // Ubah ke true jika ingin dikirim sebagai pesan suara
+				};
+				return shoNhe.sendMessage(m.chat, repshow,
+				{
+					quoted: hw, // Pesan yang dikutip
+				});
+				
+           }
+           break
+           case 'sound48':
+			{	updatePopularCommand(command);
+				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
+				const repshow = {
+					contextInfo:
+					{
+						forwardingScore: 1,
+						isForwarded: true,
+						
+						externalAdReply:
+						{
+							showAdAttribution: true,
+							
+							body: "✧─────────❐ SOUND 48 ❐─────────✧",
+						thumbnail: getRandomThumb2(),
+								mediaType: 3,
+								renderLargerThumbnail: true,
+								previewType: 0,		
+						},
+					},
+					audio:
+					{
+						url: './ShoNheMedia/audio/48.mp3'
+					}, // Ganti dengan path file audio
+					mimetype: 'audio/mpeg', // Tipe file audio
+					fileName: 'ShoNhe-song.mp3', // Nama file audio
+					ptt: true, // Ubah ke true jika ingin dikirim sebagai pesan suara
+				};
+				return shoNhe.sendMessage(m.chat, repshow,
+				{
+					quoted: hw, // Pesan yang dikutip
+				});
+				
+           }
+           break 
+           case 'sound49':
+			{	updatePopularCommand(command);
+				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
+				const repshow = {
+					contextInfo:
+					{
+						forwardingScore: 1,
+						isForwarded: true,
+						
+						externalAdReply:
+						{
+							showAdAttribution: true,
+							
+							body: "✧─────────❐ SOUND 49 ❐─────────✧",
+						thumbnail: getRandomThumb2(),
+								mediaType: 3,
+								renderLargerThumbnail: true,
+								previewType: 0,		
+						},
+					},
+					audio:
+					{
+						url: './ShoNheMedia/audio/49.mp3'
+					}, // Ganti dengan path file audio
+					mimetype: 'audio/mpeg', // Tipe file audio
+					fileName: 'ShoNhe-song.mp3', // Nama file audio
+					ptt: true, // Ubah ke true jika ingin dikirim sebagai pesan suara
+				};
+				return shoNhe.sendMessage(m.chat, repshow,
+				{
+					quoted: hw, // Pesan yang dikutip
+				});
+				
+           }
+           break 
+           case 'sound50':
+			{	updatePopularCommand(command);
+				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
+				const repshow = {
+					contextInfo:
+					{
+						forwardingScore: 1,
+						isForwarded: true,
+						
+						externalAdReply:
+						{
+							showAdAttribution: true,
+							
+							body: "✧─────────❐ SOUND 50 ❐─────────✧",
+						thumbnail: getRandomThumb2(),
+								mediaType: 3,
+								renderLargerThumbnail: true,
+								previewType: 0,		
+						},
+					},
+					audio:
+					{
+						url: './ShoNheMedia/audio/50.mp3'
+					}, // Ganti dengan path file audio
+					mimetype: 'audio/mpeg', // Tipe file audio
+					fileName: 'ShoNhe-song.mp3', // Nama file audio
+					ptt: true, // Ubah ke true jika ingin dikirim sebagai pesan suara
+				};
+				return shoNhe.sendMessage(m.chat, repshow,
+				{
+					quoted: hw, // Pesan yang dikutip
+				});
+				
+           }
+           break
+           case 'soundbonus':
+			{	updatePopularCommand(command);
+				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
+				const repshow = {
+					contextInfo:
+					{
+						forwardingScore: 1,
+						isForwarded: true,
+						
+						externalAdReply:
+						{
+							showAdAttribution: true,
+							
+							body: "✧─────────❐ EPEP 🗿 ❐─────────✧",
+						thumbnail: getRandomThumb2(),
+								mediaType: 3,
+								renderLargerThumbnail: true,
+								previewType: 0,		
+						},
+					},
+					audio:
+					{
+						url: './ShoNheMedia/audio/51.mp3'
+					}, // Ganti dengan path file audio
+					mimetype: 'audio/mpeg', // Tipe file audio
+					fileName: 'ShoNhe-song.mp3', // Nama file audio
+					ptt: true, // Ubah ke true jika ingin dikirim sebagai pesan suara
+				};
+				return shoNhe.sendMessage(m.chat, repshow,
+				{
+					quoted: hw, // Pesan yang dikutip
+				});
+				
+           }
 			break
 			case 'soundmenu':
 			case 'menusound':
@@ -24400,7 +25449,7 @@ thumbnail: getRandomThumb2(),
 					pageCount: '999',
 						image:
 						{
-							url: getRandomThumb2(), // Pastikan file ini tersedia
+							url: getRandomThumb3(), // Pastikan file ini tersedia
 							gifPlayback: true
 						},
 						caption: `${menu}`, // Teks menu
@@ -24413,7 +25462,7 @@ thumbnail: getRandomThumb2(),
 							{
 								title: "PLAYLIST PHONK BRASILENO 2025",
 							body: "🟢 Active",
-								thumbnail: getRandomThumb2(),
+								thumbnail: getRandomThumb3(),
 								mediaType: 1,
 								renderLargerThumbnail: true,
 								previewType: 0,
@@ -24654,6 +25703,51 @@ thumbnail: getRandomThumb2(),
 									title: "🔊SOUND 42",
 									description: "Best Song",
 									id: ".sound42"
+								},
+									{
+									title: "🔊SOUND 43",
+									description: "Best Song",
+									id: ".sound43"
+								},
+									{
+									title: "🔊SOUND 44",
+									description: "Best Song",
+									id: ".sound44"
+								},
+									{
+									title: "🔊SOUND 45",
+									description: "Best Song",
+									id: ".sound45"
+								},
+									{
+									title: "🔊SOUND 46",
+									description: "Best Song",
+									id: ".sound46"
+								},
+									{
+									title: "🔊SOUND 47",
+									description: "Best Song",
+									id: ".sound47"
+								},
+									{
+									title: "🔊SOUND 48",
+									description: "Best Song",
+									id: ".sound48"
+								},
+									{
+									title: "🔊SOUND 49",
+									description: "Best Song",
+									id: ".sound49"
+								},
+									{
+									title: "🔊SOUND 50",
+									description: "Best Song",
+									id: ".sound50"
+								},
+									{
+									title: "BONUS🗿",
+									description: "Jangan Dipilih",
+									id: ".soundbonus"
 								},
 									]
 							}]
@@ -26826,201 +27920,91 @@ shoNhe.sendMessage(m.chat,
 			}
 			break 
 			
-			break
-			case 'bugmenu': {
-shoNhe.sendMessage(m.chat, { image: { url: 'https://telegra.ph/file/dea66aa26e286a53d61ea.jpg' }, caption: `command : ${prefix}
-Total Pengguna Premium :  ${owner.length}
-Status : ${isCreator ? 'Owner' : 'Free'}
-Runtime Bot : ${runtime(process.uptime())}
-
-${bugmenu}` }, { quoted: m })
-}
-break
-
-			case 'virtext1': {
-if (args.length == 0) return reply(`Jumlahnya?`)
-jumlah = `${encodeURI(q)}`
-for (let i = 0; i < jumlah; i++) {
-shoNhe.sendMessage(m.chat, { image: { url: 'https://telegra.ph/file/dea66aa26e286a53d61ea.jpg' }, caption: `ʜᴡ ᴍᴏᴅꜱ ᴡᴀ${iphone}` }, { quoted: m })
-}
-}
-break
-//=================================================//
-case 'virtext2': {
-if (args.length == 0) return anjay(`Jumlahnya?`)
-jumlah = `${encodeURI(q)}`
-for (let i = 0; i < jumlah; i++) {
-shoNhe.sendMessage(m.chat, { image: { url: 'https://telegra.ph/file/dea66aa26e286a53d61ea.jpg' }, caption: `ʜᴡ ᴍᴏᴅꜱ ᴡᴀ${iphone1}` }, { quoted: m })
-}
-}
-break
-//=================================================//
-case 'virtext3': {
-if (args.length == 0) return anjay(`Jumlahnya?`)
-jumlah = `${encodeURI(q)}`
-for (let i = 0; i < jumlah; i++) {
-shoNhe.sendMessage(m.chat, { image: { url: 'https://telegra.ph/file/dea66aa26e286a53d61ea.jpg' }, caption: `ʜᴡ ᴍᴏᴅꜱ ᴡᴀ${iphone2}` }, { quoted: m })
-}
-}
-break
-//=================================================//
-case 'virtext4': {
-if (args.length == 0) return anjay(`Jumlahnya?`)
-jumlah = `${encodeURI(q)}`
-for (let i = 0; i < jumlah; i++) {
-shoNhe.sendMessage(m.chat, { image: { url: 'https://telegra.ph/file/dea66aa26e286a53d61ea.jpg' }, caption: `ʜᴡ ᴍᴏᴅꜱ ᴡᴀ${iphone3}` }, { quoted: m })
-}
-}
-break
-//=================================================//
-case 'virtext5': {
-if (args.length == 0) return anjay(`Jumlahnya?`)
-jumlah = `${encodeURI(q)}`
-for (let i = 0; i < jumlah; i++) {
-shoNhe.sendMessage(m.chat, { image: { url: 'https://telegra.ph/file/dea66aa26e286a53d61ea.jpg' }, caption: `ʜᴡ ᴍᴏᴅꜱ ᴡᴀ${iphone4}` }, { quoted: m })
-}
-}
-break
-//=================================================//
-case 'virtext6': {
-if (args.length == 0) return anjay(`Jumlahnya?`)
-jumlah = `${encodeURI(q)}`
-for (let i = 0; i < jumlah; i++) {
-shoNhe.sendMessage(m.chat, { image: { url: 'https://telegra.ph/file/dea66aa26e286a53d61ea.jpg' }, caption: `ʜᴡ ᴍᴏᴅꜱ ᴡᴀ${iphone5}` }, { quoted: m })
-}
-}
-break
-//=================================================//
-case 'virtext7': {
-if (args.length == 0) return anjay(`Jumlahnya?`)
-jumlah = `${encodeURI(q)}`
-for (let i = 0; i < jumlah; i++) {
-shoNhe.sendMessage(m.chat, { image: { url: 'https://telegra.ph/file/dea66aa26e286a53d61ea.jpg' }, caption: `ʜᴡ ᴍᴏᴅꜱ ᴡᴀ${iphone6}` }, { quoted: m })
-}
-}
-break
-//=================================================//
-case 'virtext8': {
-if (args.length == 0) return anjay(`Jumlahnya?`)
-jumlah = `${encodeURI(q)}`
-for (let i = 0; i < jumlah; i++) {
-shoNhe.sendMessage(m.chat, { image: { url: 'https://telegra.ph/file/dea66aa26e286a53d61ea.jpg' }, caption: `ʜᴡ ᴍᴏᴅꜱ ᴡᴀ${buttonkal}` }, { quoted: m })
-}
-}
-break
-//=================================================//
-case 'virtext9': {
-if (args.length == 0) return anjay(`Jumlahnya?`)
-jumlah = `${encodeURI(q)}`
-for (let i = 0; i < jumlah; i++) {
-shoNhe.sendMessage(m.chat, { image: { url: 'https://telegra.ph/file/dea66aa26e286a53d61ea.jpg' }, caption: `ʜᴡ ᴍᴏᴅꜱ ᴡᴀ${buttonvirus}` }, { quoted: m })
-}
-}
-break
-//=================================================//
-case 'virtext10': {
-if (args.length == 0) return anjay(`Jumlahnya?`)
-jumlah = `${encodeURI(q)}`
-for (let i = 0; i < jumlah; i++) {
-shoNhe.sendMessage(m.chat, { image: { url: 'https://telegra.ph/file/dea66aa26e286a53d61ea.jpg' }, caption: `ʜᴡ ᴍᴏᴅꜱ ᴡᴀ${ngazap(prefix)}`}, { quoted: m })
-}
-}
-			break 
-			case 'tiktokgirl':
-if (m.isGroup) return shoNherly(mess.privates);
-reply('Tunggu')
-asupan = JSON.parse(fs.readFileSync('./database/tiktok/tiktokgirl.json'))
-function pickRandom(list) {
-return list[Math.floor(Math.random() * list.length)];
-}
-hasil = pickRandom(asupan)
-await shoNhe.sendMessage(m.chat, { caption: 'Sukses', video: { url: hasil.url }}, { quoted: m })
-			break
 			case 'tiktokbocil':
 if (m.isGroup) return shoNherly(mess.privates);
-reply('Tunggu')
+reply('Wait.... ')
 asupan = JSON.parse(fs.readFileSync('./database/tiktok/bocil.json'))
 function pickRandom(list) {
 return list[Math.floor(Math.random() * list.length)];
 }
 hasil = pickRandom(asupan)
-await shoNhe.sendMessage(m.chat, { caption: 'Sukses', video: { url: hasil.url }}, { quoted: m })
+await shoNhe.sendMessage(m.chat, { caption: 'Done✅', video: { url: hasil.url }}, { quoted: m })
 			break
 			case 'tiktokgirl':
 if (m.isGroup) return shoNherly(mess.privates);
-reply('Tunggu')
+reply('Wait....')
 asupan = JSON.parse(fs.readFileSync('./database/tiktok/tiktokgirl.json'))
 function pickRandom(list) {
 return list[Math.floor(Math.random() * list.length)];
 }
 hasil = pickRandom(asupan)
-await shoNhe.sendMessage(m.chat, { caption: 'Sukses', video: { url: hasil.url }}, { quoted: m })
+await shoNhe.sendMessage(m.chat, { caption: 'Done✅', video: { url: hasil.url }}, { quoted: m })
 break
 
 case 'tiktokghea':
 if (m.isGroup) return shoNherly(mess.privates);
-reply('Tunggu')
+reply('Wait....')
 asupan = JSON.parse(fs.readFileSync('./database/tiktok/gheayubi.json'))
 function pickRandom(list) {
 return list[Math.floor(Math.random() * list.length)];
 }
 hasil = pickRandom(asupan)
-await shoNhe.sendMessage(m.chat, { caption: 'Sukses', video: { url: hasil.url }}, { quoted: m })
+await shoNhe.sendMessage(m.chat, { caption: 'Done✅', video: { url: hasil.url }}, { quoted: m })
 break
 
 case 'tiktokukhty':
 if (m.isGroup) return shoNherly(mess.privates);
-reply('Tunggu')
+reply('Wait....')
 asupan = JSON.parse(fs.readFileSync('./database/tiktok/ukhty.json'))
 function pickRandom(list) {
 return list[Math.floor(Math.random() * list.length)];
 }
 hasil = pickRandom(asupan)
-await shoNhe.sendMessage(m.chat, { caption: 'Sukses', video: { url: hasil.url }}, { quoted: m })
+await shoNhe.sendMessage(m.chat, { caption: 'Done✅', video: { url: hasil.url }}, { quoted: m })
 break
 
 case 'tiktoksantuy':
 if (m.isGroup) return shoNherly(mess.privates);
-reply('Tunggu')
+reply('Wait....')
 asupan = JSON.parse(fs.readFileSync('./database/tiktok/santuy.json'))
 function pickRandom(list) {
 return list[Math.floor(Math.random() * list.length)];
 }
 hasil = pickRandom(asupan)
-await shoNhe.sendMessage(m.chat, { caption: 'Sukses', video: { url: hasil.url }}, { quoted: m })
+await shoNhe.sendMessage(m.chat, { caption: 'Done✅', video: { url: hasil.url }}, { quoted: m })
 break
 
 case 'tiktokkayes':
 if (m.isGroup) return shoNherly(mess.privates);
-reply('Tunggu')
+reply('Wait....')
 asupan = JSON.parse(fs.readFileSync('./database/tiktok/kayes.json'))
 function pickRandom(list) {
 return list[Math.floor(Math.random() * list.length)];
 }
 hasil = pickRandom(asupan)
-await shoNhe.sendMessage(m.chat, { caption: 'Sukses', video: { url: hasil.url }}, { quoted: m })
+await shoNhe.sendMessage(m.chat, { caption: 'Done✅', video: { url: hasil.url }}, { quoted: m })
 break
 
 case 'tiktokpanrika':
 if (m.isGroup) return shoNherly(mess.privates);
-reply('Tunggu')
+reply('Wait....')
 asupan = JSON.parse(fs.readFileSync('./database/tiktok/panrika.json'))
 function pickRandom(list) {
 return list[Math.floor(Math.random() * list.length)];
 }
 hasil = pickRandom(asupan)
-await shoNhe.sendMessage(m.chat, { caption: 'Sukses', video: { url: hasil.url }}, { quoted: m })
+await shoNhe.sendMessage(m.chat, { caption: 'Done✅', video: { url: hasil.url }}, { quoted: m })
 break
 
 case 'tiktoknotnot':
 if (m.isGroup) return shoNherly(mess.privates);
-reply('Tunggu')
+reply('Wait....')
 asupan = JSON.parse(fs.readFileSync('./database/tiktok/notnot.json'))
 function pickRandom(list) {
 return list[Math.floor(Math.random() * list.length)];
 }
 hasil = pickRandom(asupan)
-await shoNhe.sendMessage(m.chat, { caption: 'Sukses', video: { url: hasil.url }}, { quoted: m })
+await shoNhe.sendMessage(m.chat, { caption: 'Done✅', video: { url: hasil.url }}, { quoted: m })
 			break
 			case 'tovn':
 			case 'toptt':
@@ -27093,7 +28077,7 @@ updatePopularCommand(command);
 				const levelUpMessage = levelUpdate(command, m.sender); // Update level pengguna
 				if (!quoted) return shoNherly('Reply Image')
 				if (!/webp/.test(mime)) return shoNherly(`Balas sticker dengan caption *${prefix + command}*`)
-				if (!(await firely(m, mess.waits))) return;
+			
 				let media = await shoNhe.downloadAndSaveMediaMessage(quoted)
 				let ran = await getRandom('.png')
 				exec(`ffmpeg -i ${media} ${ran}`, (err) =>
