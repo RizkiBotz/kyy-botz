@@ -9,7 +9,7 @@
 </div>
 
 <p align="center">
-  <img src="https://d.uguu.se/fbotrqDy.jpg" alt="KYY-STORE" />
+  <img src="https://h.uguu.se/fnFjBSqV.mp4" alt="KYY-STORE" />
   <br />
   <h1 align="center">Kyy-Store-V4</h1>
 </p>
