@@ -35,9 +35,6 @@
 │  ⎘ npm start 
 └──────────────────╼.✗
 
-# JIKA NODE-MODULE error bisa download link di bawah:
-• https://www.mediafire.com/file/1vwcygs85r5alaw/node_modules.zip/file
-
 # If npm install failed, try using yarn instead of npm
  • pkg install yarn -y
  • yarn install
