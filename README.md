@@ -39,10 +39,10 @@ $ npm start
 
 ### Preview bot
 
-- [x] Tampilan Menu <details><summary>Screenshot</summary><img src="https://f.uguu.se/VhHQQjiE.jpg"></details>
-- [x]  List Menu <details><summary>Screenshot</summary><img src="https://d.uguu.se/XvUAtwEL.jpg"></details>
-- [x] List Register <details><summary>Screenshot</summary><img src="https://d.uguu.se/OByPMxBm.jpg"></details>
-- [x] Tampilan Nsfw <details><summary>Screenshot</summary><img src="https://f.uguu.se/jhxJYQTP.jpg"></details>
+- [x] Tampilan Menu <details><summary>Screenshot</summary><img src="https://f.uguu.se/wqhgtWqo.jpg"></details>
+- [x]  List Menu <details><summary>Screenshot</summary><img src="https://f.uguu.se/eaFDPPwY.jpg"></details>
+- [x] List Register <details><summary>Screenshot</summary><img src="https://f.uguu.se/rZPLwBnQ.jpg"></details>
+- [x] Tampilan Nsfw <details><summary>Screenshot</summary><img src="https://h.uguu.se/JvecQoNS.jpg"></details>
 
 And Many More Features Are Available 😊
 
