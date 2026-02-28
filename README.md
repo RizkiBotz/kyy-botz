@@ -9,7 +9,7 @@
 </div>
 
 <p align="center">
-  <img src="https://f.uguu.se/tFUtXVRQ.jpg" alt="KYY-STORE" />
+  <img src="https://o.uguu.se/YCXKisEY.jpg" alt="KYY-STORE" />
   <br />
   <h1 align="center">Kyy-Store-V4</h1>
 </p>
@@ -39,10 +39,10 @@ $ npm start
 
 ### Preview bot
 
-- [x] Tampilan Menu <details><summary>Screenshot</summary><img src="https://f.uguu.se/wqhgtWqo.jpg"></details>
-- [x]  List Menu <details><summary>Screenshot</summary><img src="https://f.uguu.se/eaFDPPwY.jpg"></details>
-- [x] List Register <details><summary>Screenshot</summary><img src="https://f.uguu.se/rZPLwBnQ.jpg"></details>
-- [x] Tampilan Nsfw <details><summary>Screenshot</summary><img src="https://h.uguu.se/JvecQoNS.jpg"></details>
+- [x] Tampilan Menu <details><summary>Screenshot</summary><img src="https://h.uguu.se/gsXDAUlL.jpg"></details>
+- [x]  List Menu <details><summary>Screenshot</summary><img src="https://h.uguu.se/vtZhAzCo.jpg"></details>
+- [x] List Register <details><summary>Screenshot</summary><img src="https://n.uguu.se/TcEqcKhK.jpg"></details>
+- [x] Tampilan Nsfw <details><summary>Screenshot</summary><img src="https://d.uguu.se/ZCNDSEPr.jpg"></details>
 
 And Many More Features Are Available 😊
 
